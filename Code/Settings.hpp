@@ -5,7 +5,7 @@ namespace big
 	class Settings
 	{
 	public:
-		std::atomic_bool m_LogWindow = true;
+		std::atomic_bool m_LogWindow = false;
 		std::atomic_bool m_LockMouse = false;
 	};
 

@@ -189,12 +189,30 @@ namespace big
 	 * \param str The string to be hashed
 	 * \return Hash of str
 	 */
-	inline constexpr std::uint32_t Joaat(const char* str)
+	inline constexpr std::uint32_t joaat(const char* str)
 	{
 		std::uint32_t hash = 0;
 		while (*str)
 		{
 			hash += ToLower(*str++);
+			hash += (hash << 10);
+			hash ^= (hash >> 6);
+		}
+
+		hash += (hash << 3);
+		hash ^= (hash >> 11);
+		hash += (hash << 15);
+
+		return hash;
+	}
+
+	inline constexpr std::uint32_t joaat(std::string_view str)
+	{
+		std::uint32_t hash = 0;
+
+		for (char c : str)
+		{
+			hash += ToLower(c);
 			hash += (hash << 10);
 			hash ^= (hash >> 6);
 		}

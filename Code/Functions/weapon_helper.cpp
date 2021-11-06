@@ -11,9 +11,9 @@ namespace big
         {
             for (auto WeaponHashes : var::AllWeaponHashes)
             {
-                if (WEAPON::IS_WEAPON_VALID(Joaat(WeaponHashes)))
+                if (WEAPON::IS_WEAPON_VALID(joaat(WeaponHashes)))
                 {
-                    WEAPON::SET_PED_INFINITE_AMMO(PLAYER::PLAYER_PED_ID(), TRUE, Joaat(WeaponHashes));
+                    WEAPON::SET_PED_INFINITE_AMMO(PLAYER::PLAYER_PED_ID(), TRUE, joaat(WeaponHashes));
                 }
             }
         }
@@ -21,9 +21,9 @@ namespace big
         {
             for (auto WeaponHashes : var::AllWeaponHashes)
             {
-                if (WEAPON::IS_WEAPON_VALID(Joaat(WeaponHashes)))
+                if (WEAPON::IS_WEAPON_VALID(joaat(WeaponHashes)))
                 {
-                    WEAPON::SET_PED_INFINITE_AMMO(PLAYER::PLAYER_PED_ID(), FALSE, Joaat(WeaponHashes));
+                    WEAPON::SET_PED_INFINITE_AMMO(PLAYER::PLAYER_PED_ID(), FALSE, joaat(WeaponHashes));
                 }
             }
         }

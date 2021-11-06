@@ -2,6 +2,8 @@
 #include "player_option.hpp"
 #include "weapon_helper.hpp"
 #include "game_event.hpp"
+#include "heist_helper.hpp"
+#include "systems_helper.hpp"
 
 static class selected_player
 {

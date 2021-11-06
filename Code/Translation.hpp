@@ -49,7 +49,7 @@ namespace big
 
 					for (auto&&[key, value] : objects)
 					{
-						m_Translations.emplace(Joaat(key.c_str()), value.get<std::string>());
+						m_Translations.emplace(joaat(key.c_str()), value.get<std::string>());
 					}
 				}
 			}

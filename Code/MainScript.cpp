@@ -38,7 +38,8 @@ namespace big
 		SubmenuPlayerList,
 		SubmenuTest,
 		SubmenuHeist,
-		SubmenuCasino
+		SubmenuCasino,
+		SubmenuCayo
 	};
 
 	bool MainScript::IsInitialized()
@@ -132,22 +133,197 @@ namespace big
 		{
 			sub->AddOption<SubOption>("Casino Heist", nullptr, SubmenuCasino);
 
+			sub->AddOption<SubOption>("Cayo Perico Heist", nullptr, SubmenuCayo);
+
+			sub->AddOption<RegularOption>("Doomsday Act III Hack", "Instantly Hack Clifford", [=]
+				{
+					if (auto doomsday = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
+					{
+						*script_local(doomsday, m_local.doomsday_act_3_hack).as<int*>() = 0;
+					}
+				});
+
+			sub->AddOption<RegularOption>("Motherboard Hacking", "Instant Fleeca Motherboard Hacking", [=]
+				{
+					if (auto fleeca_bank = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
+					{
+						*script_local(fleeca_bank, m_local.board_hacking_x).as<float*>() = 0.7f;
+						*script_local(fleeca_bank, m_local.board_hacking_y).as<float*>() = 0.3f;
+						*script_local(fleeca_bank, m_local.board_hacking_requirement).as<int*>() = 1;
+					}
+				});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Casino Heist", SubmenuCasino, [](RegularSubmenu* sub)
 		{
 			static int32_t casino_take{ 0 };
-			
+			casino_heist::all_heist_take(casino_take);
 			sub->AddOption<NumberOption<int32_t>>("Heist Take", nullptr, &casino_take, 0, INT32_MAX, 10000000);
 
-			sub->AddOption<RegularOption>("Test", "Test", [=]
+			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 1", nullptr, script_global(g_global.casino_cut_1).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 2", nullptr, script_global(g_global.casino_cut_2).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 3", nullptr, script_global(g_global.casino_cut_3).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 4", nullptr, script_global(g_global.casino_cut_4).as<int*>(), 0, 100, 5);
+
+			sub->AddOption<RegularOption>("Bigcon Heist", "Skip Heist Preparation Mission", [=]
 				{
-					auto main_persistent = find_script_thread(RAGE_JOAAT("main_persistent"));
-					g_Logger->Info("Test 1 %d", main_persistent);
-					g_Logger->Info("Test %d", *script_local(main_persistent, 2).as<int*>());
+					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_TARGET"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_DISRUPTSHIP"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_KEYLEVELS"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWWEAP"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWDRIVER"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWHACKER"), 4, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_VEHS"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 0, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 159, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 392982, TRUE);
 				});
 
-			//sub->AddOption<NumberOption<std::int64_t>>("Heist Cut", nullptr, script_global(g_global.casino_cut_1).as<int*>(), 0, 1000, 10);
+			sub->AddOption<RegularOption>("Silent Heist", "Skip Heist Preparation Mission", [=]
+				{
+					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 1, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 1, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_TARGET"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_DISRUPTSHIP"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_KEYLEVELS"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWWEAP"), 5, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWDRIVER"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWHACKER"), 4, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_VEHS"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 1, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 127, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 62, TRUE);
+				});
+
+			sub->AddOption<RegularOption>("Aggressive Heist", "Skip Heist Preparation Mission", [=]
+				{
+					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_TARGET"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_DISRUPTSHIP"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_KEYLEVELS"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWWEAP"), 5, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWDRIVER"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWHACKER"), 4, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_VEHS"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 1, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 799, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 3670038, TRUE);
+				});
+
+			sub->AddOption<RegularOption>("Instant Drill", "Instantly Drill Vault Door", [=]
+			{
+				if (auto vault_door = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
+				{
+					auto total = *script_local(vault_door, m_local.vault_door_total).as<int*>();
+					*script_local(vault_door, m_local.vault_door).as<int*>() = total;
+				}
+			});
+
+			sub->AddOption<RegularOption>("Finger Print Hack", "Instantly Finished Finger Print Hack", [=]
+			{
+				if (systems::is_script_active(RAGE_JOAAT("fm_mission_controller")))
+				{
+					if (auto casino = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
+					{
+						*script_local(casino, m_local.finger_print).as<int*>() += 1;
+						*script_local(casino, m_local.door_hack).as<int*>() += 1;
+					}
+				}
+			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Cayo Perico heist", SubmenuCayo, [](RegularSubmenu* sub)
+		{
+			static int32_t cayo_perico{ 0 };
+			casino_heist::all_heist_take(cayo_perico);
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", nullptr, &cayo_perico, 0, INT32_MAX, 10000000);
+
+			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 1", nullptr, script_global(g_global.cayo_cut_1).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 2", nullptr, script_global(g_global.cayo_cut_2).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 3", nullptr, script_global(g_global.cayo_cut_3).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 4", nullptr, script_global(g_global.cayo_cut_4).as<int*>(), 0, 100, 5);
+
+			sub->AddOption<RegularOption>("Cayo Perico Heist", "Skip Heist Preparation Mission", [=]
+			{
+				const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_CASH_I"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_CASH_I_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_CASH_C"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_CASH_C_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_WEED_I"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_WEED_I_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_WEED_C"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_WEED_C_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_COKE_I"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_COKE_I_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_COKE_C"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_COKE_C_SCOPED"), 0, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_GOLD_I_SCOPED"), 16777215, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_GOLD_I"), 16777215, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_GOLD_C_SCOPED"), 255, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_GOLD_C"), 255, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_PAINT_SCOPED"), 255, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4LOOT_PAINT"), 255, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_BS_ENTR"), 63, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_BS_ABIL"), 63, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_WEP_DISRP"), 3, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_HEL_DISRP"), 3, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_ARM_DISRP"), 3, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_BOLTCUT"), 4641, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_GRAPPEL"), 33024, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_UNIFORM"), 16770, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_TROJAN"), 1, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_APPROACH"), -1, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_VOLTAGE"), 3, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_BS_GEN"), 131071, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_WEAPONS"), 2, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4CNF_TARGET"), 5, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4_PROGRESS"), 130415, TRUE);
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_H4_MISSIONS"), 65535, TRUE);
+				if (auto heist_island_planning = find_script_thread(RAGE_JOAAT("heist_island_planning")))
+				{
+					*script_local(heist_island_planning, m_local.submarine_computer).as<int*>() = 2;
+				}
+			});
+
+			sub->AddOption<RegularOption>("Clone Finger Print Hack", "Instant Finger Print Hack", [=] 
+			{
+				if (systems::is_script_active(RAGE_JOAAT("fm_mission_controller_2020")))
+				{
+					if (auto cayo = find_script_thread(RAGE_JOAAT("fm_mission_controller_2020")))
+					{
+						*script_local(cayo, m_local.finger_clone).as<int*>() += 1;
+					}
+				}
+			});
+
+			sub->AddOption<RegularOption>("Voltage Hack", "Instantly Finished Voltage Hack", [=]
+			{
+				if (auto cayo = find_script_thread(RAGE_JOAAT("fm_mission_controller_2020")))
+				{
+					*script_local(cayo, m_local.voltage_hack_target).as<int*>() = *script_local(cayo, m_local.voltage_hack_current).as<int*>();
+				}
+			});
+
+			sub->AddOption<RegularOption>("Safe Crack", "Instantly Finished Safe Crack", [=]
+			{
+				if (auto cayo = find_script_thread(RAGE_JOAAT("fm_mission_controller_2020")))
+				{
+					for (int i = 0; i <= 2; i++)
+					{
+						*script_local(cayo, 28268).at(1).at(i, 2).as<float*>() = systems::int_to_float(*script_local(cayo, 28268).at(1).at(i, 2).at(1).as<int*>());
+					}
+				}
+			});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Settings", SubmenuSettings, [](RegularSubmenu* sub)

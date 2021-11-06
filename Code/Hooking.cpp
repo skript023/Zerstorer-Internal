@@ -34,7 +34,7 @@ namespace big
 	const char* Hooks::GetLabelText(void* unk, const char* label)
 	{
 		if (g_Running)
-			if (auto text = g_CustomText->GetText(Joaat(label)))
+			if (auto text = g_CustomText->GetText(joaat(label)))
 				return text;
 
 		return static_cast<decltype(&GetLabelText)>(g_Hooking->m_OriginalGetLabelText)(unk, label);

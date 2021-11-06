@@ -100,16 +100,16 @@ namespace big::UserInterface
 		float m_HeaderHeight = 0.1f;
 		bool m_HeaderText = true;
 		float m_HeaderTextSize = 1.f;
-		Font m_HeaderFont = Font::HouseScript;
-		Color m_HeaderBackgroundColor{ 2, 130, 53, 255 };
+		Font m_HeaderFont = Font::Pricedown;
+		Color m_HeaderBackgroundColor{ 103, 103, 180, 200 };
 		Color m_HeaderTextColor{ 255, 255, 255, 255 };
-		HeaderType m_HeaderType = HeaderType::Gradient;
+		HeaderType m_HeaderType = HeaderType::Static;
 
 		bool m_HeaderGradientTransparent = false;
 		bool m_HeaderGradientFlip = false;
 		float m_HeaderGradientStretch = 0.f;
 		float m_HeaderGradientFiller = 0.f;
-		Color m_HeaderGradientColorLeft{ 0, 186, 255, 255 };
+		Color m_HeaderGradientColorLeft{ 0, 186, 255, 200 };
 		Color m_HeaderGradientColorRight{ 252, 0, 255, 255 };
 
 		// Submenu bar
