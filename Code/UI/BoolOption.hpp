@@ -2,7 +2,7 @@
 #include "BaseOption.hpp"
 #include "UIManager.hpp"
 
-namespace Big::UserInterface
+namespace big::UserInterface
 {
 	enum class BoolDisplay
 	{

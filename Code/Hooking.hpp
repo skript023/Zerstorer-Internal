@@ -1,7 +1,7 @@
 #pragma once
 #include "VMTHook.hpp"
 
-namespace Big
+namespace big
 {
 	struct Hooks
 	{

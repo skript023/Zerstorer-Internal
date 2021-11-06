@@ -1,7 +1,7 @@
 #pragma once
 #include <JSON/json.hpp>
 
-namespace Big
+namespace big
 {
 	class TranslationManager
 	{

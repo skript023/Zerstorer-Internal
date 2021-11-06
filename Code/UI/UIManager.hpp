@@ -4,7 +4,7 @@
 #include "TextBox.hpp"
 #include "AbstractSubmenu.hpp"
 
-namespace Big::UserInterface
+namespace big::UserInterface
 {
 	enum class Font : std::int32_t
 	{
@@ -182,7 +182,7 @@ namespace Big::UserInterface
 	};
 }
 
-namespace Big
+namespace big
 {
 	inline std::unique_ptr<UserInterface::UIManager> g_UiManager;
 }

@@ -49,7 +49,7 @@
 
 #define BIGBASE_NAME "Ellohim"
 
-namespace Big
+namespace big
 {
 	using namespace std::chrono_literals;
 	namespace fs = std::filesystem;

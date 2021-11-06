@@ -114,6 +114,22 @@
     <ClInclude Include="Functions\game_variable.hpp">
       <Filter>Functions\variable</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\game_event.hpp">
+      <Filter>Functions\game_event</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enum.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\memory_address.hpp">
+      <Filter>Functions\network</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\script_thread.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptLocal.hpp" />
+    <ClInclude Include="Functions\heist_helper.hpp">
+      <Filter>Functions\heist</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -163,6 +179,12 @@
     <ClCompile Include="Functions\game_variable.cpp">
       <Filter>Functions\variable</Filter>
     </ClCompile>
+    <ClCompile Include="Functions\game_event.cpp">
+      <Filter>Functions\game_event</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\heist_helper.cpp">
+      <Filter>Functions\heist</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -188,6 +210,15 @@
     </Filter>
     <Filter Include="Functions\variable">
       <UniqueIdentifier>{0f3ca52a-0815-42dd-a386-e34b14353eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\game_event">
+      <UniqueIdentifier>{d67e3ae8-ea9d-4266-92e4-fef55fc9ef36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\network">
+      <UniqueIdentifier>{d4adac2f-ffc5-4f90-8a02-f1395563c325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\heist">
+      <UniqueIdentifier>{03c483fb-d21d-4b05-ba93-8be9bf869954}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

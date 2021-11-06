@@ -15,8 +15,10 @@
 #include "UI/PlayerSubmenu.hpp"
 #include "Functions/game_function.hpp"
 #include "Functions/features.hpp"
+#include "Functions/memory_address.hpp"
+#include "ScriptLocal.hpp"
 
-namespace Big
+namespace big
 {
 	enum Submenu : std::uint32_t
 	{
@@ -34,7 +36,9 @@ namespace Big
 		SubmenuSettingsLanguage,
 		SubmenuSelectedPlayer,
 		SubmenuPlayerList,
-		SubmenuTest
+		SubmenuTest,
+		SubmenuHeist,
+		SubmenuCasino
 	};
 
 	bool MainScript::IsInitialized()
@@ -58,6 +62,7 @@ namespace Big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Home", SubmenuHome, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<SubOption>("Self", nullptr, SubmenuTest);
+			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
 			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
 			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
@@ -67,6 +72,10 @@ namespace Big
 			sub->AddOption<RegularOption>("Unload", "Unload the menu.", []
 			{
 				g_Running = false;
+			});
+			sub->AddOption<RegularOption>("Quit Game", "Quit Game.", []
+			{
+				exit(0);
 			});
 		});
 
@@ -117,6 +126,28 @@ namespace Big
 
 			sub->AddOption<ChooseOption<const char*, std::size_t>>("Array", nullptr, &Lists::DemoList, &Lists::DemoListPos);
 			sub->AddOption<ChooseOption<std::uint64_t, std::size_t>>("Vector", nullptr, &vector, &vectorPos);
+		});
+		
+		g_UiManager->AddSubmenu<RegularSubmenu>("Heist Option", SubmenuHeist, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<SubOption>("Casino Heist", nullptr, SubmenuCasino);
+
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Casino Heist", SubmenuCasino, [](RegularSubmenu* sub)
+		{
+			static int32_t casino_take{ 0 };
+			
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", nullptr, &casino_take, 0, INT32_MAX, 10000000);
+
+			sub->AddOption<RegularOption>("Test", "Test", [=]
+				{
+					auto main_persistent = find_script_thread(RAGE_JOAAT("main_persistent"));
+					g_Logger->Info("Test 1 %d", main_persistent);
+					g_Logger->Info("Test %d", *script_local(main_persistent, 2).as<int*>());
+				});
+
+			//sub->AddOption<NumberOption<std::int64_t>>("Heist Cut", nullptr, script_global(g_global.casino_cut_1).as<int*>(), 0, 1000, 10);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Settings", SubmenuSettings, [](RegularSubmenu* sub)
@@ -298,7 +329,10 @@ namespace Big
 
 		g_UiManager->AddSubmenu<PlayerSubmenu>(&g_SelectedPlayer, SubmenuSelectedPlayer, [](PlayerSubmenu* sub)
 		{
-			sub;
+			sub->AddOption<RegularOption>("Network Error", "Network Error", [=]
+			{
+				remote_event::bail_player(g_selected.player);
+			});
 		});
 	}
 

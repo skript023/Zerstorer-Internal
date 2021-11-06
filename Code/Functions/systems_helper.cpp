@@ -91,6 +91,10 @@ namespace big
         return degs * 3.141592653589793f / 180.f;
     }
 
+    bool systems::is_script_active(uint32_t Hash)
+    {
+        return find_script_thread(Hash) != nullptr;
+    }
     
 
 }

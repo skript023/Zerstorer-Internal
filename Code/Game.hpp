@@ -3,16 +3,18 @@
 namespace rage
 {
 	struct scrNativeRegistration;
+	struct scrNativeCallContext;
 }
 
-namespace Big
+namespace big
 {
 	class CPedFactory;
 	class CPed;
 	class CNetGamePlayer;
+	class GtaThread;
 }
 
-namespace Big
+namespace big
 {
 	class GameVariables
 	{
@@ -37,6 +39,7 @@ namespace Big
 		PVOID m_ModelSpawnBypass;
 		PVOID m_return_address;
 		CPedFactory** m_ped_factory;
+		int64_t **m_script_threads;
 	};
 
 	class GameFunctions
@@ -54,6 +57,9 @@ namespace Big
 
 		using WndProc = LRESULT(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		WndProc* m_WndProc;
+
+		using Fix_Vectors_T = void(*)(rage::scrNativeCallContext*);
+		Fix_Vectors_T m_Fix_Vectors{};
 
 		using GetEventData = bool(std::int32_t eventGroup, std::int32_t eventIndex, std::int64_t* args, std::uint32_t argCount);
 		GetEventData* m_GetEventData;

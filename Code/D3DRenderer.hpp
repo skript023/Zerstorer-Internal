@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Big
+namespace big
 {
 	class D3DRenderer
 	{

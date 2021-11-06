@@ -1,6 +1,6 @@
 #include "ScriptManager.hpp"
 
-namespace Big
+namespace big
 {
 	ScriptManager::ScriptManager()
 	{

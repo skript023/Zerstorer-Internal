@@ -1,6 +1,6 @@
 #include "Logger.hpp"
 
-namespace Big
+namespace big
 {
 	Logger::Logger()
 	{

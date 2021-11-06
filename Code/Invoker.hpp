@@ -76,7 +76,7 @@ namespace rage
 #pragma pack(pop)
 }
 
-namespace Big
+namespace big
 {
 	struct NativeContext : public rage::scrNativeCallContext
 	{
@@ -217,6 +217,7 @@ namespace Big
 					{
 						//static_cast<void(*)(rage::scrNativeCallContext*)>(handler)(&m_Context);
 						_call_asm(reinterpret_cast<void*>(&m_Context), handler, g_GameVariables->m_return_address);
+						g_GameFunctions->m_Fix_Vectors(&m_Context);
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{

@@ -2,7 +2,7 @@
 #include "../Timer.hpp"
 #include "../Natives.hpp"
 
-namespace Big::UserInterface
+namespace big::UserInterface
 {
 	void UIManager::OnTick()
 	{

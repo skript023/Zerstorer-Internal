@@ -1,8 +1,9 @@
 #pragma once
 #include "Game.hpp"
 #include "Classes/Classes.hpp"
+#include "Classes/script_thread.hpp"
 
-namespace Big
+namespace big
 {
 	/**
 	 * \brief Checks if a key is pressed
@@ -150,12 +151,12 @@ namespace Big
 	{
 		return g_GameFunctions->m_player_pointer(player);
 	}
-	/*
+	
 	inline CNetGamePlayer* get_net_player(Player player)
 	{
 		return g_GameFunctions->get_net_player(player);
 	}
-	*/
+	
 	template <typename pointer>
 	inline pointer entity_to_pointer(Entity entity)
 	{
@@ -165,6 +166,22 @@ namespace Big
 	inline Entity pointer_to_entity(PVOID pointer)
 	{
 		return g_GameFunctions->m_ptr_to_handle(pointer);
+	}
+
+	inline GtaThread* find_script_thread(uint32_t hash)
+	{
+		for (int i = 0; i <= 52; i++)
+		{
+			auto thread = reinterpret_cast<GtaThread*>(*g_GameVariables->m_script_threads + (i * 0x8LL));
+			if (thread
+				&& thread->m_context.m_thread_id
+				&& thread->m_handler
+				&& thread->m_script_hash == hash)
+			{
+				return thread;
+			}
+		}
+		return nullptr;
 	}
 	
 	/**
@@ -189,12 +206,12 @@ namespace Big
 		return hash;
 	}
 
-#	define CONSTEXPR_JOAAT_IMPL(x) (::Big::ConstexprJooat<sizeof(x) - 1>((x), std::make_index_sequence<sizeof(x) - 1>()).GetHash())
+#	define CONSTEXPR_JOAAT_IMPL(x) (::big::ConstexprJooat<sizeof(x) - 1>((x), std::make_index_sequence<sizeof(x) - 1>()).GetHash())
 #	define CONSTEXPR_JOAAT(x) (std::integral_constant<std::uint32_t, CONSTEXPR_JOAAT_IMPL(x)>::value)
 #	define RAGE_JOAAT(x) (std::integral_constant<std::uint32_t, CONSTEXPR_JOAAT_IMPL(x)>::value)
 }
 
-namespace Big::Memory
+namespace big::Memory
 {
 	inline uintptr_t get_multilayer_pointer(uintptr_t base_address, std::vector<DWORD> offsets)
 	{

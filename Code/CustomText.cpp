@@ -1,6 +1,6 @@
 #include "CustomText.hpp"
 
-namespace Big
+namespace big
 {
 	void CustomText::AddText(std::uint32_t hash, const char* text)
 	{

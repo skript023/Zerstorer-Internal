@@ -1,7 +1,7 @@
 #pragma once
 #include "UI/UIManager.hpp"
 
-namespace Big::Lists
+namespace big::Lists
 {
 	inline const char* HeaderTypesFrontend[]
 	{

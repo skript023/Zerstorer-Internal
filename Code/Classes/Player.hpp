@@ -38,7 +38,7 @@ namespace rage
 	};
 }
 
-namespace Big
+namespace big
 {
 	#pragma pack(push, 1)
 	class CNetGamePlayer : public rage::netPlayer

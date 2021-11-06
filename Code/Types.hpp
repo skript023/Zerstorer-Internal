@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Big
+namespace big
 {
 	using Void = std::uint32_t;
 	using Any = std::uint32_t;

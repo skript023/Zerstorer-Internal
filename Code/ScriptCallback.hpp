@@ -2,7 +2,7 @@
 #include "Script.hpp"
 #include "Natives.hpp"
 
-namespace Big
+namespace big
 {
 	class AbstractCallback
 	{

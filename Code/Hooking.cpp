@@ -13,7 +13,7 @@
 #  pragma comment(lib, "MinHook-Release.lib")
 #endif
 
-namespace Big
+namespace big
 {
 	namespace
 	{

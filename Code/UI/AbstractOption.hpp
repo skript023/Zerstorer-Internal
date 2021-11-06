@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Big::UserInterface
+namespace big::UserInterface
 {
 	enum class OptionAction
 	{

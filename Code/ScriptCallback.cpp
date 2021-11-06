@@ -1,6 +1,6 @@
 #include "ScriptCallback.hpp"
 
-namespace Big
+namespace big
 {
 	bool CallbackScript::IsInitialized()
 	{
