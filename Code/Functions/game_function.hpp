@@ -18,7 +18,5 @@ public:
 	static inline bool auto_heal{};
 	static inline bool no_ragdoll{};
 	static inline bool seatbelt{};
-	static inline bool infinite_ammo{};
-	static inline bool infinite_ammo{};
-	static inline bool infinite_ammo{};
+	static inline bool never_wanted{};
 } g_features;

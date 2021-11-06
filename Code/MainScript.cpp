@@ -74,7 +74,7 @@ namespace Big
 		{
 			sub->AddOption<RegularOption>("Spawn T20", "A regular option.", []
 			{
-				Hash vehiclehash = MISC::GET_HASH_KEY("T20");
+				constexpr Hash vehiclehash = RAGE_JOAAT("T20");
 				g_CallbackScript->AddCallback<ModelCallback>((vehiclehash), [=]
 				{
 					auto pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
@@ -96,9 +96,9 @@ namespace Big
 			});
 
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features.auto_heal, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &g_features.never_wanted, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Seatbelt", nullptr, &g_features.seatbelt, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
 
