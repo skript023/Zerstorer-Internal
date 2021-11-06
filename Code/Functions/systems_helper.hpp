@@ -2,7 +2,7 @@
 #include "../Common.hpp"
 #include "../Natives.hpp"
 
-namespace Big
+namespace big
 {
 	class systems
 	{

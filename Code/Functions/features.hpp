@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Big::features
+namespace big::features
 {
 	extern void run_on_tick();
 }

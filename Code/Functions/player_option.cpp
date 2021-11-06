@@ -2,7 +2,7 @@
 #include "systems_helper.hpp"
 #include "weapon_helper.hpp"
 
-namespace Big
+namespace big
 {
 	void player::set_player_invincible(Player player, bool activate)
 	{
@@ -25,7 +25,7 @@ namespace Big
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(e, pos.x, pos.y, pos.z, false, false, false);
 			if (GetAsyncKeyState(systems::hotkey('S')))
 			{
-				float fivef = .5f;
+				float fivef = 0.5f;
 				float heading = ENTITY::GET_ENTITY_HEADING(e);
 				float xVec = fivef * sin(systems::degree(heading)) * -1.5f;
 				float yVec = fivef * cos(systems::degree(heading));
@@ -36,7 +36,7 @@ namespace Big
 			}
 			if (GetAsyncKeyState(systems::hotkey('W')))
 			{
-				float fivef = .5f;
+				float fivef = 0.5f;
 				float heading = ENTITY::GET_ENTITY_HEADING(e);
 				float xVec = fivef * sin(systems::degree(heading)) * -1.5f;
 				float yVec = fivef * cos(systems::degree(heading));
@@ -47,13 +47,13 @@ namespace Big
 			}
 			if (GetAsyncKeyState(systems::hotkey('A')))
 			{
-				float fivef = .5f;
+				float fivef = 0.5f;
 				float heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading + 0.5f);
 			}
 			if (GetAsyncKeyState(systems::hotkey('D')))
 			{
-				float fivef = .5f;
+				float fivef = 0.5f;
 				float heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading - 0.5f);
 			}

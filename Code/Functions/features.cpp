@@ -2,7 +2,7 @@
 #include "../ScriptGlobal.hpp"
 #include "game_function.hpp"
 
-namespace Big::features
+namespace big::features
 {
 	void run_on_tick()
 	{

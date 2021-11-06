@@ -1,6 +1,7 @@
 #pragma once
 #include "player_option.hpp"
 #include "weapon_helper.hpp"
+#include "game_event.hpp"
 
 static class selected_player
 {

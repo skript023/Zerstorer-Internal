@@ -3,7 +3,7 @@
 #include "../Natives.hpp"
 #include "game_variable.hpp"
 
-namespace Big
+namespace big
 {
     void weapon::infinite_ammo(bool Activation)
     {

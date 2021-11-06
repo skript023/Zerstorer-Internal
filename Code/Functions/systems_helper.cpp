@@ -1,6 +1,6 @@
 #include "systems_helper.hpp"
 
-namespace Big
+namespace big
 {
     int systems::hotkey(char ch)
     {

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Common.hpp"
 
-namespace Big
+namespace big
 {
 	struct dates {
 		uint64_t y;

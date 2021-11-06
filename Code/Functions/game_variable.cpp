@@ -1,7 +1,7 @@
 #include "game_variable.hpp"
 #include "../Classes/Weapon.h"
 
-namespace Big
+namespace big
 {
     int var::tbl_business[5][4][1] = {
         {
