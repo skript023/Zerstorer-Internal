@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Common.hpp" />
+    <ClInclude Include="Logger.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Memory.hpp" />
+    <ClInclude Include="Hooking.hpp" />
+    <ClInclude Include="ScriptManager.hpp" />
+    <ClInclude Include="VMTHook.hpp" />
+    <ClInclude Include="LogScript.hpp" />
+    <ClInclude Include="Invoker.hpp" />
+    <ClInclude Include="Crossmap.hpp" />
+    <ClInclude Include="Natives.hpp" />
+    <ClInclude Include="Types.hpp" />
+    <ClInclude Include="Script.hpp" />
+    <ClInclude Include="Settings.hpp" />
+    <ClInclude Include="Util.hpp" />
+    <ClInclude Include="Lists.hpp" />
+    <ClInclude Include="ScriptGlobal.hpp" />
+    <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="ScriptCallback.hpp" />
+    <ClInclude Include="CustomText.hpp" />
+    <ClInclude Include="D3DRenderer.hpp" />
+    <ClInclude Include="MainScript.hpp" />
+    <ClInclude Include="Translation.hpp" />
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\AbstractOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\AbstractSubmenu.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BaseOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BaseSubmenu.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BoolOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\ChooseOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\NumberOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PlayerSubmenu.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RegularOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\RegularSubmenu.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\SubOption.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\TextBox.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIManager.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Classes.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\game_function.hpp">
+      <Filter>Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\features.hpp">
+      <Filter>Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\player_option.hpp">
+      <Filter>Functions\player_option</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Weapon.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\systems_helper.hpp">
+      <Filter>Functions\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\weapon_helper.hpp">
+      <Filter>Functions\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Player.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\game_variable.hpp">
+      <Filter>Functions\variable</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="ScriptManager.cpp" />
+    <ClCompile Include="LogScript.cpp" />
+    <ClCompile Include="ScriptCallback.cpp" />
+    <ClCompile Include="CustomText.cpp" />
+    <ClCompile Include="D3DRenderer.cpp" />
+    <ClCompile Include="MainScript.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\player_option.cpp">
+      <Filter>Functions\player_option</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\features.cpp">
+      <Filter>Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\systems_helper.cpp">
+      <Filter>Functions\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\weapon_helper.cpp">
+      <Filter>Functions\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\game_variable.cpp">
+      <Filter>Functions\variable</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{4be3b22b-2374-4c89-bd90-5a9ddc03c5f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{68bc249e-f373-4e6c-81db-bb8a57857cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{2862d1ad-c89f-4724-813a-5bf2346488e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions">
+      <UniqueIdentifier>{cb972cff-9171-4a2a-ada2-5985649a5dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\player_option">
+      <UniqueIdentifier>{847ee277-d122-4939-943d-4cbd4c173c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\systems">
+      <UniqueIdentifier>{2f3fdd51-4f4a-4f18-990e-2242cc457c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\weapon">
+      <UniqueIdentifier>{50bc731b-d02e-48f3-ac19-3186bc042f44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\variable">
+      <UniqueIdentifier>{0f3ca52a-0815-42dd-a386-e34b14353eb6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="return_address.asm" />
+  </ItemGroup>
+</Project>
