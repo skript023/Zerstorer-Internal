@@ -148,6 +148,12 @@
     <ClInclude Include="Functions\vehicle_value.h">
       <Filter>Functions\vehicle</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Class.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\net_game_event.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

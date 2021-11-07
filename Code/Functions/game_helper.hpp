@@ -19,6 +19,24 @@ namespace big
         }
 	};
 
+	class game_protection
+	{
+	public:
+		static inline bool block_apartment = true;
+		static inline bool block_cayo = true;
+		static inline bool block_ceo_kick = true;
+		static inline bool block_ceo_ban = true;
+		static inline bool block_vehicle_kick = true;
+		static inline bool block_rotate_cam = true;
+		static inline bool block_transaction_error = true;
+		static inline bool block_send_mission = true;
+		static inline bool block_kick = true;
+		static inline bool block_spam = true;
+		static inline bool clear_ped_task = true;
+		static inline bool block_report = true;
+		static inline bool crash = true;
+	};
+
     class game_helper
     {
 	public:
@@ -96,4 +114,5 @@ namespace big
     };
 
 	inline static game_helper g_game_helper;
+	inline static game_protection g_protection;
 }

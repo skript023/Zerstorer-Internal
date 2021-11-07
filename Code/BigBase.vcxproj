@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classes\Class.hpp" />
     <ClInclude Include="Classes\Classes.hpp" />
     <ClInclude Include="Classes\Enum.hpp" />
+    <ClInclude Include="Classes\net_game_event.hpp" />
     <ClInclude Include="Classes\Player.hpp" />
     <ClInclude Include="Classes\script_thread.hpp" />
     <ClInclude Include="Classes\Weapon.h" />

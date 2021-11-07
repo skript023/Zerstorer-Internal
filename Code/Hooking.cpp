@@ -10,7 +10,6 @@
 #include <MinHook/MinHook.h>
 #include "Classes/Enum.hpp"
 #include "Functions/game_helper.hpp"
-#include "Functions/game_function.hpp"
 
 #ifdef BIGBASE_DEBUG
 #  pragma comment(lib, "MinHook-Debug.lib")
@@ -40,7 +39,7 @@ namespace big
 		switch (EventHash)
 		{
 		case TELEPORT_APARTMENT: //Invite
-			if (true)
+			if (g_protection.block_apartment)
 			{
 				strcpy(sender_info, "~g~Blocked Invite Event From ");
 				strcat(sender_info, sender_name);
@@ -49,7 +48,7 @@ namespace big
 			}
 			break;
 		case TELEPORT_CAYO: //send cayo
-			if (true)
+			if (g_protection.block_cayo)
 			{
 				strcpy(sender_info, "~g~Blocked Teleport Cayo Event From ");
 				strcat(sender_info, sender_name);
@@ -59,7 +58,7 @@ namespace big
 			}
 			break;
 		case CEO_KICK: //CEO Kick
-			if (true)
+			if (g_protection.block_ceo_kick)
 			{
 				strcpy(sender_info, "~g~Blocked CEO Kick Event From ");
 				strcat(sender_info, sender_name);
@@ -69,7 +68,7 @@ namespace big
 			}
 			break;
 		case CEO_BAN: //CEO Ban
-			if (true)
+			if (g_protection.block_ceo_ban)
 			{
 				strcpy(sender_info, "~g~Blocked CEO Ban Event From ");
 				strcat(sender_info, sender_name);
@@ -79,7 +78,7 @@ namespace big
 			}
 			break;
 		case ROTATE_CAM: //Rotete Cam
-			if (true)
+			if (g_protection.block_rotate_cam)
 			{
 				/*
 				HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
@@ -91,7 +90,7 @@ namespace big
 			}
 			break;
 		case VEHICLE_KICK: //Vehicle Kick
-			if (true)
+			if (g_protection.block_vehicle_kick)
 			{
 				strcpy(sender_info, "~g~Blocked Vehicle Kick Event From ");
 				strcat(sender_info, sender_name);
@@ -101,7 +100,7 @@ namespace big
 			}
 			break;
 		case TRANSACTION_ERROR:
-			if (true)
+			if (g_protection.block_transaction_error)
 			{
 				strcpy(sender_info, "~g~Blocked Transaction Error Event From ");
 				strcat(sender_info, sender_name);
@@ -112,7 +111,7 @@ namespace big
 			break;
 		case SEND_TO_MISSION_1:
 		case SEND_TO_MISSION_2:
-			if (true)
+			if (g_protection.block_send_mission)
 			{
 				strcpy(sender_info, "~g~Blocked Force Mission Event From ");
 				strcat(sender_info, sender_name);
@@ -122,7 +121,7 @@ namespace big
 			}
 			break;
 		case PHONE_INVITE:
-			if (true)
+			if (g_protection.block_spam)
 			{
 				strcpy(sender_info, "~g~Blocked Phone Spam Event From ");
 				strcat(sender_info, sender_name);
@@ -153,7 +152,7 @@ namespace big
 		case -1277389265:
 		case -892744477:
 		case 600486780:
-			if (true)
+			if (g_protection.block_kick)
 			{
 				return true;
 			}
@@ -189,7 +188,7 @@ namespace big
 		case 987018372:
 		case 813647057:
 		case 696123127:
-			if (true)
+			if (g_protection.block_kick)
 			{
 				strcpy(sender_info, "~g~Blocked Kick Event From ");
 				strcat(sender_info, sender_name);

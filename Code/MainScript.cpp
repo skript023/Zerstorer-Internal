@@ -87,6 +87,21 @@ namespace big
 			});
 		});
 
+		g_UiManager->AddSubmenu<RegularSubmenu>("Protection Option", SubmenuProtection, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<BoolOption<bool>>("Force Invite Apartment", nullptr, &g_protection.block_apartment, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Force Teleport Cayo", nullptr, &g_protection.block_cayo, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("CEO Kick", nullptr, &g_protection.block_ceo_kick, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("CEO Ban", nullptr, &g_protection.block_ceo_ban, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Vehicle Kick", nullptr, &g_protection.block_vehicle_kick, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Rotate Cam", nullptr, &g_protection.block_rotate_cam, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Sound Spam", nullptr, &g_protection.block_spam, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Transaction Error", nullptr, &g_protection.block_transaction_error, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Force Send Mission", nullptr, &g_protection.block_send_mission, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Kick", nullptr, &g_protection.block_kick, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Freeze", nullptr, &g_protection.clear_ped_task, BoolDisplay::YesNo);
+		});
+
 		g_UiManager->AddSubmenu<RegularSubmenu>("Online Option", SubmenuOnline, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<ChooseOption<const char*, std::int32_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
