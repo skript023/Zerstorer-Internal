@@ -7,12 +7,15 @@
 #include "vehicle_helper.hpp"
 #include "business_helper.hpp"
 #include "network_helper.hpp"
+#include "game_variable.hpp"
 
 static class selected_player
 {
 public:
 	static inline std::uint32_t player{};
 	static inline std::uint32_t ped{};
+	static inline std::uint32_t vehicle_category{};
+	static inline const char* vehicle{};
 } g_selected;
 
 static class features

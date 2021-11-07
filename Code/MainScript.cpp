@@ -17,6 +17,8 @@
 #include "Functions/features.hpp"
 #include "Functions/memory_address.hpp"
 #include "ScriptLocal.hpp"
+#include "Functions/game_helper.hpp"
+#include "Functions/vehicle_value.h"
 
 namespace big
 {
@@ -42,7 +44,12 @@ namespace big
 		SubmenuCayo,
 		SubmenuVehicle,
 		SubmenuBusiness,
-		SubmenuOnline
+		SubmenuOnline,
+		SubmenuVehicleCategory,
+		SubmenuVehicleList,
+		SubmenuLSCustoms,
+		SubmenuModList,
+		SubmenuProtection
 	};
 
 	bool MainScript::IsInitialized()
@@ -60,8 +67,8 @@ namespace big
 		m_Initialized = true;
 		using namespace UserInterface;
 
-		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_JOINING"), "Isn't " BIGBASE_NAME " the fucking best?");
-		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_TRANSP"), "Isn't " BIGBASE_NAME " the fucking best?");
+		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_JOINING"), "You're Using " BIGBASE_NAME " - Gold Edition");
+		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_TRANSP"), "You're Using " BIGBASE_NAME " - Gold Edition");
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Home", SubmenuHome, [](RegularSubmenu* sub)
 		{
@@ -69,6 +76,7 @@ namespace big
 			sub->AddOption<SubOption>("Vehicle", nullptr, SubmenuVehicle);
 			sub->AddOption<SubOption>("Online", nullptr, SubmenuOnline);
 			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
+			sub->AddOption<SubOption>("Protection", nullptr, SubmenuProtection);
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
 			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
 
@@ -81,8 +89,6 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Online Option", SubmenuOnline, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
-			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
 			sub->AddOption<ChooseOption<const char*, std::int32_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
 			{
 				switch (Lists::session_list_pos)
@@ -122,6 +128,26 @@ namespace big
 					break;
 				}
 			});
+			sub->AddOption<RegularOption>("Choose Character", nullptr, [] 
+			{
+				*script_global(g_global.session_unk_1).as<int*>() = 0;
+				*script_global(g_global.session_change).at(2).as<int*>() = 0;
+				*script_global(g_global.session_change).as<int*>() = 65;
+				*script_global(g_global.session_unk_2).as<int*>() = 1;
+				*script_global(g_global.session_unk_3).as<int*>() = 4;
+			});
+			sub->AddOption<RegularOption>("Creator Mode", nullptr, []
+			{
+				*script_global(g_global.session_unk_1).as<int*>() = 2;
+				*script_global(g_global.session_change).at(2).as<int*>() = 2;
+				*script_global(g_global.session_change).as<int*>() = 1;
+			});
+			sub->AddOption<RegularOption>("Disconnect", nullptr, []
+			{
+				NETWORK::NETWORK_BAIL(49, 0, 0);
+			});
+			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
+			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Option", SubmenuVehicle, [](RegularSubmenu* sub)
@@ -135,6 +161,347 @@ namespace big
 			{
 				vehicle::remove_insurance();
 			});
+			sub->AddOption<SubOption>("Vehicle Spawn", nullptr, SubmenuVehicleCategory);
+			sub->AddOption<SubOption>("LS Customs", "Must Be In Vehicle", SubmenuLSCustoms);
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Los Santos Customs", SubmenuLSCustoms, [](RegularSubmenu* sub)
+		{
+			game_helper::get_vehicle_mod();
+			if (!g_game_helper.slot_display_names.empty())
+			{
+				sub->AddOption<BoolOption<bool>>("Bulletproof Tires", nullptr, &g_game_helper.can_tires_burst, BoolDisplay::OnOff, false, []
+				{
+					VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(g_game_helper.player_vehicle, !g_game_helper.can_tires_burst);
+				});
+				sub->AddOption<BoolOption<bool>>("Tiresmoke", nullptr, &g_game_helper.tiresmoke, BoolDisplay::OnOff, false, []
+				{
+					VEHICLE::TOGGLE_VEHICLE_MOD(g_game_helper.player_vehicle, MOD_TIRESMOKE, g_game_helper.tiresmoke);
+				});
+				sub->AddOption<BoolOption<bool>>("Turbo", nullptr, &g_game_helper.turbo, BoolDisplay::OnOff, false, []
+				{
+					VEHICLE::TOGGLE_VEHICLE_MOD(g_game_helper.player_vehicle, MOD_TURBO, g_game_helper.turbo);
+				});
+				sub->AddOption<BoolOption<bool>>("Xenon Light", nullptr, &g_game_helper.xenon, BoolDisplay::OnOff, false, []
+				{
+					VEHICLE::TOGGLE_VEHICLE_MOD(g_game_helper.player_vehicle, MOD_XENONHEADLIGHTS, g_game_helper.xenon);
+				});
+				sub->AddOption<ChooseOption<const char*, std::int32_t>>("Xenon Light Colour", nullptr, &g_game_helper.xenonColourCaptions, &g_game_helper.selected_xenon, false, []
+				{
+					VEHICLE::_SET_VEHICLE_XENON_LIGHTS_COLOR(g_game_helper.player_vehicle, g_game_helper.selected_xenon - 1);
+				});
+				for (int slot = MOD_SPOILERS; slot <= MOD_LIVERY; slot++)
+				{
+					if (g_game_helper.slot_display_names[slot].empty())
+						continue;
+					sub->AddOption<SubOption>(g_game_helper.slot_display_names[slot].c_str(), nullptr, SubmenuModList, [=]
+					{
+						g_game_helper.selected_slot = slot;
+					});
+						
+				}
+			}
+		});
+		
+		g_UiManager->AddSubmenu<RegularSubmenu>("Modification", SubmenuModList, [](RegularSubmenu* sub)
+		{
+				if (g_game_helper.selected_slot != -1)
+				{
+					for (int i = 0; i < g_game_helper.mod_display_names[g_game_helper.selected_slot].size(); i++)
+					{
+						if (g_game_helper.mod_display_names[g_game_helper.selected_slot][i].empty())
+							continue;
+
+						sub->AddOption<RegularOption>(g_game_helper.mod_display_names[g_game_helper.selected_slot][i].c_str(), nullptr, [=]
+						{
+							NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(g_game_helper.player_vehicle);
+
+							g_game_helper.owned_mods[g_game_helper.selected_slot] = i;
+							VEHICLE::SET_VEHICLE_MOD(g_game_helper.player_vehicle, g_game_helper.selected_slot, i - 1, false);
+						});
+					}
+				}
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Spawn", SubmenuVehicleCategory, [](RegularSubmenu* sub)
+		{
+			for (auto i = 0; i <= ARRAYSIZE(game_variable::VehicleCategory); ++i)
+			{
+				sub->AddOption<SubOption>(game_variable::VehicleCategory[i], nullptr, SubmenuVehicleList, [=]
+				{
+					g_selected.vehicle_category = i;
+				});
+			}
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("List Of Vehicle", SubmenuVehicleList, [](RegularSubmenu* sub)
+		{
+				sub->AddOption<BoolOption<bool>>("Auto Get-in", nullptr, &g_game_helper.auto_getin, BoolDisplay::OnOff);
+				sub->AddOption<BoolOption<bool>>("Full Upgrade", nullptr, &g_game_helper.full_upgrade, BoolDisplay::OnOff);
+				switch (g_selected.vehicle_category)
+				{
+				case 0:
+					for (auto selected_vehicle : game_variable::Super)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 1:
+					for (auto selected_vehicle : game_variable::Sport)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 2:
+					for (auto selected_vehicle : game_variable::SportClassic)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 3:
+					for (auto selected_vehicle : game_variable::SummerUpdate)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 4:
+					for (auto selected_vehicle : game_variable::Sedan)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 5:
+					for (auto selected_vehicle : game_variable::Service)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 6:
+					for (auto selected_vehicle : game_variable::SUV)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 7:
+					for (auto selected_vehicle : game_variable::Plane)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 8:
+					for (auto selected_vehicle : game_variable::Helicopter)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 9:
+					for (auto selected_vehicle : game_variable::OffRoad)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 10:
+					for (auto selected_vehicle : game_variable::Muscle)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 11:
+					for (auto selected_vehicle : game_variable::Motorcycle)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 12:
+					for (auto selected_vehicle : game_variable::Military)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 13:
+					for (auto selected_vehicle : game_variable::Trailer)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 14:
+					for (auto selected_vehicle : game_variable::Train)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 15:
+					for (auto selected_vehicle : game_variable::Utility)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 16:
+					for (auto selected_vehicle : game_variable::Van)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 17:
+					for (auto selected_vehicle : game_variable::ArenaWar)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 18:
+					for (auto selected_vehicle : game_variable::Casino1)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 19:
+					for (auto selected_vehicle : game_variable::Casino2)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 20:
+					for (auto selected_vehicle : game_variable::Emergency)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 21:
+					for (auto selected_vehicle : game_variable::Industrial)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 22:
+					for (auto selected_vehicle : game_variable::Coupes)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 23:
+					for (auto selected_vehicle : game_variable::Compact)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 24:
+					for (auto selected_vehicle : game_variable::Boat)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 25:
+					for (auto selected_vehicle : game_variable::Bikes)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 26:
+					for (auto selected_vehicle : game_variable::Commericals)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 27:
+					for (auto selected_vehicle : game_variable::CayoPerico)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				case 28:
+					for (auto selected_vehicle : game_variable::tuner_update)
+					{
+						sub->AddOption<RegularOption>(selected_vehicle, nullptr, [=]
+						{
+							vehicle::create_vehicle(selected_vehicle, PLAYER::PLAYER_PED_ID());
+						});
+					}
+					break;
+				}
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Business Option", SubmenuBusiness, [](RegularSubmenu* sub)
@@ -156,6 +523,7 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Self Option", SubmenuTest, [](RegularSubmenu* sub)
 		{
+			/*
 			sub->AddOption<RegularOption>("Spawn T20", "A regular option.", []
 			{
 				constexpr Hash vehiclehash = RAGE_JOAAT("T20");
@@ -178,7 +546,7 @@ namespace big
 					}
 				});
 			});
-
+			*/
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Idle Kick", nullptr, &g_features.no_idle_kick, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features.auto_heal, BoolDisplay::OnOff);

@@ -142,6 +142,12 @@
     <ClInclude Include="Functions\network_helper.hpp">
       <Filter>Functions\network</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\vehicle.h">
+      <Filter>Functions\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\vehicle_value.h">
+      <Filter>Functions\vehicle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -205,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="Functions\network_helper.cpp">
       <Filter>Functions\network</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\game_helper.cpp">
+      <Filter>Functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

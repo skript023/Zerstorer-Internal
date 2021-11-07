@@ -16,5 +16,7 @@ namespace big
 
 		static void repair_vehicle(Ped player_ped);
 
+		static void create_vehicle(const char* name, Entity entity);
+
 	};
 }

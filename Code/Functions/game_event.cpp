@@ -87,7 +87,7 @@ namespace big
 
     void remote_event::kick_player(Player player)
     {
-        for (int64_t KickEvent : var::KickHash)
+        for (int64_t KickEvent : game_variable::KickHash)
         {
             int64_t kick[2] = { KickEvent, PLAYER::PLAYER_ID() };
             SCRIPT::TRIGGER_SCRIPT_EVENT(1, kick, 2, 1 << player);

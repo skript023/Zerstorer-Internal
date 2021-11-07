@@ -83,8 +83,8 @@ namespace big::UserInterface
 
 		bool m_Opened = true;
 		bool m_MouseLocked = false;
-		float m_PosX = 0.8f;
-		float m_PosY = 0.1f;
+		float m_PosX = 0.15f;
+		float m_PosY = 0.05f;
 		float m_Width = 0.24f;
 		std::size_t m_OptionsPerPage = 11;
 		bool m_Sounds = true;

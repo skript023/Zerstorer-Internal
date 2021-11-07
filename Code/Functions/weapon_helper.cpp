@@ -10,7 +10,7 @@ namespace big
     {
         if (Activation)
         {
-            for (auto WeaponHashes : var::AllWeaponHashes)
+            for (auto WeaponHashes : game_variable::AllWeaponHashes)
             {
                 if (WEAPON::IS_WEAPON_VALID(joaat(WeaponHashes)))
                 {
@@ -20,7 +20,7 @@ namespace big
         }
         else
         {
-            for (auto WeaponHashes : var::AllWeaponHashes)
+            for (auto WeaponHashes : game_variable::AllWeaponHashes)
             {
                 if (WEAPON::IS_WEAPON_VALID(joaat(WeaponHashes)))
                 {

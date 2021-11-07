@@ -3,7 +3,7 @@
 
 namespace big
 {
-    int var::tbl_business[5][4][1] = {
+    int game_variable::tbl_business[5][4][1] = {
         {
             {1},
             {6},
@@ -3095,7 +3095,7 @@ namespace big
         "Blue Bangles (L)",
     };
 
-    const int var::KickHash[]{
+    const int game_variable::KickHash[]{
         1463355688,
         575344561,
         515799090,
@@ -3114,7 +3114,7 @@ namespace big
         161038699,
         -1813981910
     };
-    const char* const var::revenge_list[]{
+    const char* const game_variable::revenge_list[]{
         "Disable",
         "WEAPON_ADVANCEDRIFLE",
         "WEAPON_APPISTOL",
@@ -3208,7 +3208,7 @@ namespace big
         "WEAPON_MILITARYRIFLE",
         "WEAPON_COMBATSHOTGUN",
         "WEAPON_GADGETPISTOL" };
-    const char* const var::PickupHash[]{ "PICKUP_WEAPON_ADVANCEDRIFLE","PICKUP_WEAPON_APPISTOL","PICKUP_WEAPON_ASSAULTRIFLE",
+    const char* const game_variable::PickupHash[]{ "PICKUP_WEAPON_ADVANCEDRIFLE","PICKUP_WEAPON_APPISTOL","PICKUP_WEAPON_ASSAULTRIFLE",
                     "PICKUP_WEAPON_ASSAULTRIFLE_MK2","PICKUP_WEAPON_ASSAULTSHOTGUN","PICKUP_WEAPON_ASSAULTSMG","PICKUP_WEAPON_BALL","PICKUP_WEAPON_BAT",
                     "PICKUP_WEAPON_BATTLEAXE","PICKUP_WEAPON_BOTTLE","PICKUP_WEAPON_BULLPUPRIFLE","PICKUP_WEAPON_BULLPUPRIFLE_MK2","PICKUP_WEAPON_BULLPUPSHOTGUN",
                     "PICKUP_WEAPON_BZGAS","PICKUP_WEAPON_CARBINERIFLE","PICKUP_WEAPON_CARBINERIFLE_MK2","PICKUP_WEAPON_COMBATMG","PICKUP_WEAPON_COMBATMG_MK2",
@@ -3231,7 +3231,7 @@ namespace big
                     "PICKUP_VEHICLE_WEAPON_SAWNOFF","PICKUP_VEHICLE_WEAPON_GRENADE","PICKUP_VEHICLE_WEAPON_MOLOTOV","PICKUP_VEHICLE_WEAPON_SMOKEGRENADE",
                     "PICKUP_VEHICLE_WEAPON_STICKYBOMB","PICKUP_VEHICLE_HEALTH_STANDARD","PICKUP_VEHICLE_ARMOUR_STANDARD","PICKUP_CUSTOM_SCRIPT","PICKUP_VEHICLE_CUSTOM_SCRIPT"
     };
-    const char* const var::ObjectList[]{
+    const char* const game_variable::ObjectList[]{
         "prop_poly_bag_01",
         "prop_poly_bag_money",
         "prop_cash_pile_01",
@@ -5848,7 +5848,7 @@ namespace big
         "prop_skunk_bush_01",
         "prop_skylight_01",
     };
-    const char* const var::AllWeaponHashes[]{
+    const char* const game_variable::AllWeaponHashes[]{
         "WEAPON_ADVANCEDRIFLE",
         "WEAPON_APPISTOL",
         "WEAPON_ASSAULTRIFLE",
@@ -5941,7 +5941,7 @@ namespace big
         "WEAPON_MILITARYRIFLE",
         "WEAPON_COMBATSHOTGUN",
         "WEAPON_GADGETPISTOL" };
-    const char* const var::AllComponentHashes[]{
+    const char* const game_variable::AllComponentHashes[]{
         "COMPONENT_ADVANCEDRIFLE_CLIP_01",
         "COMPONENT_ADVANCEDRIFLE_CLIP_02",
         "COMPONENT_ADVANCEDRIFLE_VARMOD_LUXE",
@@ -6291,7 +6291,7 @@ namespace big
         "COMPONENT_MILITARYRIFLE_CLIP_01",
         "COMPONENT_MILITARYRIFLE_CLIP_02",
         "COMPONENT_MILITARYRIFLE_SIGHT_01" };
-    const char* const var::VechicleList[]{ "Adder", "Airbus", "Airtug", "Akula", "Akuma", "Alpha", "Alphaz1", "Ambulance", "Annihilator",
+    const char* const game_variable::VechicleList[]{ "Adder", "Airbus", "Airtug", "Akula", "Akuma", "Alpha", "Alphaz1", "Ambulance", "Annihilator",
                                         "Annihilator2", "Apc", "Ardent", "Armytanker", "Armytrailer", "Armytrailer2", "Asbo", "Asea", "Asea2",
                                         "Asterope", "Autarch", "Avarus", "Avenger", "Avenger2", "Avisa", "Bagger", "Baletrailer", "Baller",
                                         "Baller2", "Baller3", "Baller4", "Baller5", "Baller6", "Banshee", "Banshee2", "Barracks", "Barracks2",
@@ -6372,7 +6372,7 @@ namespace big
                                         "Windsor", "Windsor2", "Winky", "Wolfsbane", "Xa21", "Xls", "Xls2", "Yosemite", "Yosemite2",
                                         "Yosemite3", "Youga", "Youga2", "Youga3", "Z190", "Zentorno", "Zhaba", "Zion", "Zion2", "Zion3",
                                         "Zombiea", "Zombieb", "Zorrusso", "Zr350", "Zr380", "Zr3802", "Zr3803", "Ztype" };
-    const char* const var::PedList[]{
+    const char* const game_variable::PedList[]{
     "u_m_m_jesus_01","A_C_Boar","A_C_Chickenhawk","A_C_Chimp","A_C_Chop","A_C_Cormorant","A_C_Cow","A_C_Coyote","A_C_Crow","A_C_Deer","A_C_Fish","A_C_Hen","A_C_Husky","A_C_MtLion","A_C_Pig","A_C_Pigeon","A_C_Rat","A_C_Retriever",
     "A_C_Rhesus","A_C_Rottweiler","A_C_Seagull","A_C_SharkTiger","A_C_shepherd","A_F_M_Beach_01","A_F_M_BevHills_01","A_F_M_BevHills_02","A_F_M_BodyBuild_01","A_F_M_Business_02","A_F_M_Downtown_01","A_F_M_EastSA_01",
     "A_F_M_EastSA_02","A_F_M_FatBla_01","A_F_M_FatCult_01","A_F_M_FatWhite_01","A_F_M_KTown_01","A_F_M_KTown_02","A_F_M_ProlHost_01","A_F_M_Salton_01","A_F_M_SkidRow_01","A_F_M_SouCentMC_01","A_F_M_SouCent_01","A_F_M_SouCent_02",
@@ -6426,64 +6426,64 @@ namespace big
     "U_M_Y_ImpoRage","U_M_Y_Justin","U_M_Y_Mani","U_M_Y_MilitaryBum","U_M_Y_Paparazzi","U_M_Y_Party_01","U_M_Y_Pogo_01","U_M_Y_Prisoner_01","U_M_Y_ProlDriver_01","U_M_Y_RSRanger_01","U_M_Y_SBike","U_M_Y_StagGrm_01","U_M_Y_Tattoo_01",
     "U_M_Y_Zombie_01",
     };
-    const char* const var::VehicleCategory[]{ "Super","Sport","Sport Classic","Summer Update","Sedans","Service","SUVs","Planes",
+    const char* const game_variable::VehicleCategory[]{ "Super","Sport","Sport Classic","Summer Update","Sedans","Service","SUVs","Planes",
     "Helicopters","Off Road","Muscles","Motorcycles","Military","Trailers","Trains","Utility","Vans","Arena Wars","Casino Updates",
     "Casino Heist","Emergency","Industrial","Coupes","Compacts","Boats","Bikes","Commericals","Cayo Perico","Tuner Update","Personal Vehicle" };
-    const char* const var::Boat[]{ "DINGHY","DINGHY2","DINGHY3","DINGHY4","JETMAX","MARQUIS","SEASHARK","SEASHARK2","SEASHARK3","SPEEDER",
+    const char* const game_variable::Boat[]{ "DINGHY","DINGHY2","DINGHY3","DINGHY4","JETMAX","MARQUIS","SEASHARK","SEASHARK2","SEASHARK3","SPEEDER",
         "SPEEDER2","SQUALO","SUBMERSIBLE","SUBMERSIBLE2","SUNTRAP","TORO","TORO2","TROPIC","TROPIC2","TUG" };
-    const char* const var::Commericals[]{ "BENSON","BIFF","HAULER", "HAULER2","MULE","MULE2","MULE3","MULE4","PACKER",
+    const char* const game_variable::Commericals[]{ "BENSON","BIFF","HAULER", "HAULER2","MULE","MULE2","MULE3","MULE4","PACKER",
         "PHANTOM","PHANTOM2", "PHANTOM3","POUNDER","POUNDER2","STOCKADE","STOCKADE3","TERBYTE" };
-    const char* const var::Compact[]{ "BLISTA","BRIOSO","DILETTANTE","DILETTANTE2","ISSI2","ISSI3","PANTO","PRAIRIE","RHAPSODY" };
-    const char* const var::Coupes[]{ "COGCABRIO","EXEMPLAR","F620","FELON","FELON2","JACKAL","ORACLE","ORACLE2","SENTINEL","SENTINEL2",
+    const char* const game_variable::Compact[]{ "BLISTA","BRIOSO","DILETTANTE","DILETTANTE2","ISSI2","ISSI3","PANTO","PRAIRIE","RHAPSODY" };
+    const char* const game_variable::Coupes[]{ "COGCABRIO","EXEMPLAR","F620","FELON","FELON2","JACKAL","ORACLE","ORACLE2","SENTINEL","SENTINEL2",
         "WINDSOR","WINDSOR2","ZION","ZION2" };
-    const char* const var::Bikes[]{ "BMX","CRUISER","FIXTER","SCORCHER","TRIBIKE","TRIBIKE2","TRIBIKE3" };
-    const char* const var::Emergency[]{ "AMBULANCE","FBI","FBI2","FIRETRUK","LGUARD","PBUS","POLICE","POLICE2","POLICE3","POLICE4",
+    const char* const game_variable::Bikes[]{ "BMX","CRUISER","FIXTER","SCORCHER","TRIBIKE","TRIBIKE2","TRIBIKE3" };
+    const char* const game_variable::Emergency[]{ "AMBULANCE","FBI","FBI2","FIRETRUK","LGUARD","PBUS","POLICE","POLICE2","POLICE3","POLICE4",
         "POLICEB","POLMAV","POLICEOLD1","POLICEOLD2","POLICET","PRANGER","PREDATOR","RIOT","RIOT2","SHERIFF","SHERIFF2" };
-    const char* const var::Helicopter[]{ "AKULA", "ANNIHILATOR", "BUZZARD","BUZZARD2", "CARGOBOB", "CARGOBOB2", "CARGOBOB3", "CARGOBOB4",
+    const char* const game_variable::Helicopter[]{ "AKULA", "ANNIHILATOR", "BUZZARD","BUZZARD2", "CARGOBOB", "CARGOBOB2", "CARGOBOB3", "CARGOBOB4",
         "FROGGER","FROGGER2", "HAVOK","HUNTER", "MAVERICK","SAVAGE","SKYLIFT","SUPERVOLITO","SUPERVOLITO2","SWIFT","SWIFT2",
         "VALKYRIE","VALKYRIE2","VOLATUS" };
-    const char* const var::Industrial[]{ "BULLDOZER","CUTTER","DUMP","FLATBED","GUARDIAN","HANDLER","MIXER", "MIXER2","RUBBLE","TIPTRUCK",
+    const char* const game_variable::Industrial[]{ "BULLDOZER","CUTTER","DUMP","FLATBED","GUARDIAN","HANDLER","MIXER", "MIXER2","RUBBLE","TIPTRUCK",
         "TIPTRUCK2" };
-    const char* const var::Military[]{ "APC","BARRACKS","BARRACKS2","BARRACKS3","BARRAGE","CHERNOBOG","CRUSADER","HALFTRACK","KHANJALI",
+    const char* const game_variable::Military[]{ "APC","BARRACKS","BARRACKS2","BARRACKS3","BARRAGE","CHERNOBOG","CRUSADER","HALFTRACK","KHANJALI",
         "RHINO", "THRUSTER","TRAILERSMALL2" };
-    const char* const var::Motorcycle[]{ "AKUMA","AVARUS","BAGGER","BATI","BATI2", "BF400","CARBONRS", "CHIMERA","CLIFFHANGER","DAEMON",
+    const char* const game_variable::Motorcycle[]{ "AKUMA","AVARUS","BAGGER","BATI","BATI2", "BF400","CARBONRS", "CHIMERA","CLIFFHANGER","DAEMON",
         "DAEMON2","DEFILER","DIABLOUS","DIABLOUS2","DOUBLE","ENDURO","ESSKEY","FAGGIO","FAGGIO2","FAGGIO3","FCR","FCR2","GARGOYLE",
         "HAKUCHOU","HAKUCHOU2","HEXER", "INNOVATION","LECTRO","MANCHEZ","NEMESIS","NIGHTBLADE","OPPRESSOR","OPPRESSOR2","PCJ","RATBIKE",
         "RUFFIAN","SANCHEZ2","SANCTUS","SHOTARO","SOVEREIGN","THRUST","VADER","VINDICATOR","VORTEX","WOLFSBANE","ZOMBIEA","ZOMBIEB" };
-    const char* const var::Muscle[]{ "BLADE","BUCCANEER","BUCCANEER2","CHINO","CHINO2","COQUETTE3","DOMINATOR", "DOMINATOR2", "DOMINATOR3",
+    const char* const game_variable::Muscle[]{ "BLADE","BUCCANEER","BUCCANEER2","CHINO","CHINO2","COQUETTE3","DOMINATOR", "DOMINATOR2", "DOMINATOR3",
         "DUKES","DUKES2","ELLIE","FACTION","FACTION2","FACTION3","GAUNTLET","GAUNTLET2","HERMES","HOTKNIFE","LURCHER","MOONBEAM",
         "MOONBEAM2","NIGHTSHADE","PHOENIX","PICADOR","RATLOADER","RATLOADER2","RUINER","RUINER2","RUINER3","SABREGT","SABREGT2",
         "SLAMVAN","SLAMVAN2","SLAMVAN3","STALION","STALION2","TAMPA","TAMPA3","VIGERO","VIRGO","VIRGO2","VIRGO3","VOODOO","VOODOO2","YOSEMITE" };
-    const char* const var::OffRoad[]{ "BFINJECTION","BIFTA","BLAZER","BLAZER2","BLAZER3","BLAZER4","BLAZER5","BODHI2","BRAWLER","DLOADER","DUBSTA3",
+    const char* const game_variable::OffRoad[]{ "BFINJECTION","BIFTA","BLAZER","BLAZER2","BLAZER3","BLAZER4","BLAZER5","BODHI2","BRAWLER","DLOADER","DUBSTA3",
         "DUNE","DUNE2","DUNE3","DUNE4","DUNE5", "FREECRAWLER","INSURGENT","INSURGENT2","INSURGENT3","KALAHARI","KAMACHO","MARSHALL",
         "MESA3","MONSTER","MENACER","NIGHTSHARK","RANCHERXL","RANCHERXL2","REBEL","REBEL2","RIATA","SANDKING","SANDKING2","TECHNICAL",
         "TECHNICAL2","TECHNICAL3","TROPHYTRUCK","TROPHYTRUCK2" };
-    const char* const var::Plane[]{ "ALPHAZ1","AVENGER","BESRA","BLIMP","BLIMP2","BLIMP3","BOMBUSHKA","CARGOPLANE","CUBAN800","DODO",
+    const char* const game_variable::Plane[]{ "ALPHAZ1","AVENGER","BESRA","BLIMP","BLIMP2","BLIMP3","BOMBUSHKA","CARGOPLANE","CUBAN800","DODO",
     "DUSTER","HOWARD","HYDRA","JET","LAZER","LUXOR","LUXOR2","MAMMATUS","MICROLIGHT","MILJET","MOGUL","MOLOTOK","NIMBUS","NOKOTA","PYRO",
     "ROGUE","SEABREEZE","SHAMAL","STARLING","STRIKEFORCE","STUNT","TITAN","TULA","VELUM","VELUM2","VESTRA","VOLATOL" };
-    const char* const var::SUV[]{ "BALLER","BALLER2","BALLER3","BALLER4","BALLER5","BALLER6","BJXL","CAVALCADE","CAVALCADE2","CONTENDER",
+    const char* const game_variable::SUV[]{ "BALLER","BALLER2","BALLER3","BALLER4","BALLER5","BALLER6","BJXL","CAVALCADE","CAVALCADE2","CONTENDER",
     "DUBSTA","DUBSTA2","FQ2","GRANGER","GRESLEY","HABANERO","HUNTLEY","LANDSTALKER","MESA","MESA2","PATRIOT","PATRIOT2","RADI","ROCOTO",
     "SEMINOLE","SERRANO","XLS","XLS2" };
-    const char* const var::Sedan[]{ "ASEA","ASEA2","ASTEROPE","CHEBUREK","COG55","COG552","COGNOSCENTI","COGNOSCENTI2","EMPEROR","EMPEROR2",
+    const char* const game_variable::Sedan[]{ "ASEA","ASEA2","ASTEROPE","CHEBUREK","COG55","COG552","COGNOSCENTI","COGNOSCENTI2","EMPEROR","EMPEROR2",
     "EMPEROR3","FUGITIVE","GLENDALE","INGOT","INTRUDER","LIMO2","PREMIER","PRIMO","PRIMO2","REGINA","ROMERO","SCHAFTER2","SCHAFTER5",
     "SCHAFTER6","STAFFORD","STANIER","STRATUM","STRETCH","SUPERD","SURGE","TAILGATER","WARRENER","WASHINGTON" };
-    const char* const var::Service[]{ "AIRBUS","BRICKADE","BUS","COACH","PBUS2","RALLYTRUCK","RENTALBUS","TAXI","TOURBUS","TRASH","TRASH2","WASTELANDER" };
-    const char* const var::Sport[]{ "ALPHA","BANSHEE","BESTIAGTS","BLISTA2","BLISTA3","BUFFALO","BUFFALO2","BUFFALO3","CARBONIZZARE",
+    const char* const game_variable::Service[]{ "AIRBUS","BRICKADE","BUS","COACH","PBUS2","RALLYTRUCK","RENTALBUS","TAXI","TOURBUS","TRASH","TRASH2","WASTELANDER" };
+    const char* const game_variable::Sport[]{ "ALPHA","BANSHEE","BESTIAGTS","BLISTA2","BLISTA3","BUFFALO","BUFFALO2","BUFFALO3","CARBONIZZARE",
     "COMET2","COMET3","COMET4","COMET5","COQUETTE","ELEGY","ELEGY2","FELTZER2","FLASHGT","FUROREGT","FUSILADE","FUTO","GB200","HOTRING",
     "JESTER","JESTER2","JESTER3","KHAMELION","KURUMA","KURUMA2","LYNX2","MASSACRO","MASSACRO2","NEON","NINEF","NINEF2","OMNIS","PARIAH",
     "PENUMBRA","RAIDEN","RAPIDGT","RAPIDGT2","RAPTOR","REVOLTER","RUSTON","SCHAFTER3","SCHAFTER4","SCHWARZER","SENTINEL3","SEVEN70","SPECTER",
     "SPECTER2","STREITER","SULTAN","SURANO","TAMPA2","TROPOS","VERLIERER2" };
-    const char* const var::SportClassic[]{ "ARDENT","BTYPE","BTYPE2","BTYPE3","CASCO","CHEETAH2","COQUETTE2","DELUXO","FAGALOA","FELTZER3",
+    const char* const game_variable::SportClassic[]{ "ARDENT","BTYPE","BTYPE2","BTYPE3","CASCO","CHEETAH2","COQUETTE2","DELUXO","FAGALOA","FELTZER3",
     "GT500","HUSTLER","INFERNUS2","JB700","MAMBA","MANANA","MICHELLI","MONROE","PEYOTE","PIGALLE","RAPIDGT3","RETINUE","SAVESTRA",
     "STINGER","STINGERGT","STROMBERG","SWINGER","TORERO","TORNADO","TORNADO2","TORNADO3","TORNADO4","TORNADO5","TORNADO6","TURISMO2",
     "VISERIS","Z190","ZTYPE" };
-    const char* const var::Super[]{ "ADDER","AUTARCH","BANSHEE2","BULLET","CHEETAH","CYCLONE","ENTITYXF","ENTITY2","FMJ","GP1","INFERNUS",
+    const char* const game_variable::Super[]{ "ADDER","AUTARCH","BANSHEE2","BULLET","CHEETAH","CYCLONE","ENTITYXF","ENTITY2","FMJ","GP1","INFERNUS",
     "ITALIGTB","ITALIGTB2","LE7B","NERO","NERO2","OSIRIS","PENETRATOR","PFISTER811","PROTOTIPO","REAPER","SC1","SCRAMJET","SHEAVA","SULTANRS",
     "T20","TAIPAN","TEMPESTA","TEZERACT","TURISMOR","TYRANT","TYRUS","VACCA","VAGNER","VIGILANTE","VISIONE","VOLTIC","VOLTIC2","XA21",
     "ZENTORNO" };
-    const char* const var::Trailer[]{ "ARMYTANKER","ARMYTRAILER2","BALETRAILER","BOATTRAILER","CABLECAR","DOCKTRAILER","GRAINTRAILER",
+    const char* const game_variable::Trailer[]{ "ARMYTANKER","ARMYTRAILER2","BALETRAILER","BOATTRAILER","CABLECAR","DOCKTRAILER","GRAINTRAILER",
     "PROPTRAILER","RAKETRAILER","TR2","TR3","TR4","TRFLAT","TVTRAILER","TANKER","TANKER2","TRAILERLOGS","TRAILERSMALL","TRAILERS","TRAILERS2","TRAILERS3" };
-    const char* const var::Train[]{
+    const char* const game_variable::Train[]{
         "FREIGHT",
         "FREIGHTCAR",
         "FREIGHTCONT1",
@@ -6491,7 +6491,7 @@ namespace big
         "FREIGHTGRAIN",
         "TANKERCAR"
     };
-    const char* const var::Utility[]{
+    const char* const game_variable::Utility[]{
         "AIRTUG",
         "CADDY",
         "CADDY2",
@@ -6513,7 +6513,7 @@ namespace big
         "UTILLITRUCK2",
         "UTILLITRUCK3"
     };
-    const char* const var::Van[]{
+    const char* const game_variable::Van[]{
         "BISON",
 "BISON2",
 "BISON3",
@@ -6549,7 +6549,7 @@ namespace big
 "YOUGA",
 "YOUGA2"
     };
-    const char* const var::ArenaWar[]{
+    const char* const game_variable::ArenaWar[]{
         "BRUISER",
 "BRUISER2",
 "BRUISER3",
@@ -6596,7 +6596,7 @@ namespace big
 "ZR3802",
 "ZR3803"
     };
-    const char* const var::Casino1[]{
+    const char* const game_variable::Casino1[]{
         "CARACARA2",
         "DRAFTER",
         "DYNASTY",
@@ -6620,7 +6620,7 @@ namespace big
         "ZION3",
         "ZORRUSSO"
     };
-    const char* const var::Casino2[]{
+    const char* const game_variable::Casino2[]{
         "ABSO",
         "EVERON",
         "FORMULA",
@@ -6642,7 +6642,7 @@ namespace big
         "YOSEMITE2",
         "ZHABA"
     };
-    const char* const var::SummerUpdate[]{
+    const char* const game_variable::SummerUpdate[]{
         "CLUB",
         "COQUETTE4",
         "DUKES3",
@@ -6659,7 +6659,7 @@ namespace big
         "YOSEMITE3",
         "YOUGA3"
     };
-    const char* const var::CayoPerico[]{
+    const char* const game_variable::CayoPerico[]{
         "ALKONOST",
         "WINKY",
         "Annihilator2",
@@ -6682,16 +6682,16 @@ namespace big
         "SEASPARROW3",
         "KOSATKA"
     };
-    const char* const var::tuner_update[]{ "Comet6", "Cypher", "Euros", "Growler", "Jester4", "Tailgater2", "Vectre", "Zr350", "Calico", "Dominator7", "Dominator8", "Futo2", "Previon", "Remus", "Rt3000", "Sultan3", "Warrener2", "Freightcar2", "Warrener" };
+    const char* const game_variable::tuner_update[]{ "Comet6", "Cypher", "Euros", "Growler", "Jester4", "Tailgater2", "Vectre", "Zr350", "Calico", "Dominator7", "Dominator8", "Futo2", "Previon", "Remus", "Rt3000", "Sultan3", "Warrener2", "Freightcar2", "Warrener" };
 
-    const char* const var::ExplosionList[]{ "EXPLOSION_GRENADE","EXPLOSION_GRENADELAUNCHER","EXPLOSION_STICKYBOMB","EXPLOSION_MOLOTOV","EXPLOSION_ROCKET",
+    const char* const game_variable::ExplosionList[]{ "EXPLOSION_GRENADE","EXPLOSION_GRENADELAUNCHER","EXPLOSION_STICKYBOMB","EXPLOSION_MOLOTOV","EXPLOSION_ROCKET",
             "EXPLOSION_TANKSHELL","EXPLOSION_HI_OCTANE","EXPLOSION_CAR","EXPLOSION_PLANE","EXPLOSION_PETROL_PUMP","EXPLOSION_BIKE","EXPLOSION_DIR_STEAM",
             "EXPLOSION_DIR_FLAME","EXPLOSION_DIR_WATER_HYDRANT","EXPLOSION_DIR_GAS_CANISTER","EXPLOSION_BOAT","EXPLOSION_SHIP_DESTROY", "EXPLOSION_TRUCK",
             "EXPLOSION_BULLET","EXPLOSION_SMOKEGRENADELAUNCHER","EXPLOSION_SMOKEGRENADE", "EXPLOSION_BZGAS","EXPLOSION_FLARE","EXPLOSION_GAS_CANISTER",
             "EXPLOSION_EXTINGUISHER","EXPLOSION_PROGRAMMABLEAR","EXPLOSION_TRAIN","EXPLOSION_BARREL","EXPLOSION_PROPANE","EXPLOSION_BLIMP",
             "EXPLOSION_DIR_FLAME_EXPLODE","EXPLOSION_TANKER","EXPLOSION_PLANE_ROCKET","EXPLOSION_VEHICLE_BULLET", "EXPLOSION_GAS_TANK",
             "EXPLOSION_BIRD_CRAP" };
-    const char* const  var::ImpactList[]{ "Default","Grenade","Grenade Launcher","Sticky Bomb","Molotov","Rocket","Tank Bullet","Fire","Car","Plane","Fire Long","Motorcycle",
+    const char* const  game_variable::ImpactList[]{ "Default","Grenade","Grenade Launcher","Sticky Bomb","Molotov","Rocket","Tank Bullet","Fire","Car","Plane","Fire Long","Motorcycle",
     "DIR_STEAM","DIR_FLAME","DIR_WATER_HYDRANT","DIR_GAS_CANISTER","Boat","SHIP_DESTROY","Truck","Bullet","Smoke Launcher","Smoke Grenade","BZ Gas","Flare","Gas Smoke","Extinguisher",
     "PROGRAMMABLEAR","Train","Barrel","Propane","Blimp","DIR_FLAME_EXPLODE","Tanker","Plane Rocket","Vehicle Bullet","Fuel Pump","Bird Poop","Railgun","Blimp 2","Firework","Snowball",
     "Proximity Mine","Valkyrie Cannon","Yacht Defense","Pipe Bomb","Vehicle Mine","Mk2 Explosive","APC Bullet","Airplane Cluster","Airplane Gas","Airplane Incendiary", "Airplane Bomb",
@@ -6699,7 +6699,7 @@ namespace big
     "Mk2 Explosive Shotgun","Oppressor Mk2 Missile","Kinetic Mortar","Kinetic Mine","EMP Mine","Spike Mine","Slick Mine","Tar Mine","SCRIPT_DRONE","Up-n-Atomizer","Buried Mine",
     "Scripted Missile","Normsl Explosive"
     };
-    const char* const var::DataPlayer[]{ "Disable Spoof", "festizum", "Synchweizher","YonataSP","Dea_Fi","swegley","Leakess","AMWARSS",
+    const char* const game_variable::DataPlayer[]{ "Disable Spoof", "festizum", "Synchweizher","YonataSP","Dea_Fi","swegley","Leakess","AMWARSS",
                 "b0t0lpecah","Ayam_Sayur_Kecap","SoraYuta","Reinbozz","Wirangga987","Kinderjoy77","benjo_12","MrPandA_Chan","Mrc-Nata",
                 "suzugamori27","Animon2","MichroLaserX10","PapaCabut","fadlan23","Venom2zero","TMF3WannaCry","peuyeah","devin","Dave_lim2805",
                 "avtrrr","bidipbidip","HOSKREEH","Gymnasty9810","keripotter","Gia_Yoka","LittleMira","IrvanMacon","DutaTakDeAkhlak ",
@@ -6707,26 +6707,26 @@ namespace big
                 "DevonNoLimit","aqilnafal29","oXxX00XxXo","Lupa","-Zill-[CODE]","adreanbeta","Lucasng_RS","AceOfSpadesTR2","Cloin-smiss[CODE]",
                 "Raptor-KP","Cl0utfather_","OmGaban","AnjayMabar","KFC_TP_Delivery","ranggaaryoko","GamingNoBanned","RioChan22",
                 "paman_fred","MAHATO","Tanapon","Catchy22" };
-    const uint64_t var::DataPlayerRID[]{ g_original.rid, 174124075, 158451613, 134757642,118756001,171225995,177107411,52232807,176651480,17495234,
+    const uint64_t game_variable::DataPlayerRID[]{ g_original.rid, 174124075, 158451613, 134757642,118756001,171225995,177107411,52232807,176651480,17495234,
                 123260984,124684044,118889452,172651939,147137408,143643867,147980514,155419627,150572443,140605373,159148187,100451566,
                 159147087,146496695,110368197,159318285,180247973,142512023,164581202,162655526,156422602,158227943,170252865,181011600,
                 152831517,162525610,156422602,160132903,156350140,135888882,85572123,178348899,184335063,179673804,149710162,117859114,
                 172919320,159063872,174798177,160015232,164452633,162292162,145964647,161347480,167765293,146604599,162650999,171311605,
                 176541246,174402390,155331185,135394913,171489492,15832879,139867806,144539536, };//97118502
-    const char* const var::ShootWeapon[]{ "WEAPON_ADVANCEDRIFLE", "WEAPON_STUNGUN", "WEAPON_RPG", "WEAPON_RAILGUN", "WEAPON_RAYPISTOL", "WEAPON_RAYCARBINE", "WEAPON_RAYMINIGUN" };
-    const char* const var::TeleportList[]{ "Select Teleport", "Casino Heist", "Cayo Perico Heist", "Treasure Hunt", "Navy Revolver", "Movie Prop", "Playing Card" };
-    const char* const var::CasinoHeistCoords[]{ "Enter Staff", "Waste Disposal", "Exit Staff", "Daily Vault", "Mantrap", "Heli Heist", "Inside Vault", "Outide vault", "Disguis Exit", "Hack 1", "Hack 2", "Hack 3", "Hack 4", "Hack 5", "Hack 6", "Hack 7" };
-    const char* const var::CayoPericoHeistCoords[]{ "Office", "Werehouse", "Main Door", "Grapple Wall", "Grapple Wall 2", "Drainage", "Main Door Exit", "Escape", "Main Doc Loot 1", "Main Doc Loot 2", "Main Doc Loot 3", "Loot 4", "Loot 5", "Loot 6", "Loot 7", "Loot 8", "Loot 9", "Loot 10" };
-    const char* const var::NavyRevolver[]{ "Navy Revolver Clue #1 ","Navy Revolver Clue #2 ","Navy Revolver Clue #3 ","Navy Revolver Clue #4 ","Navy Revolver Clue #5.1 ","Navy Revolver Clue #5.2 ","Navy Revolver Clue #5.3 ","Navy Revolver Clue #5.4 ","Navy Revolver Clue #5.5 ","Slasher Encounter " };
-    const char* const var::MovieProp[]{ "Movie Prop 1","Movie Prop 2","Movie Prop 3","Movie Prop 4","Movie Prop 5","Movie Prop 6" };
-    const char* const var::PlayingCard[]{ "Card 1 ","Card 2 ","Card 3 ","Card 4 ","Card 5 ","Card 6 ","Card 7 ","Card 8 ","Card 9 ","Card 10 ",
+    const char* const game_variable::ShootWeapon[]{ "WEAPON_ADVANCEDRIFLE", "WEAPON_STUNGUN", "WEAPON_RPG", "WEAPON_RAILGUN", "WEAPON_RAYPISTOL", "WEAPON_RAYCARBINE", "WEAPON_RAYMINIGUN" };
+    const char* const game_variable::TeleportList[]{ "Select Teleport", "Casino Heist", "Cayo Perico Heist", "Treasure Hunt", "Navy Revolver", "Movie Prop", "Playing Card" };
+    const char* const game_variable::CasinoHeistCoords[]{ "Enter Staff", "Waste Disposal", "Exit Staff", "Daily Vault", "Mantrap", "Heli Heist", "Inside Vault", "Outide vault", "Disguis Exit", "Hack 1", "Hack 2", "Hack 3", "Hack 4", "Hack 5", "Hack 6", "Hack 7" };
+    const char* const game_variable::CayoPericoHeistCoords[]{ "Office", "Werehouse", "Main Door", "Grapple Wall", "Grapple Wall 2", "Drainage", "Main Door Exit", "Escape", "Main Doc Loot 1", "Main Doc Loot 2", "Main Doc Loot 3", "Loot 4", "Loot 5", "Loot 6", "Loot 7", "Loot 8", "Loot 9", "Loot 10" };
+    const char* const game_variable::NavyRevolver[]{ "Navy Revolver Clue #1 ","Navy Revolver Clue #2 ","Navy Revolver Clue #3 ","Navy Revolver Clue #4 ","Navy Revolver Clue #5.1 ","Navy Revolver Clue #5.2 ","Navy Revolver Clue #5.3 ","Navy Revolver Clue #5.4 ","Navy Revolver Clue #5.5 ","Slasher Encounter " };
+    const char* const game_variable::MovieProp[]{ "Movie Prop 1","Movie Prop 2","Movie Prop 3","Movie Prop 4","Movie Prop 5","Movie Prop 6" };
+    const char* const game_variable::PlayingCard[]{ "Card 1 ","Card 2 ","Card 3 ","Card 4 ","Card 5 ","Card 6 ","Card 7 ","Card 8 ","Card 9 ","Card 10 ",
     "Card 11 ","Card 12 ","Card 13 ","Card 14 ","Card 15 ","Card 16 ","Card 17 ","Card 18 ","Card 19 ","Card 20 ","Card 21 ","Card 22 ","Card 23 ","Card 24 ",
     "Card 25 ","Card 26 ","Card 27 ","Card 28 ","Card 29 ","Card 30 ","Card 31 ","Card 32 ","Card 33 ","Card 34 ","Card 35 ","Card 36 ","Card 37 ",
     "Card 38 ","Card 39 ","Card 40 ","Card 41 ","Card 42 ","Card 43 ","Card 43 FIX","Card 44 ","Card 45 ","Card 46 ","Card 47 ","Card 48 ","Card 49 ","Card 50 ",
     "Card 51 ","Card 52 ","Card 53 ","Card 54 " };
-    const char* const var::Treasure_Hunt[]{ "Treasure Hunt - Location 1", "Treasure Hunt - Location 2", "Treasure Hunt - Location 3" };
-    const char* const var::ListFlag[8]{ "Select Flag", "List_Vehicle_Flags_1","List_Vehicle_Flags_2", "List_Vehicle_Flags_3", "List_Vehicle_Flags_4", "List_Vehicle_Flags_5", "List_Vehicle_Flags_6", "List_Vehicle_Flags_7" };
-    std::map<int, std::string> var::List_Vehicle_Flags_1{
+    const char* const game_variable::Treasure_Hunt[]{ "Treasure Hunt - Location 1", "Treasure Hunt - Location 2", "Treasure Hunt - Location 3" };
+    const char* const game_variable::ListFlag[8]{ "Select Flag", "List_Vehicle_Flags_1","List_Vehicle_Flags_2", "List_Vehicle_Flags_3", "List_Vehicle_Flags_4", "List_Vehicle_Flags_5", "List_Vehicle_Flags_6", "List_Vehicle_Flags_7" };
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_1{
         {0,"FLAG_SMALL_WORKER"},
         {1,"FLAG_BIG"},
         {2,"FLAG_NO_BOOT"},
@@ -6760,7 +6760,7 @@ namespace big
         {30,"FLAG_GEN_NAVMESH"},
         {31,"FLAG_LAW_ENFORCEMENT"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_2{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_2{
         {0,"FLAG_EMERGENCY_SERVICE"},
         {1,"FLAG_DRIVER_NO_DRIVE_BY"},
         {2,"FLAG_NO_RESPRAY"},
@@ -6794,7 +6794,7 @@ namespace big
         {30,"FLAG_ATTACH_TRAILER_ON_HIGHWAY"},
         {31,"FLAG_ATTACH_TRAILER_IN_CITY"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_3{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_3{
         {0,"FLAG_HAS_NO_ROOF"},
         {1,"FLAG_0xFC6563DB"},
         {2,"FLAG_RECESSED_HEADLIGHT_CORONAS"},
@@ -6828,7 +6828,7 @@ namespace big
         {30,"FLAG_FORCE_ENABLE_CHASSIS_COLLISION"},
         {31,"FLAG_CANNOT_BE_PICKUP_BY_CARGOBOB"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_4{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_4{
         {0,"FLAG_CAN_HAVE_NEONS"},
         {1,"FLAG_HAS_INTERIOR_EXTRAS"},
         {2,"FLAG_HAS_TURRET_SEAT_ON_VEHICLE"},
@@ -6862,7 +6862,7 @@ namespace big
         {30,"FLAG_HAS_ROCKET_BOOST"},
         {31,"FLAG_RAMMING_SCOOP"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_5{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_5{
         {0,"FLAG_HAS_PARACHUTE"},
         {1,"FLAG_RAMP"},
         {2,"FLAG_HAS_EXTRA_SHUFFLE_SEAT_ON_VEHICLE"},
@@ -6896,7 +6896,7 @@ namespace big
         {30,"FLAG_DONT_CRASH_ABANDONED_NEAR_GROUND"},
         {31,"FLAG_USE_INTERIOR_RED_LIGHT"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_6{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_6{
         {0,"FLAG_HAS_HELI_STRAFE_MODE"},
         {1,"FLAG_HAS_VERTICAL_ROCKET_BOOST"},
         {2,"FLAG_CREATE_WEAPON_MANAGER_ON_SPAWN"},
@@ -6930,7 +6930,7 @@ namespace big
         {30,"FLAG_DISABLE_DEFORMATION"},
         {31,"0xC1971ED9"}
     };
-    std::map<int, std::string> var::List_Vehicle_Flags_7{
+    std::map<int, std::string> game_variable::List_Vehicle_Flags_7{
         {0,"FLAG_USE_RESTRICTED_DRIVEBY_HEIGHT_MID_ONLY"},
         {1,"0xE5391C19"},
         {2,"FLAG_SPOILER_MOD_DOESNT_INCREASE_GRIP"},
@@ -6964,8 +6964,8 @@ namespace big
         {30,""},
         {31,""}
     };
-    Hash var::weapon_shotgun[] = { WEAPON_ASSAULTSHOTGUN, WEAPON_BULLPUPSHOTGUN , WEAPON_HEAVYSHOTGUN, WEAPON_PUMPSHOTGUN, WEAPON_PUMPSHOTGUN_MK2, WEAPON_SAWNOFFSHOTGUN, WEAPON_COMBATSHOTGUN, WEAPON_COMBATSHOTGUN };
-    std::string var::character_stat_hash[] = {
+    Hash game_variable::weapon_shotgun[] = { WEAPON_ASSAULTSHOTGUN, WEAPON_BULLPUPSHOTGUN , WEAPON_HEAVYSHOTGUN, WEAPON_PUMPSHOTGUN, WEAPON_PUMPSHOTGUN_MK2, WEAPON_SAWNOFFSHOTGUN, WEAPON_COMBATSHOTGUN, WEAPON_COMBATSHOTGUN };
+    std::string game_variable::character_stat_hash[] = {
         "SUCCESSFUL_COUNTERS",
         "FIRES_EXTINGUISHED",
         "FIRES_STARTED",
@@ -14392,7 +14392,7 @@ namespace big
         "CC_REP_TM_SB_GMDY",
         "CC_REP_TM_SB_POSIX"
     };
-    std::string var::all_stat_hash[]{
+    std::string game_variable::all_stat_hash[]{
         "PVC_BANK_BALANCE",
         "EVC_BANK_BALANCE",
         "PVC_BALANCE",
@@ -14795,8 +14795,8 @@ namespace big
         "MPPLY_RCTTCOMPLETEDWEEK",
         "MPPLY_RCTTDONESTATINIT"
     };
-    std::string var::all_packed_hash[]{ "MP_PSTAT_BOOL0","MP_PSTAT_BOOL1","MP_PSTAT_BOOL2","MP_PSTAT_INT0","MP_PSTAT_INT1","MP_PSTAT_INT2","MP_TUPSTAT_INT0","MP_TUPSTAT_INT1","MP_TUPSTAT_INT2","MP_TUPSTAT_INT3","MP_TUPSTAT_BOOL0","MP_NGPSTAT_INT0","MP_NGPSTAT_BOOL0","MP_NGDLCPSTAT_INT0","MP_NGDLCPSTAT_BOOL0" };
-    std::string var::character_packed_hash[]{ "PSTAT_BOOL0","PSTAT_BOOL1","PSTAT_BOOL2","PSTAT_INT0","PSTAT_INT1","PSTAT_INT2","PSTAT_INT3","PSTAT_INT4","PSTAT_INT5","PSTAT_INT6",
+    std::string game_variable::all_packed_hash[]{ "MP_PSTAT_BOOL0","MP_PSTAT_BOOL1","MP_PSTAT_BOOL2","MP_PSTAT_INT0","MP_PSTAT_INT1","MP_PSTAT_INT2","MP_TUPSTAT_INT0","MP_TUPSTAT_INT1","MP_TUPSTAT_INT2","MP_TUPSTAT_INT3","MP_TUPSTAT_BOOL0","MP_NGPSTAT_INT0","MP_NGPSTAT_BOOL0","MP_NGDLCPSTAT_INT0","MP_NGDLCPSTAT_BOOL0" };
+    std::string game_variable::character_packed_hash[]{ "PSTAT_BOOL0","PSTAT_BOOL1","PSTAT_BOOL2","PSTAT_INT0","PSTAT_INT1","PSTAT_INT2","PSTAT_INT3","PSTAT_INT4","PSTAT_INT5","PSTAT_INT6",
         "PSTAT_INT7","PSTAT_INT8","PSTAT_INT9","PSTAT_INT10","PSTAT_INT11","PSTAT_INT12","PSTAT_INT13","PSTAT_INT14","TUPSTAT_INT0","TUPSTAT_INT1","TUPSTAT_INT2","TUPSTAT_INT3",
         "TUPSTAT_BOOL0","NGPSTAT_INT0","NGPSTAT_INT1","NGPSTAT_INT2","NGPSTAT_INT3","NGPSTAT_INT4","NGPSTAT_INT5","NGPSTAT_INT6","NGPSTAT_INT7","NGPSTAT_BOOL0","NGPSTAT_BOOL1",
         "TUPSTAT_INT4","TUPSTAT_INT5","TUPSTAT_INT6","TUPSTAT_INT7","TUPSTAT_INT8","TUPSTAT_INT9","TUPSTAT_INT10","TUPSTAT_INT11","TUPSTAT_INT12","TUPSTAT_INT13","TUPSTAT_INT14",

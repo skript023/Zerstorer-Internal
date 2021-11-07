@@ -12,7 +12,7 @@ namespace big
 		uint64_t s;
 		uint64_t ms;
 	};
-	class var
+	class game_variable
 	{
 	public:
 		static int tbl_business[5][4][1];

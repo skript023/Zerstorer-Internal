@@ -31,7 +31,9 @@
     <ClInclude Include="Functions\network_helper.hpp" />
     <ClInclude Include="Functions\player_option.hpp" />
     <ClInclude Include="Functions\systems_helper.hpp" />
+    <ClInclude Include="Functions\vehicle.h" />
     <ClInclude Include="Functions\vehicle_helper.hpp" />
+    <ClInclude Include="Functions\vehicle_value.h" />
     <ClInclude Include="Functions\weapon_helper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Hooking.hpp" />
@@ -85,6 +87,7 @@
     <ClCompile Include="Functions\business_helper.cpp" />
     <ClCompile Include="Functions\features.cpp" />
     <ClCompile Include="Functions\game_event.cpp" />
+    <ClCompile Include="Functions\game_helper.cpp" />
     <ClCompile Include="Functions\game_variable.cpp" />
     <ClCompile Include="Functions\heist_helper.cpp" />
     <ClCompile Include="Functions\network_helper.cpp" />

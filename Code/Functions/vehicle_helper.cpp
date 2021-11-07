@@ -1,6 +1,7 @@
 #include "vehicle_helper.hpp"
 #include "../ScriptCallback.hpp"
 #include "game_helper.hpp"
+#include "vehicle_value.h"
 
 
 namespace big
@@ -112,6 +113,79 @@ namespace big
             if (!VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(VehicleId))
             {
                 VEHICLE::SET_VEHICLE_ENGINE_ON(VehicleId, TRUE, TRUE, FALSE);
+            }
+        });
+    }
+
+    void vehicle::create_vehicle(const char* name, Entity entity)
+    {
+        Hash hash_vehicle = joaat(name);
+        g_CallbackScript->AddCallback<ModelCallback>((hash_vehicle), [=]
+        {
+            if (!*g_GameVariables->m_is_session_started) *script_global(4270934).as<bool*>() = true;
+            auto pos = ENTITY::GET_ENTITY_COORDS(entity, TRUE);
+            auto forward = ENTITY::GET_ENTITY_FORWARD_VECTOR(entity);
+            auto heading = ENTITY::GET_ENTITY_HEADING(entity);
+
+            pos.x += 10.0f * forward.x;
+            pos.y += 10.0f * forward.y;
+            //MISC::GET_GROUND_Z_FOR_3D_COORD(pos.x, pos.y, pos.z, &pos.z, TRUE, FALSE);
+
+            *(unsigned short*)g_GameVariables->m_model_spawn_bypass = 0x9090;
+            auto vehicle = VEHICLE::CREATE_VEHICLE(hash_vehicle, pos.x, pos.y, pos.z + 0.5f, heading + 90.0f, TRUE, TRUE, FALSE);
+            *(unsigned short*)g_GameVariables->m_model_spawn_bypass = 0x0574;
+
+            if (*g_GameVariables->m_is_session_started)
+            {
+                DECORATOR::DECOR_SET_INT(vehicle, "MPBitset", 0);
+                ENTITY::_SET_ENTITY_SOMETHING(vehicle, TRUE); //True means it can be deleted by the engine when switching lobbies/missions/etc, false means the script is expected to clean it up.
+                auto networkId = NETWORK::VEH_TO_NET(vehicle);
+                if (NETWORK::NETWORK_GET_ENTITY_IS_NETWORKED(vehicle))
+                    NETWORK::SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(networkId, true);
+                VEHICLE::SET_VEHICLE_IS_STOLEN(vehicle, FALSE);
+            }
+
+            VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(vehicle, 1.f);
+            VEHICLE::_SET_VEHICLE_CAN_BE_LOCKED_ON(vehicle, FALSE, FALSE);
+            VEHICLE::_SET_VEHICLE_MAX_SPEED(vehicle, 1.39f * VEHICLE::GET_VEHICLE_ESTIMATED_MAX_SPEED(vehicle));
+            VEHICLE::MODIFY_VEHICLE_TOP_SPEED(vehicle, 1.39f);
+            VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "Janda");
+
+            if (g_game_helper.auto_getin)
+            {
+                PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), vehicle, -1);
+            }
+
+            if (g_game_helper.full_upgrade)
+            {
+                VEHICLE::TOGGLE_VEHICLE_MOD(vehicle, MOD_XENONHEADLIGHTS, TRUE);
+                VEHICLE::TOGGLE_VEHICLE_MOD(vehicle, MOD_TURBO, TRUE);
+                VEHICLE::_SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, 0, TRUE);
+                VEHICLE::_SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, 1, TRUE);
+                VEHICLE::_SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, 2, TRUE);
+                VEHICLE::_SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, 3, TRUE);
+                VEHICLE::_SET_VEHICLE_NEON_LIGHTS_COLOUR(vehicle, NEON_COLOR_RED);
+                VEHICLE::_SET_VEHICLE_XENON_LIGHTS_COLOR(vehicle, 8);
+                VEHICLE::SET_VEHICLE_MOD_KIT(vehicle, 0);
+
+                for (int i = 0; i < 50; i++)
+                {
+                    VEHICLE::SET_VEHICLE_MOD(vehicle, i, VEHICLE::GET_NUM_VEHICLE_MODS(vehicle, i) - 1, TRUE);
+                }
+                VEHICLE::SET_VEHICLE_WHEEL_TYPE(vehicle, 9);
+                VEHICLE::SET_VEHICLE_MOD(vehicle, MOD_FRONTWHEEL, 52, TRUE);
+            }
+
+            if (VEHICLE::IS_THIS_MODEL_A_PLANE(hash_vehicle))
+            {
+                VEHICLE::SET_PLANE_TURBULENCE_MULTIPLIER(vehicle, 0.0f);
+            }
+            STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(hash_vehicle);
+            if (g_game_helper.auto_getin)
+            {
+                STREAMING::REQUEST_NAMED_PTFX_ASSET("scr_rcbarry2");
+                GRAPHICS::USE_PARTICLE_FX_ASSET("scr_rcbarry2");
+                GRAPHICS::START_PARTICLE_FX_NON_LOOPED_ON_ENTITY("scr_clown_appears", PLAYER::PLAYER_PED_ID(), 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.6f, false, false, false);
             }
         });
     }

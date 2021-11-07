@@ -1,18 +1,5 @@
 #pragma once
-
-namespace rage
-{
-	struct scrNativeRegistration;
-	struct scrNativeCallContext;
-}
-
-namespace big
-{
-	class CPedFactory;
-	class CPed;
-	class CNetGamePlayer;
-	class GtaThread;
-}
+#include "Classes/Class.hpp"
 
 namespace big
 {
@@ -36,7 +23,7 @@ namespace big
 		rage::scrNativeRegistration** m_NativeRegistrations;
 		std::uint64_t** m_GlobalBase;
 		char* m_GameBuild;
-		PVOID m_ModelSpawnBypass;
+		PVOID m_model_spawn_bypass;
 		PVOID m_return_address;
 		CPedFactory** m_ped_factory;
 		int64_t **m_script_threads;
@@ -81,6 +68,9 @@ namespace big
 
 		using handle_to_ptr_t = uintptr_t*(__fastcall*)(std::int32_t entity);
 		handle_to_ptr_t m_handle_to_ptr;
+
+		using ScriptedGameEvent = bool(*)(CScriptedGameEvent* NetEventStruct, CNetGamePlayer* sender);
+		ScriptedGameEvent m_script_event;
 	};
 
 	inline std::unique_ptr<GameVariables> g_GameVariables;
