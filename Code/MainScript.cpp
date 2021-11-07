@@ -180,11 +180,14 @@ namespace big
 			});
 
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("No Idle Kick", nullptr, &g_features.no_idle_kick, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features.auto_heal, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &g_features.never_wanted, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Seatbelt", nullptr, &g_features.seatbelt, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Pass Through Wall", nullptr, &g_features.no_collision, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("No Clip", nullptr, &g_features.no_clip, BoolDisplay::OnOff);
 
 			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &get_local_ped()->m_playerinfo->m_wanted_level, 0, 5);
 			sub->AddOption<NumberOption<float>>("Run Speed", nullptr, &get_local_playerinfo()->m_run_speed, 0.f, 10.f, 0.1f, 1);
@@ -574,13 +577,13 @@ namespace big
 					sub->AddOption<SubOption>(PLAYER::GET_PLAYER_NAME(i), nullptr, SubmenuSelectedPlayer, [=]
 					{
 						g_selected.player = i;
-						g_selected.ped = player::get_player_wanted_level(g_selected.player);
+						g_selected.ped = player::get_player_ped(i);
 					});
 				}
 			}
 		});
 
-		g_UiManager->AddSubmenu<PlayerSubmenu>(&g_SelectedPlayer, SubmenuSelectedPlayer, [](PlayerSubmenu* sub)
+		g_UiManager->AddSubmenu<PlayerSubmenu>(&g_selected.player, SubmenuSelectedPlayer, [](PlayerSubmenu* sub)
 		{
 			sub->AddOption<RegularOption>("Network Error", "Network Error", [=]
 			{
@@ -610,7 +613,11 @@ namespace big
 			{
 				remote_event::send_to_mission(g_selected.player);
 			});
-			sub->AddOption<BoolOption<bool>>("Spectate", nullptr, &g_features.spectating, BoolDisplay::OnOff, false, []
+			sub->AddOption<RegularOption>("Vehicle Kick", nullptr, [=]
+			{
+				remote_event::vehicle_kick(g_selected.player);
+			});
+			sub->AddOption<BoolOption<bool>>("Spectate", nullptr, &g_features.spectating, BoolDisplay::OnOff, false, [=]
 			{
 				NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(g_features.spectating, g_selected.ped);
 			});

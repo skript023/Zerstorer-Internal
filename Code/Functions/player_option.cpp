@@ -23,12 +23,14 @@ namespace big
 
 			NativeVector3 pos = ENTITY::GET_ENTITY_COORDS(e, false);
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(e, pos.x, pos.y, pos.z, false, false, false);
+            float fivef, heading, xVec, yVec;
+
 			if (GetAsyncKeyState(systems::hotkey('S')))
 			{
-				float fivef = 0.5f;
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
-				float xVec = fivef * sin(systems::degree(heading)) * -1.5f;
-				float yVec = fivef * cos(systems::degree(heading));
+				fivef = 0.5f;
+				heading = ENTITY::GET_ENTITY_HEADING(e);
+				xVec = fivef * sin(systems::degree(heading)) * -1.5f;
+				yVec = fivef * cos(systems::degree(heading));
 				ENTITY::SET_ENTITY_HEADING(e, heading);
 
 				pos.x -= xVec, pos.y -= yVec;
@@ -36,10 +38,10 @@ namespace big
 			}
 			if (GetAsyncKeyState(systems::hotkey('W')))
 			{
-				float fivef = 0.5f;
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
-				float xVec = fivef * sin(systems::degree(heading)) * -1.5f;
-				float yVec = fivef * cos(systems::degree(heading));
+				fivef = 0.5f;
+				heading = ENTITY::GET_ENTITY_HEADING(e);
+				xVec = fivef * sin(systems::degree(heading)) * -1.5f;
+				yVec = fivef * cos(systems::degree(heading));
 				ENTITY::SET_ENTITY_HEADING(e, heading);
 
 				pos.x += xVec, pos.y += yVec;
@@ -47,19 +49,19 @@ namespace big
 			}
 			if (GetAsyncKeyState(systems::hotkey('A')))
 			{
-				float fivef = 0.5f;
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
+				fivef = 0.5f;
+				heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading + 0.5f);
 			}
 			if (GetAsyncKeyState(systems::hotkey('D')))
 			{
-				float fivef = 0.5f;
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
+				fivef = 0.5f;
+				heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading - 0.5f);
 			}
 			if (GetAsyncKeyState(VK_CONTROL))
 			{
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
+				heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading);
 
 				pos.z -= 0.5f;
@@ -67,7 +69,7 @@ namespace big
 			}
 			if (GetAsyncKeyState(VK_SHIFT))
 			{
-				float heading = ENTITY::GET_ENTITY_HEADING(e);
+				heading = ENTITY::GET_ENTITY_HEADING(e);
 				ENTITY::SET_ENTITY_HEADING(e, heading);
 
 				pos.z += 0.5f;
@@ -111,6 +113,36 @@ namespace big
 			}
 		}
 	}
+
+    void player::set_player_no_collision(bool Activation)
+    {
+        if (Activation)
+        {
+            get_local_ped()->m_navigation->m_ph_arche->m_ph_bound->m_ph_composite->m_ph_geometry[0x0]->m_collision = -1.0f;//Memory::set_value(g_ptr.WorldPTR, { 0x8, 0x30, 0x10, 0x20, 0x70, 0x0, 0x2C }, -1.0f);
+        }
+        else
+        {
+            get_local_ped()->m_navigation->m_ph_arche->m_ph_bound->m_ph_composite->m_ph_geometry[0x0]->m_collision = 0.25f;//Memory::set_value(g_ptr.WorldPTR, { 0x8, 0x30, 0x10, 0x20, 0x70, 0x0, 0x2C }, 0.25f);
+        }
+    }
+
+    void player::no_idle_kick(bool activate)
+    {
+        if (activate)
+        {
+            *script_global(262145).at(87).as<int*>() = INT32_MAX;
+            *script_global(262145).at(88).as<int*>() = INT32_MAX;
+            *script_global(262145).at(89).as<int*>() = INT32_MAX;
+            *script_global(262145).at(90).as<int*>() = INT32_MAX;
+        }
+        else
+        {
+            *script_global(262145).at(87).as<int*>() = 120000;
+            *script_global(262145).at(88).as<int*>() = 300000;
+            *script_global(262145).at(89).as<int*>() = 600000;
+            *script_global(262145).at(90).as<int*>() = 900000;
+        }
+    }
 
     Ped player::get_player_ped(Player player)
     {

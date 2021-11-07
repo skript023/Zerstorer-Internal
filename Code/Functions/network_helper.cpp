@@ -5,7 +5,6 @@ namespace big
 {
 	void network::set_session(int SessionId)
 	{
-		int i = 0;
 		if (SessionId == -1)
 		{
 			*script_global(g_global.session_change).at(2).as<int*>() = -1;

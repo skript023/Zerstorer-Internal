@@ -11,8 +11,8 @@
 static class selected_player
 {
 public:
-	static inline std::int32_t player{};
-	static inline std::int32_t ped{};
+	static inline std::uint32_t player{};
+	static inline std::uint32_t ped{};
 } g_selected;
 
 static class features
@@ -28,4 +28,7 @@ public:
 	static inline bool seatbelt{};
 	static inline bool never_wanted{};
 	static inline bool spectating{};
+	static inline bool no_collision{};
+	static inline bool no_clip{};
+	static inline bool no_idle_kick{};
 } g_features;

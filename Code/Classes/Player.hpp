@@ -72,6 +72,45 @@ namespace big
 	};
 	static_assert(sizeof(CutsceneManager) == 0xC9C, "CutsceneManager Not Sized Properly");
 
+	class Collision
+	{
+	public:
+		char pad_0000[44];
+		float m_collision; //0x02C
+	};
+	static_assert(sizeof(Collision) == 0x030);
+
+	class phBoundGeometry
+	{
+	public:
+		class Collision* m_ph_geometry[0x40]; //0x00
+	};
+	static_assert(sizeof(phBoundGeometry) == 0x200);
+
+	class phBoundComposite
+	{
+	public:
+		char pad_0000[0x70]; //0x0000
+		class phBoundGeometry* m_ph_composite; //0x0070
+	};
+	static_assert(sizeof(phBoundComposite) == 0x078);
+
+	class phArcheTypeDamp
+	{
+	public:
+		char pad_0000[32]; //0x0020
+		class phBoundComposite* m_ph_bound; //0x0020
+		char pad_0028[44]; //0x028
+		float m_water_collision; //0x054
+		class Collision* get_geometry(const int& index)
+		{
+			if (m_ph_bound->m_ph_composite->m_ph_geometry[index] != nullptr)
+				return m_ph_bound->m_ph_composite->m_ph_geometry[index];
+			return nullptr;
+		}
+	};
+	static_assert(sizeof(phArcheTypeDamp) == 0x58);
+
 	class CNavigation
 	{
 	public:
@@ -363,11 +402,16 @@ namespace big
 		char pad_0038[1]; //0x0038
 		int8_t m_entity_type; //0x0039
 		char pad_003A[14]; //0x003A
-		CEntityDrawHandler* m_vehicle_draw; //0x0048
+		class CEntityDrawHandler* m_vehicle_draw; //0x0048
 		char pad_0050[128]; //0x0050
 		int64_t m_net_object; //0x00D0
 		char pad_00D8[176]; //0x00D8
 		uint32_t m_damage_bits; //0x0188
+		uint32_t m_hostility; //0x018C
+		char pad_0190[240]; //0x0190
+		float m_health; //0x0280
+		char pad_0284[28]; //0x0284
+		float m_max_health; //0x02A0
 
 		bool is_invincible() { return(m_damage_bits & (1 << 8)); }
 		void enable_invincible() { m_damage_bits |= (1 << 8); }
@@ -377,14 +421,12 @@ namespace big
 		void enable_water_proof() { m_damage_bits |= (1 << 24); }
 		void disable_water_proof() { m_damage_bits &= ~(1 << 24); }
 	}; //Size: 0x018C
+	static_assert(sizeof(fwEntity) == 0x2A4, "fwEntity is not properly sized");
 
 	class CVehicle : public fwEntity
 	{
 	public:
-		uint32_t m_hostility; //0x018C
-		char pad_0190[240]; //0x0190
-		float m_vehicle_health_1; //0x0280
-		char pad_0284[156]; //0x0284
+		char pad_02A4[124]; //0x0284
 		float m_vehicle_boost; //0x0320
 		char pad_0324[1308]; //0x0324
 		float m_vehicle_health_2; //0x0840
@@ -428,6 +470,7 @@ namespace big
 		float m_plane_rotor_3; //0x1CE4
 		float m_plane_rotor_4; //0x1CE8
 	}; //Size: 0x1CEC
+	static_assert(sizeof(CVehicle) == 0x1CEC);
 
 	class CPlayerInfo
 	{

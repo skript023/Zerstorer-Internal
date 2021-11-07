@@ -19,27 +19,30 @@ namespace big
         }
 	};
 
-	static class variable_helper
-	{
-	public:
-		static inline int64_t tick{};
-	} g_game_helper;
-
     class game_helper
     {
+	public:
+		static inline int64_t tick{};
     public:
         static void game_frame()
 		{
-			if (g_game_helper.tick == 200 && *script_global(g_global.session_change).as<int*>() == 1)
+			if (tick == 200 && *script_global(g_global.session_change).as<int*>() == 1)
 			{
 				*script_global(g_global.session_change).as<int*>() = 0;
-				g_game_helper.tick = 0;
+				tick = 0;
 			}
 
-			if (g_game_helper.tick >= 200)
-				g_game_helper.tick = 0;
+			if (tick >= 200)
+				tick = 0;
 
-			g_game_helper.tick++;
+			tick++;
+		}
+		static void when_game_closed()
+		{
+			if (!g_Running)
+				message::notification("Zerstorer Gold Edition", "~bold~~g~Menu Unloaded", "~bold~~g~Zerstorer Unloader");
 		}
     };
+
+	inline static game_helper g_game_helper;
 }

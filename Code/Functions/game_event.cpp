@@ -20,21 +20,18 @@ namespace big
         *script_global(4456448).at(85976).as<int*>() = 32;
         *script_global(g_global.casino_take_indicator).as<int*>() = 1;
         *script_global(g_global.pasific_standard).as<int*>() = take;
-        std::this_thread::sleep_for(1500ms);
         int64_t casino_take[] = { TAKE_PASIFIC, PLAYER::PLAYER_ID(), *script_global(g_global.pasific_standard).as<int*>(), 1, 1, 0, 0, 0 };
         for (int i = 0; i <= NETWORK::NETWORK_GET_NUM_CONNECTED_PLAYERS(); i++)
         {
             SCRIPT::TRIGGER_SCRIPT_EVENT(1, casino_take, 8, 1 << i);
             std::this_thread::yield();
         }
-        std::this_thread::sleep_for(2000ms);
         *script_global(g_global.pasific_standard).as<int*>() = 1000000;
     }
 
     void remote_event::take_casino_partial(int take)
     {
         *script_global(g_global.artwork).as<int*>() = (take * 100) / 18;
-        std::this_thread::sleep_for(1500ms);
         int64_t casino_take[] = { TAKE_CASINO, PLAYER::PLAYER_ID(), 5, 1 };
         for (int i = 0; i <= NETWORK::NETWORK_GET_NUM_CONNECTED_PLAYERS(); i++)
         {
