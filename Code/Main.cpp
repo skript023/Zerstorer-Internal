@@ -24,7 +24,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 		g_Module = hInstance;
 		CreateThread(nullptr, 0, [](LPVOID) -> DWORD
 		{
-			//g_Logger = std::make_unique<Logger>();
+			g_Logger = std::make_unique<Logger>();
 			//g_Logger->Info("BigBase injected.");
 
 			g_TranslationManager = std::make_unique<TranslationManager>();

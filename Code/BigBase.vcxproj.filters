@@ -139,6 +139,9 @@
     <ClInclude Include="Functions\game_helper.hpp">
       <Filter>Functions</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\network_helper.hpp">
+      <Filter>Functions\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="Functions\business_helper.cpp">
       <Filter>Functions\business</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\network_helper.cpp">
+      <Filter>Functions\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

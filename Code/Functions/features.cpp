@@ -1,6 +1,7 @@
 #include "features.hpp"
 #include "../ScriptGlobal.hpp"
 #include "game_function.hpp"
+#include "game_helper.hpp"
 
 namespace big::features
 {
@@ -11,5 +12,8 @@ namespace big::features
 		WEAPON::SET_PED_INFINITE_AMMO_CLIP(PLAYER::PLAYER_PED_ID(), g_features.infinite_clip);
 		weapon::infinite_ammo(g_features.infinite_ammo);
 		vehicle::vehicle_godmode(g_features.vehicle_godmode);
+
+
+		game_helper::game_frame();
 	}
 }

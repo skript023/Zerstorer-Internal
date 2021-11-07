@@ -72,15 +72,10 @@ namespace big
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
 			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
 
-			sub->AddOption<BoolOption<bool>>("Log Script Events", nullptr, &g_LogScriptEvents, BoolDisplay::OnOff);
-
+			//sub->AddOption<BoolOption<bool>>("Log Script Events", nullptr, &g_LogScriptEvents, BoolDisplay::OnOff);
 			sub->AddOption<RegularOption>("Unload", "Unload the menu.", []
 			{
 				g_Running = false;
-			});
-			sub->AddOption<RegularOption>("Quit Game", "Quit Game.", []
-			{
-				exit(0);
 			});
 		});
 
@@ -88,7 +83,7 @@ namespace big
 		{
 			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
 			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
-			sub->AddOption<ChooseOption<const char*, std::size_t>>("Array", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
+			sub->AddOption<ChooseOption<const char*, std::int32_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
 			{
 				switch (Lists::session_list_pos)
 				{
@@ -145,9 +140,13 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Business Option", SubmenuBusiness, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<BoolOption<bool>>("Set As Public", nullptr, &g_features.vehicle_godmode, BoolDisplay::OnOff);
-			sub->AddOption<RegularOption>("Trigger Meth Production", nullptr, []
+			sub->AddOption<RegularOption>("Trigger MC Production", nullptr, []
 			{
 				business::trigger_meth_production(PLAYER::PLAYER_ID());
+				business::trigger_weed_production(PLAYER::PLAYER_ID());
+				business::trigger_cocain_production(PLAYER::PLAYER_ID());
+				business::trigger_cash_production(PLAYER::PLAYER_ID());
+				business::trigger_document_production(PLAYER::PLAYER_ID());
 			});
 			sub->AddOption<RegularOption>("Trigger Bunker Production", nullptr, []
 			{
@@ -414,6 +413,10 @@ namespace big
 			sub->AddOption<NumberOption<float>>("Width", nullptr, &g_UiManager->m_Width, 0.01f, 1.f, 0.01f, 2);
 			sub->AddOption<BoolOption<bool>>("Sounds", nullptr, &g_UiManager->m_Sounds, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<std::atomic_bool>>("Log Window", nullptr, &g_Settings.m_LogWindow, BoolDisplay::OnOff);
+			sub->AddOption<RegularOption>("Quit Game", "Quit Game.", []
+			{
+				exit(0);
+			});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Language", SubmenuSettingsLanguage, [](RegularSubmenu* sub)
@@ -582,6 +585,34 @@ namespace big
 			sub->AddOption<RegularOption>("Network Error", "Network Error", [=]
 			{
 				remote_event::bail_player(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Kick", nullptr, [=]
+			{
+				remote_event::kick_player(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("CEO Ban", nullptr, [=]
+			{
+				remote_event::ceo_ban(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("CEO Kick", nullptr, [=]
+			{
+				remote_event::ceo_kick(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Teleport Cayo", nullptr, [=]
+			{
+				remote_event::teleport_player_to_cayo(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Force Apartment", nullptr, [=]
+			{
+				remote_event::force_invite_apartment(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Send Mission", nullptr, [=]
+			{
+				remote_event::send_to_mission(g_selected.player);
+			});
+			sub->AddOption<BoolOption<bool>>("Spectate", nullptr, &g_features.spectating, BoolDisplay::OnOff, false, []
+			{
+				NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(g_features.spectating, g_selected.ped);
 			});
 		});
 	}

@@ -1,6 +1,5 @@
 #pragma once
 #include "../Common.hpp"
-#include "game_helper.hpp"
 
 namespace big
 {

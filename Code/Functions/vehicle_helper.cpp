@@ -32,7 +32,7 @@ namespace big
                 {
                     get_local_vehicle()->m_vehicle_boost = 1.25f;
                 }
-                else if (Flag == 1107558400 || Memory::Is_Bit_Set(Flag, 30) && BoostLevel < 1.24f && GetKeyState(0x45) & 0x8000)
+                else if (Flag == 1107558400 || Memory::is_bit_set(Flag, 30) && BoostLevel < 1.24f && GetKeyState(0x45) & 0x8000)
                 {
                     get_local_vehicle()->m_vehicle_boost = 1.25f;
                 }
@@ -90,9 +90,9 @@ namespace big
                 _flags = *script_global(_index).at(103).as<int*>();
                 if (_flags != 0)
                 {
-                    _flags = Memory::Clear_Bit(_flags, 1); // Vehicle destroyed : "Your Personal Vehicle has been destroyed. You can call Mors Mutual Insurance to make a claim"
-                    _flags = Memory::Clear_Bit(_flags, 7); // Insurance Claim open or in process
-                    _flags = Memory::Clear_Bit(_flags, 16); // Vehicle outside the Garage and no Insurance or a Insurance Claim(is open or in process)
+                    _flags = Memory::clear_bit(_flags, 1); // Vehicle destroyed : "Your Personal Vehicle has been destroyed. You can call Mors Mutual Insurance to make a claim"
+                    _flags = Memory::clear_bit(_flags, 7); // Insurance Claim open or in process
+                    _flags = Memory::clear_bit(_flags, 16); // Vehicle outside the Garage and no Insurance or a Insurance Claim(is open or in process)
                     *script_global(_index).at(103).as<int*>() = _flags;
                 }
             }

@@ -18,6 +18,7 @@ public:
 static class features
 {
 public:
+	static inline int64_t tick{};
 	static inline bool godmode{};
 	static inline bool vehicle_godmode{};
 	static inline bool infinite_clip{};
@@ -26,4 +27,5 @@ public:
 	static inline bool no_ragdoll{};
 	static inline bool seatbelt{};
 	static inline bool never_wanted{};
+	static inline bool spectating{};
 } g_features;

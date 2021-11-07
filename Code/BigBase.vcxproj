@@ -28,6 +28,7 @@
     <ClInclude Include="Functions\game_variable.hpp" />
     <ClInclude Include="Functions\heist_helper.hpp" />
     <ClInclude Include="Functions\memory_address.hpp" />
+    <ClInclude Include="Functions\network_helper.hpp" />
     <ClInclude Include="Functions\player_option.hpp" />
     <ClInclude Include="Functions\systems_helper.hpp" />
     <ClInclude Include="Functions\vehicle_helper.hpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="Functions\game_event.cpp" />
     <ClCompile Include="Functions\game_variable.cpp" />
     <ClCompile Include="Functions\heist_helper.cpp" />
+    <ClCompile Include="Functions\network_helper.cpp" />
     <ClCompile Include="Functions\player_option.cpp" />
     <ClCompile Include="Functions\systems_helper.cpp" />
     <ClCompile Include="Functions\vehicle_helper.cpp" />

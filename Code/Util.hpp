@@ -281,18 +281,18 @@ namespace big::Memory
 		*reinterpret_cast<T*>(Addr) = value;
 	}
 
-	inline bool Is_Bit_Set(int _value, int _bit)
+	inline bool is_bit_set(int _value, int _bit)
 	{
 		if ((_value >> _bit) & 1LL) return true;
 		return false;
 	}
 
-	inline int Set_Bit(int _value, int _bit)
+	inline int set_bit(int _value, int _bit)
 	{
 		return _value |= 1LL << _bit;
 	}
 
-	inline int Clear_Bit(int _value, int _bit)
+	inline int clear_bit(int _value, int _bit)
 	{
 		return _value &= ~(1LL << _bit);
 	}
