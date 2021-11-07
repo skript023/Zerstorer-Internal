@@ -17,6 +17,7 @@
 #  pragma comment(lib, "MinHook-Release.lib")
 #endif
 
+#pragma warning(disable : 4189)
 namespace big
 {
 	namespace

@@ -1,4 +1,5 @@
 #include "systems_helper.hpp"
+#pragma warning(disable : 4127)
 
 namespace big
 {
@@ -63,7 +64,7 @@ namespace big
             }
             else 
             {
-                //NaN is not defined for int return the largest int value
+                //NaN is not defined for int return the largest int values
                 return std::numeric_limits<int>::max();
             }
         }

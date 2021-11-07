@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdint>
-
-#pragma pack(push, 1)
+#pragma warning(disable : 4100)
 namespace rage
 {
 	class netPlayer;
@@ -45,10 +44,10 @@ namespace rage
 
 			return (m_curBit / 8) + leftoverBit;
 		}
-
+		/*
 		inline bool ReadByte(uint8_t* integer, int bits)
 		{
-			/*
+			
 			uint32_t read;
 			if (big::g_pointers->m_read_bitbuf_dword(this, &read, bits))
 			{
@@ -56,12 +55,11 @@ namespace rage
 				return true;
 			}
 			return false;
-			*/
+			
 		}
 
 		inline bool ReadWord(uint16_t* integer, int bits)
 		{
-			/*
 			uint32_t read;
 			if (big::g_pointers->m_read_bitbuf_dword(this, &read, bits))
 			{
@@ -69,12 +67,11 @@ namespace rage
 				return true;
 			}
 			return false;
-			*/
 		}
 
 		inline bool ReadDword(uint32_t* integer, int bits)
 		{
-			//return big::g_pointers->m_read_bitbuf_dword(this, integer, bits);
+			return big::g_pointers->m_read_bitbuf_dword(this, integer, bits);
 		}
 
 		inline bool ReadInt32(int32_t* integer, int bits)
@@ -127,9 +124,9 @@ namespace rage
 
 		inline bool ReadArray(void* array, int size)
 		{
-			//return big::g_pointers->m_read_bitbuf_array(this, array, size, 0);
+			return big::g_pointers->m_read_bitbuf_array(this, array, size, 0);
 		}
-
+		*/
 	public:
 		void* m_data; //0x0000
 		uint32_t m_f8; //0x0008
@@ -193,6 +190,7 @@ namespace rage
 
 namespace big
 {
+	#pragma pack(push, 1)
 	class CScriptedGameEvent : public rage::netGameEvent
 	{
 	public:
@@ -208,6 +206,5 @@ namespace big
 		uint32_t m_stat;    // 0x30
 		std::uint32_t m_ammount; // 0x34
 	};
-
+	#pragma pack(pop)
 }
-#pragma pack(pop)
