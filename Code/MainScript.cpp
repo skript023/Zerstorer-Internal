@@ -229,10 +229,11 @@ namespace big
 
 						sub->AddOption<RegularOption>(g_game_helper.mod_display_names[g_game_helper.selected_slot][i].c_str(), nullptr, [=]
 						{
-							NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(g_game_helper.player_vehicle);
-
-							g_game_helper.owned_mods[g_game_helper.selected_slot] = i;
-							VEHICLE::SET_VEHICLE_MOD(g_game_helper.player_vehicle, g_game_helper.selected_slot, i - 1, false);
+							g_CallbackScript->AddCallback<NetworkControlCallback>((PLAYER::PLAYER_PED_ID()), [=]
+							{
+								g_game_helper.owned_mods[g_game_helper.selected_slot] = i;
+								VEHICLE::SET_VEHICLE_MOD(g_game_helper.player_vehicle, g_game_helper.selected_slot, i - 1, false);
+							});
 						});
 					}
 				}
