@@ -2,6 +2,7 @@
 #include "../Classes/Weapon.h"
 #include "../Natives.hpp"
 #include "game_variable.hpp"
+#include "game_helper.hpp"
 
 namespace big
 {

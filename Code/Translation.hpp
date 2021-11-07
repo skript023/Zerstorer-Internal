@@ -26,7 +26,7 @@ namespace big
 		void LoadTranslations(const char* name)
 		{
 			m_Translations.clear();
-			g_Logger->Info("Loading %s translations.", name);
+			//g_Logger->Info("Loading %s translations.", name);
 
 			try
 			{

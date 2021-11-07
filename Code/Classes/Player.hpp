@@ -471,8 +471,8 @@ namespace big
 		char pad_0881[3]; //0x0881
 		int8_t m_wanted_level_display; //0x0884
 		char pad_0885[3]; //0x0885
-		int8_t m_wanted_level; //0x0888
-		char pad_0889[1127]; //0x0889
+		int32_t m_wanted_level; //0x0888
+		char pad_088C[1124]; //0x088C
 		float m_run_speed; //0x0CF0
 		float m_stamina; //0x0CF4
 		float m_max_stamina; //0x0CF8

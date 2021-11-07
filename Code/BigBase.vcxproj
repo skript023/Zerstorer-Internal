@@ -20,14 +20,17 @@
     <ClInclude Include="Crossmap.hpp" />
     <ClInclude Include="CustomText.hpp" />
     <ClInclude Include="D3DRenderer.hpp" />
+    <ClInclude Include="Functions\business_helper.hpp" />
     <ClInclude Include="Functions\features.hpp" />
     <ClInclude Include="Functions\game_event.hpp" />
     <ClInclude Include="Functions\game_function.hpp" />
+    <ClInclude Include="Functions\game_helper.hpp" />
     <ClInclude Include="Functions\game_variable.hpp" />
     <ClInclude Include="Functions\heist_helper.hpp" />
     <ClInclude Include="Functions\memory_address.hpp" />
     <ClInclude Include="Functions\player_option.hpp" />
     <ClInclude Include="Functions\systems_helper.hpp" />
+    <ClInclude Include="Functions\vehicle_helper.hpp" />
     <ClInclude Include="Functions\weapon_helper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Hooking.hpp" />
@@ -78,12 +81,14 @@
     </ClCompile>
     <ClCompile Include="CustomText.cpp" />
     <ClCompile Include="D3DRenderer.cpp" />
+    <ClCompile Include="Functions\business_helper.cpp" />
     <ClCompile Include="Functions\features.cpp" />
     <ClCompile Include="Functions\game_event.cpp" />
     <ClCompile Include="Functions\game_variable.cpp" />
     <ClCompile Include="Functions\heist_helper.cpp" />
     <ClCompile Include="Functions\player_option.cpp" />
     <ClCompile Include="Functions\systems_helper.cpp" />
+    <ClCompile Include="Functions\vehicle_helper.cpp" />
     <ClCompile Include="Functions\weapon_helper.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hooking.cpp" />
@@ -162,6 +167,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Binaries\$(Configuration)-Intermediates\</IntDir>
+    <TargetName>Zerstorer Project</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

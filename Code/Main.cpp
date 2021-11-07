@@ -24,8 +24,8 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 		g_Module = hInstance;
 		CreateThread(nullptr, 0, [](LPVOID) -> DWORD
 		{
-			g_Logger = std::make_unique<Logger>();
-			g_Logger->Info("BigBase injected.");
+			//g_Logger = std::make_unique<Logger>();
+			//g_Logger->Info("BigBase injected.");
 
 			g_TranslationManager = std::make_unique<TranslationManager>();
 			g_TranslationManager->LoadTranslations("English");
@@ -58,7 +58,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_Hooking = std::make_unique<Hooking>();
 			g_Hooking->Hook();
 
-			g_Logger->Info("BigBase loaded.");
+			//g_Logger->Info("BigBase loaded.");
 			while (g_Running)
 			{
 				if (IsKeyPressed(VK_DELETE))
@@ -90,7 +90,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_GameVariables.reset();
 			g_GameFunctions.reset();
 			
-			g_Logger->Info("BigBase unloaded.");
+			//g_Logger->Info("BigBase unloaded.");
 			g_Logger.reset();
 
 			FreeLibraryAndExitThread(g_Module, 0);

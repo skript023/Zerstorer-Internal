@@ -1,7 +1,7 @@
 #include "game_event.hpp"
 #include "game_variable.hpp"
 #include "../Classes/Enum.hpp"
-#include "memory_address.hpp"
+#include "game_helper.hpp"
 
 namespace big
 {

@@ -81,7 +81,7 @@ namespace big::UserInterface
 	public:
 		std::mutex m_Mutex;
 
-		bool m_Opened = false;
+		bool m_Opened = true;
 		bool m_MouseLocked = false;
 		float m_PosX = 0.8f;
 		float m_PosY = 0.1f;

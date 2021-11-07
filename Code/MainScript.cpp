@@ -39,7 +39,10 @@ namespace big
 		SubmenuTest,
 		SubmenuHeist,
 		SubmenuCasino,
-		SubmenuCayo
+		SubmenuCayo,
+		SubmenuVehicle,
+		SubmenuBusiness,
+		SubmenuOnline
 	};
 
 	bool MainScript::IsInitialized()
@@ -63,7 +66,8 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Home", SubmenuHome, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<SubOption>("Self", nullptr, SubmenuTest);
-			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
+			sub->AddOption<SubOption>("Vehicle", nullptr, SubmenuVehicle);
+			sub->AddOption<SubOption>("Online", nullptr, SubmenuOnline);
 			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
 			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
@@ -77,6 +81,77 @@ namespace big
 			sub->AddOption<RegularOption>("Quit Game", "Quit Game.", []
 			{
 				exit(0);
+			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Online Option", SubmenuOnline, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
+			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Array", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
+			{
+				switch (Lists::session_list_pos)
+				{
+				case 0:
+					network::set_session(0);
+					break;
+				case 1:
+					network::set_session(1);
+					break;
+				case 2:
+					network::set_session(2);
+					break;
+				case 3:
+					network::set_session(3);
+					break;
+				case 4:
+					network::set_session(6);
+					break;
+				case 5:
+					network::set_session(9);
+					break;
+				case 6:
+					network::set_session(10);
+					break;
+				case 7:
+					network::set_session(11);
+					break;
+				case 8:
+					network::set_session(12);
+					break;
+				case 9:
+					network::set_session(13);
+					break;
+				case 10:
+					network::set_session(-1);
+					break;
+				}
+			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Option", SubmenuVehicle, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.vehicle_godmode, BoolDisplay::OnOff);
+			sub->AddOption<RegularOption>("Repair Vehicle", nullptr, []
+			{
+				vehicle::repair_vehicle(PLAYER::PLAYER_PED_ID());
+			});
+			sub->AddOption<RegularOption>("Remove Insurance", nullptr, []
+			{
+				vehicle::remove_insurance();
+			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Business Option", SubmenuBusiness, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<BoolOption<bool>>("Set As Public", nullptr, &g_features.vehicle_godmode, BoolDisplay::OnOff);
+			sub->AddOption<RegularOption>("Trigger Meth Production", nullptr, []
+			{
+				business::trigger_meth_production(PLAYER::PLAYER_ID());
+			});
+			sub->AddOption<RegularOption>("Trigger Bunker Production", nullptr, []
+			{
+					business::trigger_bunker_production(PLAYER::PLAYER_ID());
 			});
 		});
 
@@ -112,15 +187,10 @@ namespace big
 			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
 
-			static int32_t int32Test{ get_local_ped()->m_playerinfo->m_wanted_level };
-			get_local_ped()->m_playerinfo->m_wanted_level = static_cast<int8_t>(int32Test);
-			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &int32Test, 0, 5);
-
-			static int64_t int64Test{ 420 };
-			sub->AddOption<NumberOption<std::int64_t>>("Int64", nullptr, &int64Test, 0, 1000, 10);
-
-			static float floatTest{ 6.9f };
-			sub->AddOption<NumberOption<float>>("Float", nullptr, &floatTest, 0.f, 10.f, 0.1f, 1);
+			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &get_local_ped()->m_playerinfo->m_wanted_level, 0, 5);
+			sub->AddOption<NumberOption<float>>("Run Speed", nullptr, &get_local_playerinfo()->m_run_speed, 0.f, 10.f, 0.1f, 1);
+			sub->AddOption<NumberOption<float>>("Swim Speed", nullptr, &get_local_playerinfo()->m_swim_speed, 0.f, 10.f, 0.1f, 1);
+			sub->AddOption<NumberOption<float>>("Sneak Speed", nullptr, &get_local_playerinfo()->m_sneak_speed, 0.f, 10.f, 0.1f, 1);
 
 			static std::vector<std::uint64_t> vector{ 1, 2, 3 };
 			static size_t vectorPos{};
@@ -157,8 +227,10 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Casino Heist", SubmenuCasino, [](RegularSubmenu* sub)
 		{
 			static int32_t casino_take{ 0 };
-			casino_heist::all_heist_take(casino_take);
-			sub->AddOption<NumberOption<int32_t>>("Heist Take", nullptr, &casino_take, 0, INT32_MAX, 10000000);
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Casino Heist Take", &casino_take, 0, INT32_MAX, 10000000, 3, true, "", "", []
+			{
+				casino_heist::all_heist_take(casino_take);
+			});
 
 			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 1", nullptr, script_global(g_global.casino_cut_1).as<int*>(), 0, 100, 5);
 			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 2", nullptr, script_global(g_global.casino_cut_2).as<int*>(), 0, 100, 5);
@@ -244,8 +316,10 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Cayo Perico heist", SubmenuCayo, [](RegularSubmenu* sub)
 		{
 			static int32_t cayo_perico{ 0 };
-			casino_heist::all_heist_take(cayo_perico);
-			sub->AddOption<NumberOption<int32_t>>("Heist Take", nullptr, &cayo_perico, 0, INT32_MAX, 10000000);
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Cayo Perico Heist Take", &cayo_perico, 0, INT32_MAX, 10000000, 3, true, "", "", []
+			{
+				casino_heist::all_heist_take(cayo_perico);
+			});
 
 			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 1", nullptr, script_global(g_global.cayo_cut_1).as<int*>(), 0, 100, 5);
 			sub->AddOption<NumberOption<std::int32_t>>("Cayo Perico Cut Player 2", nullptr, script_global(g_global.cayo_cut_2).as<int*>(), 0, 100, 5);

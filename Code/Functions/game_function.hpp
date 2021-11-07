@@ -4,6 +4,9 @@
 #include "game_event.hpp"
 #include "heist_helper.hpp"
 #include "systems_helper.hpp"
+#include "vehicle_helper.hpp"
+#include "business_helper.hpp"
+#include "network_helper.hpp"
 
 static class selected_player
 {
@@ -16,6 +19,7 @@ static class features
 {
 public:
 	static inline bool godmode{};
+	static inline bool vehicle_godmode{};
 	static inline bool infinite_clip{};
 	static inline bool infinite_ammo{};
 	static inline bool auto_heal{};

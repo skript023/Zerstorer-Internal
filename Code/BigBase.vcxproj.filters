@@ -130,6 +130,15 @@
     <ClInclude Include="Functions\heist_helper.hpp">
       <Filter>Functions\heist</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\vehicle_helper.hpp">
+      <Filter>Functions\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\business_helper.hpp">
+      <Filter>Functions\business</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\game_helper.hpp">
+      <Filter>Functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -185,6 +194,12 @@
     <ClCompile Include="Functions\heist_helper.cpp">
       <Filter>Functions\heist</Filter>
     </ClCompile>
+    <ClCompile Include="Functions\vehicle_helper.cpp">
+      <Filter>Functions\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions\business_helper.cpp">
+      <Filter>Functions\business</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -219,6 +234,12 @@
     </Filter>
     <Filter Include="Functions\heist">
       <UniqueIdentifier>{03c483fb-d21d-4b05-ba93-8be9bf869954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\vehicle">
+      <UniqueIdentifier>{070728d9-18ad-46a3-a161-75ef4678baf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\business">
+      <UniqueIdentifier>{92d91a0b-607b-43d0-9738-04a29de41fca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
