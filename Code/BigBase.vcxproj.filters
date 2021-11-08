@@ -154,6 +154,9 @@
     <ClInclude Include="Classes\net_game_event.hpp">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="functions_types.hpp">
+      <Filter>memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -261,6 +264,9 @@
     </Filter>
     <Filter Include="Functions\business">
       <UniqueIdentifier>{92d91a0b-607b-43d0-9738-04a29de41fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="memory">
+      <UniqueIdentifier>{d50e49ac-aaf6-441c-837c-6b9bcfc60a85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

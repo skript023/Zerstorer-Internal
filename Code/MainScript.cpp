@@ -99,12 +99,15 @@ namespace big
 			sub->AddOption<BoolOption<bool>>("Transaction Error", nullptr, &g_protection.block_transaction_error, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Force Send Mission", nullptr, &g_protection.block_send_mission, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Kick", nullptr, &g_protection.block_kick, BoolDisplay::YesNo);
-			sub->AddOption<BoolOption<bool>>("Freeze", nullptr, &g_protection.clear_ped_task, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Block Cancel Animation", nullptr, &g_protection.clear_ped_task, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Report Block", nullptr, &g_protection.block_report, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Remove Weapon", nullptr, &g_protection.block_remove_weapon, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Kick Vote", nullptr, &g_protection.block_kick_vote, BoolDisplay::YesNo);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Online Option", SubmenuOnline, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<ChooseOption<const char*, std::int32_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
 			{
 				switch (Lists::session_list_pos)
 				{
@@ -143,7 +146,9 @@ namespace big
 					break;
 				}
 			});
-			sub->AddOption<RegularOption>("Choose Character", nullptr, [] 
+			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
+			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
+			sub->AddOption<RegularOption>("Choose Character", nullptr, []
 			{
 				*script_global(g_global.session_unk_1).as<int*>() = 0;
 				*script_global(g_global.session_change).at(2).as<int*>() = 0;
@@ -161,8 +166,6 @@ namespace big
 			{
 				NETWORK::NETWORK_BAIL(49, 0, 0);
 			});
-			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
-			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Option", SubmenuVehicle, [](RegularSubmenu* sub)
@@ -171,6 +174,11 @@ namespace big
 			sub->AddOption<RegularOption>("Repair Vehicle", nullptr, []
 			{
 				vehicle::repair_vehicle(PLAYER::PLAYER_PED_ID());
+			});
+			sub->AddOption<RegularOption>("Get Personal Vehicle", nullptr, []
+			{
+				auto vehicle = vehicle::get_personal_vehicle(PLAYER::PLAYER_ID());
+				PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), vehicle, -1);
 			});
 			sub->AddOption<RegularOption>("Remove Insurance", nullptr, []
 			{
@@ -264,7 +272,7 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Spawn", SubmenuVehicleCategory, [](RegularSubmenu* sub)
 		{
-			for (auto i = 0; i <= ARRAYSIZE(game_variable::VehicleCategory); ++i)
+			for (auto i = 0; i <= _ARRAYSIZE(game_variable::VehicleCategory); ++i)
 			{
 				sub->AddOption<SubOption>(game_variable::VehicleCategory[i], nullptr, SubmenuVehicleList, [=]
 				{
@@ -595,7 +603,25 @@ namespace big
 			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Pass Through Wall", nullptr, &g_features.no_collision, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Clip", nullptr, &g_features.no_clip, BoolDisplay::OnOff);
-
+			sub->AddOption<RegularOption>("Give Weapon", nullptr, []
+			{
+				int MaxAmmo;
+				for (auto WeaponList : game_variable::AllWeaponHashes)
+				{
+					if (!WEAPON::HAS_PED_GOT_WEAPON(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), FALSE))
+					{
+						WEAPON::GIVE_DELAYED_WEAPON_TO_PED(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), (WEAPON::GET_MAX_AMMO(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), &MaxAmmo) == TRUE) ? MaxAmmo : 9999, FALSE);
+						for (auto ComponentHashes : game_variable::AllComponentHashes)
+						{
+							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_MILITARYRIFLE"), 3);
+							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_MINIGUN"), 3);
+							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_GRENADELAUNCHER"), 3);
+							WEAPON::GIVE_WEAPON_COMPONENT_TO_PED(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), joaat(ComponentHashes));
+						}
+					}
+				}
+			});
+			
 			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &get_local_ped()->m_playerinfo->m_wanted_level, 0, 5);
 			sub->AddOption<NumberOption<float>>("Run Speed", nullptr, &get_local_playerinfo()->m_run_speed, 0.f, 10.f, 0.1f, 1);
 			sub->AddOption<NumberOption<float>>("Swim Speed", nullptr, &get_local_playerinfo()->m_swim_speed, 0.f, 10.f, 0.1f, 1);
@@ -646,9 +672,12 @@ namespace big
 			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 3", nullptr, script_global(g_global.casino_cut_3).as<int*>(), 0, 100, 5);
 			sub->AddOption<NumberOption<std::int32_t>>("Casino Cut Player 4", nullptr, script_global(g_global.casino_cut_4).as<int*>(), 0, 100, 5);
 
-			sub->AddOption<RegularOption>("Bigcon Heist", "Skip Heist Preparation Mission", [=]
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Skip Heist Prep", "Skip Heist Preparation Mission", &Lists::casino_heist, &Lists::casino_heist_pos, false,[]
+			{
+				const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+				switch (Lists::casino_heist_pos)
 				{
-					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+				case 0:
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 2, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 3, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 2, TRUE);
@@ -662,11 +691,8 @@ namespace big
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 0, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 159, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 392982, TRUE);
-				});
-
-			sub->AddOption<RegularOption>("Silent Heist", "Skip Heist Preparation Mission", [=]
-				{
-					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+					break;
+				case 1:
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 1, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 2, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 1, TRUE);
@@ -680,11 +706,8 @@ namespace big
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 1, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 127, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 62, TRUE);
-				});
-
-			sub->AddOption<RegularOption>("Aggressive Heist", "Skip Heist Preparation Mission", [=]
-				{
-					const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+					break;
+				case 2:
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 3, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 2, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 3, TRUE);
@@ -698,8 +721,10 @@ namespace big
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 1, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 799, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 3670038, TRUE);
-				});
-
+					break;
+				}
+			});
+			
 			sub->AddOption<RegularOption>("Instant Drill", "Instantly Drill Vault Door", [=]
 			{
 				if (auto vault_door = find_script_thread(RAGE_JOAAT("fm_mission_controller")))

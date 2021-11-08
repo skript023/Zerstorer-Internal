@@ -8,7 +8,13 @@ namespace big
 		static bool IsDlcPresent(std::uint32_t hash);
 		static const char* GetLabelText(void* unk, const char* label);
 		static bool GetEventData(std::int32_t eventGroup, std::int32_t eventIndex, std::int64_t* args, std::uint32_t argCount);
+
 		static bool ScriptGameEvent(CScriptedGameEvent* NetEventStruct, CNetGamePlayer* sender);
+		static bool ClearPedTaskEvent(int64_t thisptr, CNetGamePlayer* sender, CNetGamePlayer* receiver);
+		static bool IncrementStatEvent(CNetworkIncrementStatEvent* net_event_struct, CNetGamePlayer* sender, CNetGamePlayer* receiver);
+		static void RemoveWeaponEvent(int64_t thisptr, rage::datBitBuffer* buffer, CNetGamePlayer* sender, CNetGamePlayer* receiver);
+		static void KickVoteEvent(int64_t thisptr, rage::datBitBuffer* buffer, CNetGamePlayer* sender, CNetGamePlayer* receiver);
+
 		static LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 		static constexpr auto PresentIndex = 8;
@@ -38,6 +44,11 @@ namespace big
 		void* m_OriginalIsDlcPresent{};
 		void* m_OriginalGetLabelText{};
 		void* m_OriginalGetEventData{};
+		void* m_increment_event{};
+		void* m_clear_ped_task{};
+		void* m_remove_weapon{};
+		void* m_kick_vote{};
+
 		
 		void* m_OriginalWndProc{};
 		VMTHook m_D3DHook;

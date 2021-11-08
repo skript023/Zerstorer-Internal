@@ -23,15 +23,15 @@ static class features
 public:
 	static inline int64_t tick{};
 	static inline bool godmode{};
-	static inline bool vehicle_godmode{};
+	static inline bool vehicle_godmode{true};
 	static inline bool infinite_clip{};
 	static inline bool infinite_ammo{};
-	static inline bool auto_heal{};
+	static inline bool auto_heal{true};
 	static inline bool no_ragdoll{};
 	static inline bool seatbelt{};
 	static inline bool never_wanted{};
 	static inline bool spectating{};
 	static inline bool no_collision{};
 	static inline bool no_clip{};
-	static inline bool no_idle_kick{};
+	static inline bool no_idle_kick{true};
 } g_features;

@@ -8,6 +8,8 @@ namespace big
 	{
 	public:
 
+		static Vehicle get_personal_vehicle(Player player);
+
 		static void infinite_boost(bool Activation);
 
 		static void vehicle_godmode(bool Activation);

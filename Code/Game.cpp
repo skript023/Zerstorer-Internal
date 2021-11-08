@@ -34,7 +34,12 @@ namespace big
 		m_get_player_name(Signature("40 53 48 83 EC 20 80 3D ? ? ? ? ? 8B D9 74 22").Scan().As<decltype(m_get_player_name)>()),
 		m_handle_to_ptr(Signature("75 0D 41 8B 41").Scan().Sub(27).As<decltype(m_handle_to_ptr)>()),
 		m_ptr_to_handle(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 8B 15 ? ? ? ? 48 8B F9 48 83 C1 10 33 DB").Scan().As<decltype(m_ptr_to_handle)>()),
-		m_script_event(Signature("40 53 48 81 EC ? ? ? ? 44 8B 81").Scan().As<decltype(m_script_event)>())
+		m_script_event(Signature("40 53 48 81 EC ? ? ? ? 44 8B 81").Scan().As<decltype(m_script_event)>()),
+		m_increment_event(Signature("48 89 5C 24 ? 48 89 74 24 ? 55 57 41 55 41 56 41 57 48 8B EC 48 83 EC 60 8B 79 30").Scan().As<decltype(m_increment_event)>()),
+		m_clear_ped_event(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 30 0F B7 51 30").Scan().As<decltype(m_clear_ped_event)>()),
+		m_remove_weapon(Signature("48 8B D8 E8 ? ? ? ? 80 7B").Scan().Sub(0x28).As<decltype(m_remove_weapon)>()),
+		m_kick_vote(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 48 8D 71 30").Scan().As<decltype(m_kick_vote)>()),
+		m_read_bitbuf_dword(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 33 C9 41 8B F0 8A 43").Scan().As<decltype(m_read_bitbuf_dword)>())
 	{
 	}
 }

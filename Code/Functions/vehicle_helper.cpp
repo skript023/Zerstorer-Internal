@@ -6,6 +6,18 @@
 
 namespace big
 {
+    Vehicle vehicle::get_personal_vehicle(Player player)
+    {
+        if (joaat(SCRIPT::GET_THIS_SCRIPT_NAME()) == RAGE_JOAAT("freemode"))
+        {
+            if (NETWORK::NETWORK_DOES_NETWORK_ID_EXIST(*script_global(2426865).at(player, 449).at(38).as<int*>()) && NETWORK::NETWORK_DOES_ENTITY_EXIST_WITH_NETWORK_ID(*script_global(2426865).at(player, 449).at(38).as<int*>()))
+            {
+                return NETWORK::NET_TO_VEH(*script_global(2426865).at(player, 449).at(38).as<int*>());
+            }
+        }
+        return *script_global(2544210).at(298).as<int*>();
+    }
+
     void vehicle::infinite_boost(bool Activation)
     {
         if (Activation)

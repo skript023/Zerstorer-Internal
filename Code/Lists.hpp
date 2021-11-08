@@ -39,5 +39,9 @@ namespace big::Lists
 		"Join Crew Session", "Join SCTV", "Leave GTA Online"
 	};
 
-	inline std::int32_t session_list_pos = 0;
+	inline std::size_t session_list_pos = 0;
+
+	inline const char* casino_heist[]{ "Silent", "Bigcon", "Aggressive" };
+
+	inline std::size_t casino_heist_pos = 0;
 }

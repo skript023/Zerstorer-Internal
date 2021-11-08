@@ -37,6 +37,7 @@
     <ClInclude Include="Functions\vehicle_helper.hpp" />
     <ClInclude Include="Functions\vehicle_value.h" />
     <ClInclude Include="Functions\weapon_helper.hpp" />
+    <ClInclude Include="functions_types.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Hooking.hpp" />
     <ClInclude Include="ImGui\imconfig.h" />

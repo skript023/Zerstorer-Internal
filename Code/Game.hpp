@@ -1,5 +1,6 @@
 #pragma once
 #include "Classes/Class.hpp"
+#include "functions_types.hpp"
 
 namespace big
 {
@@ -39,38 +40,23 @@ namespace big
 		GameFunctions& operator=(GameFunctions const&) = delete;
 		GameFunctions& operator=(GameFunctions&&) = delete;
 
-		using IsDlcPresent = bool(std::uint32_t hash);
-		IsDlcPresent* m_IsDlcPresent;
-
-		using WndProc = LRESULT(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		WndProc* m_WndProc;
-
-		using Fix_Vectors_T = void(*)(rage::scrNativeCallContext*);
-		Fix_Vectors_T m_Fix_Vectors{};
-
-		using GetEventData = bool(std::int32_t eventGroup, std::int32_t eventIndex, std::int64_t* args, std::uint32_t argCount);
-		GetEventData* m_GetEventData;
-
-		using GetLabelText = const char*(void* unk, const char* label);
-		GetLabelText* m_GetLabelText;
-
-		using GetPlayerPed = CPed*(__fastcall*)(std::int32_t player);
-		GetPlayerPed m_player_pointer;
-
-		using get_player_name_t = const char* (__fastcall*)(std::int32_t player);
-		get_player_name_t m_get_player_name;
-
-		using GetNetGamePlayer = CNetGamePlayer*(__fastcall*)(std::int32_t player);
-		GetNetGamePlayer get_net_player;
-
-		using ptr_to_handle_t = std::int32_t(__fastcall*)(PVOID pointer);
-		ptr_to_handle_t m_ptr_to_handle;
-
-		using handle_to_ptr_t = uintptr_t*(__fastcall*)(std::int32_t entity);
-		handle_to_ptr_t m_handle_to_ptr;
-
-		using ScriptedGameEvent = bool(*)(CScriptedGameEvent* NetEventStruct, CNetGamePlayer* sender);
-		ScriptedGameEvent m_script_event;
+		
+		functions::IsDlcPresent* m_IsDlcPresent;
+		functions::WndProc* m_WndProc;
+		functions::Fix_Vectors_T m_Fix_Vectors{};
+		functions::GetEventData* m_GetEventData;
+		functions::GetLabelText* m_GetLabelText;
+		functions::GetPlayerPed m_player_pointer;
+		functions::get_player_name_t m_get_player_name;
+		functions::GetNetGamePlayer get_net_player;
+		functions::ptr_to_handle_t m_ptr_to_handle;
+		functions::handle_to_ptr_t m_handle_to_ptr;
+		functions::ScriptedGameEvent m_script_event;
+		functions::IncrementEvent m_increment_event;
+		functions::ClearPedTask m_clear_ped_event;
+		functions::CRemoveWeaponEvent m_remove_weapon;
+		functions::CSendKickVoteEvent m_kick_vote;
+		functions::ReadDword m_read_bitbuf_dword;
 	};
 
 	inline std::unique_ptr<GameVariables> g_GameVariables;

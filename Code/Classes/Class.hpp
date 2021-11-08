@@ -3,6 +3,7 @@ namespace rage
 {
 	struct scrNativeRegistration;
 	struct scrNativeCallContext;
+	class datBitBuffer;
 }
 
 namespace big
@@ -12,4 +13,5 @@ namespace big
 	class CNetGamePlayer;
 	class GtaThread;
 	class CScriptedGameEvent;
+	class CNetworkIncrementStatEvent;
 }

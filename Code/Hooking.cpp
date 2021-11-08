@@ -203,6 +203,108 @@ namespace big
 		return static_cast<decltype(&ScriptGameEvent)>(g_Hooking->m_OriginalScriptEvent)(NetEventStruct, sender);
 	}
 
+	bool Hooks::ClearPedTaskEvent(int64_t thisptr, CNetGamePlayer* sender, CNetGamePlayer* receiver)
+	{
+		const char* sender_name = sender->get_name();
+		auto sender_id = sender->player_id;
+
+		char sender_info[100];
+		strcpy(sender_info, "~bold~~g~Blocked Clear Ped Task From ");
+		strcat(sender_info, sender_name);
+		if (g_protection.clear_ped_task)
+		{
+			message::notification(sender_name, sender_info, "~bold~~g~Ellohim Menu Protection");
+			return true;
+		}
+		return static_cast<decltype(&ClearPedTaskEvent)>(g_Hooking->m_clear_ped_task)(thisptr, sender, receiver);;
+	}
+
+	bool Hooks::IncrementStatEvent(CNetworkIncrementStatEvent* net_event_struct, CNetGamePlayer* sender, CNetGamePlayer* receiver)
+	{
+		auto hash = net_event_struct->m_stat;//*reinterpret_cast<DWORD*>(net_event_struct + 0x30);
+		auto amount = net_event_struct->m_ammount;
+		const char* sender_name = sender->get_name();
+		auto sender_id = sender->player_id;//*reinterpret_cast<int8_t*>(sender + 0x2D);
+
+		if (g_protection.block_report)
+		{
+			switch (hash)
+			{
+			case RAGE_JOAAT("MPPLY_GRIEFING"): //MPPLY_GRIEFING
+			case RAGE_JOAAT("MPPLY_VC_ANNOYINGME"): //MPPLY_VC_ANNOYINGME
+			case RAGE_JOAAT("MPPLY_VC_HATE"): //MPPLY_VC_HATE
+			case RAGE_JOAAT("MPPLY_TC_ANNOYINGME"): //MPPLY_TC_ANNOYINGME
+			case RAGE_JOAAT("MPPLY_TC_HATE"): //MPPLY_TC_HATE
+			case RAGE_JOAAT("MPPLY_OFFENSIVE_LANGUAGE"): //MPPLY_OFFENSIVE_LANGUAGE
+			case RAGE_JOAAT("MPPLY_OFFENSIVE_TAGPLATE"): //MPPLY_OFFENSIVE_TAGPLATE
+			case RAGE_JOAAT("MPPLY_OFFENSIVE_UGC"): //MPPLY_OFFENSIVE_UGC
+			case RAGE_JOAAT("MPPLY_BAD_CREW_NAME"): //MPPLY_BAD_CREW_NAME
+			case RAGE_JOAAT("MPPLY_BAD_CREW_MOTTO"): //MPPLY_BAD_CREW_MOTTO
+			case RAGE_JOAAT("MPPLY_BAD_CREW_STATUS"): //MPPLY_BAD_CREW_STATUS
+			case RAGE_JOAAT("MPPLY_BAD_CREW_EMBLEM"): //MPPLY_BAD_CREW_EMBLEM
+			case RAGE_JOAAT("MPPLY_GAME_EXPLOITS"): //MPPLY_GAME_EXPLOITS
+			case RAGE_JOAAT("MPPLY_EXPLOITS"): //MPPLY_EXPLOITS
+			case RAGE_JOAAT("MPPLY_FRIENDLY"):
+			case RAGE_JOAAT("MPPLY_HELPFUL"):
+
+				//std::string stat_name = stats::get_stat_name_from_hash(hash);
+				char sender_info[120] = "~g~Blocked Report From ";//{} with stat name {} and hash {} by value {}", sender_name, stat_name, hash, amount);
+				strcat(sender_info, sender_name);
+
+				message::notification("~bold~~g~Ellohim Private Menu", sender_info, "~bold~~g~Ellohim Menu Protection");
+
+				if (g_protection.redirect_report)
+				{
+					remote_event::bail_player(sender_id);
+				}
+				return true;
+			}
+		}
+		return static_cast<decltype(&IncrementStatEvent)>(g_Hooking->m_increment_event)(net_event_struct, sender, receiver);
+	}
+
+	void Hooks::RemoveWeaponEvent(int64_t thisptr, rage::datBitBuffer* buffer, CNetGamePlayer* sender, CNetGamePlayer* receiver)
+	{
+		const char* sender_name = sender->get_name();
+		auto sender_id = sender->player_id;
+		uint32_t net_id{};
+		buffer->ReadDword(&net_id, 32);
+		
+		char sender_info[100];
+		strcpy(sender_info, "~bold~~g~Blocked Remove Weapon From ");
+		strcat(sender_info, sender_name);
+		if (g_protection.block_remove_weapon)
+		{
+			message::notification(sender_name, sender_info, "~bold~~g~Ellohim Menu Protection");
+			
+			buffer->Seek(0);
+			return;
+		}
+		buffer->Seek(0);
+		static_cast<decltype(&RemoveWeaponEvent)>(g_Hooking->m_remove_weapon)(thisptr, buffer, sender, receiver);
+	}
+
+	void Hooks::KickVoteEvent(int64_t thisptr, rage::datBitBuffer* buffer, CNetGamePlayer* sender, CNetGamePlayer* receiver)
+	{
+		const char* sender_name = sender->get_name();
+		auto sender_id = sender->player_id;
+		uint32_t net_id{};
+		buffer->ReadDword(&net_id, 32);
+		
+		char sender_info[100];
+		strcpy(sender_info, "~bold~~g~Blocked Kick Vote Event From ");
+		strcat(sender_info, sender_name);
+		if (g_protection.block_kick_vote)
+		{
+			message::notification(sender_name, sender_info, "~bold~~g~Ellohim Menu Protection");
+			
+			buffer->Seek(0);
+			return;
+		}
+		buffer->Seek(0);
+		static_cast<decltype(&KickVoteEvent)>(g_Hooking->m_kick_vote)(thisptr, buffer, sender, receiver);
+	}
+
 	bool Hooks::IsDlcPresent(std::uint32_t hash)
 	{
 		if (g_Running && g_HookFrameCount != *g_GameVariables->m_FrameCount)
@@ -284,6 +386,12 @@ namespace big
 		MH_CreateHook(g_GameFunctions->m_GetEventData, &Hooks::GetEventData, &m_OriginalGetEventData);
 		MH_CreateHook(g_GameFunctions->m_WndProc, &Hooks::WndProc, &m_OriginalWndProc);
 
+		MH_CreateHook(g_GameFunctions->m_script_event, &Hooks::ScriptGameEvent, &m_OriginalScriptEvent);
+		MH_CreateHook(g_GameFunctions->m_increment_event, &Hooks::IncrementStatEvent, &m_increment_event);
+		MH_CreateHook(g_GameFunctions->m_clear_ped_event, &Hooks::GetEventData, &m_clear_ped_task);
+		MH_CreateHook(g_GameFunctions->m_remove_weapon, &Hooks::GetEventData, &m_remove_weapon);
+		MH_CreateHook(g_GameFunctions->m_kick_vote, &Hooks::GetEventData, &m_kick_vote);
+
 		m_D3DHook.Hook(&Hooks::Present, Hooks::PresentIndex);
 		m_D3DHook.Hook(&Hooks::ResizeBuffers, Hooks::ResizeBuffersIndex);
 	}
@@ -294,6 +402,13 @@ namespace big
 		MH_RemoveHook(g_GameFunctions->m_GetEventData);
 		MH_RemoveHook(g_GameFunctions->m_GetLabelText);
 		MH_RemoveHook(g_GameFunctions->m_IsDlcPresent);
+
+		MH_RemoveHook(g_GameFunctions->m_script_event);
+		MH_RemoveHook(g_GameFunctions->m_increment_event);
+		MH_RemoveHook(g_GameFunctions->m_clear_ped_event);
+		MH_RemoveHook(g_GameFunctions->m_remove_weapon);
+		MH_RemoveHook(g_GameFunctions->m_kick_vote);
+
 		MH_Uninitialize();
 	}
 

@@ -22,6 +22,7 @@ namespace big
 	class game_protection
 	{
 	public:
+		static inline bool redirect_report = true;
 		static inline bool block_apartment = true;
 		static inline bool block_cayo = true;
 		static inline bool block_ceo_kick = true;
@@ -34,6 +35,8 @@ namespace big
 		static inline bool block_spam = true;
 		static inline bool clear_ped_task = true;
 		static inline bool block_report = true;
+		static inline bool block_remove_weapon = true;
+		static inline bool block_kick_vote = true;
 		static inline bool crash = true;
 	};
 
@@ -42,7 +45,7 @@ namespace big
 	public:
 		static inline int64_t tick{};
 		static inline bool auto_getin{};
-		static inline bool full_upgrade{};
+		static inline bool full_upgrade{true};
 		static inline bool first_load{ true };
 
 		static inline Vehicle player_vehicle{};
