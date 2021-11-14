@@ -119,11 +119,10 @@ namespace big
 				for (float z = 1000.f; z >= 0.f; z -= 100.f)
 				{
 					STREAMING::REQUEST_COLLISION_AT_COORD(m_x, m_y, z);
-					std::this_thread::yield();
 				}
 			}
-
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(m_x, m_y, 1000.f, &m_z, false, false))
+			g_Logger->Info("Coords X : %f Y: %f Z: %f", m_x, m_y, m_z);
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(m_x, m_y, 1000.f, &m_z, true, true))
 			{
 				found = true;
 			}
