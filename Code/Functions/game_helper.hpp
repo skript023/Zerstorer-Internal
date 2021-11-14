@@ -12,10 +12,10 @@ namespace big
 	public:
 		static void notification(const char* sender, const char* Message, const char* MessageTag)
         {
-            HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
-            HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(Message);
-            HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT("CHAR_SOCIAL_CLUB", "CHAR_SOCIAL_CLUB", FALSE, 0, sender, MessageTag);
-            HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, true);
+			HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+			HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(Message);
+			HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT("CHAR_SOCIAL_CLUB", "CHAR_SOCIAL_CLUB", FALSE, 0, sender, MessageTag);
+			HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, true);
         }
 	};
 
@@ -101,7 +101,6 @@ namespace big
 				HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME("~bold~~y~Zerstorer ~g~Menu Connected With The Game~w~");
 				HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT("CHAR_SOCIAL_CLUB", "CHAR_SOCIAL_CLUB", FALSE, 0, "~bold~~y~Zerstorer", "~y~~a~Premium Mod Menu");
 				HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, true);
-				first_load = false;
 			}
 
 			tick++;

@@ -29,6 +29,7 @@ namespace big
 		PVOID m_add_owned_explosion_bypass_1;
 		PVOID m_add_owned_explosion_bypass_2;
 		Vector2 *m_waypoint_coords;
+		uint64_t* m_player_user_id;
 
 		int *m_total_friend;
 		PVOID m_return_address;

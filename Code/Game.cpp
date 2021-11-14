@@ -21,7 +21,8 @@ namespace big
 		m_replay_interface(Signature("48 8D 0D ? ? ? ? 48 8B D7 E8 ? ? ? ? 48 8D 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 DB 75 13 48 8D 0D ? ? ? ?").Scan().Add(3).Rip().As<decltype(m_replay_interface)>()),
 		m_add_owned_explosion_bypass_1(Signature("0F 85 ? ? ? ? 48 8B 05 ? ? ? ? 48 8B 48 08 E8").Scan().As<decltype(m_add_owned_explosion_bypass_1)>()),
 		m_add_owned_explosion_bypass_2(Signature("74 0E 48 8D 4D ? 45 33 C0").Scan().As<decltype(m_add_owned_explosion_bypass_2)>()),
-		m_waypoint_coords(Signature("74 1F F3 0F 10 05 ? ? ? ? F3 0F 11 03").Scan().Add(6).Rip().As<decltype(m_waypoint_coords)>())
+		m_waypoint_coords(Signature("74 1F F3 0F 10 05 ? ? ? ? F3 0F 11 03").Scan().Add(6).Rip().As<decltype(m_waypoint_coords)>()),
+		m_player_user_id(Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 83").Scan().Add(3).Rip().Add(8).As<decltype(m_player_user_id)>())
 	{
 		auto sig = Signature("48 83 EC 60 48 8D 0D ? ? ? ? E8").Scan().Sub(17);
 		m_GameBuild = sig.Add(265 + 3).Rip().As<decltype(m_GameBuild)>();

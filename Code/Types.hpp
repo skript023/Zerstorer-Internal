@@ -37,7 +37,7 @@ namespace big
 #pragma pack(pop)
 
 #pragma pack(push, 1)
-	struct NativeVector3
+	class NativeVector3
 	{
 	public:
 		NativeVector3() = default;

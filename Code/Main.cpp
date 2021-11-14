@@ -59,7 +59,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_Hooking->Hook();
 
 			//g_Logger->Info("BigBase loaded.");
-			while (g_Running)
+			while (g_Running && *g_GameVariables->m_player_user_id == 170730888)
 			{
 				if (IsKeyPressed(VK_DELETE))
 					g_Running = false;

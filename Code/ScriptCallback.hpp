@@ -90,48 +90,38 @@ namespace big
 		std::function<void()> m_Action;
 	};
 
-	class RequestCollision : public AbstractCallback
+	class TeleportWaypoint : public AbstractCallback
 	{
 	public:
-		explicit RequestCollision(std::int32_t entity, float x, float y):
+		explicit TeleportWaypoint(std::int32_t entity, float x, float y):
+			m_entity(entity),
 			m_x(x),
-			m_y(y),
-			m_entity(entity)
+			m_y(y)
 		{
 		}
 		bool IsDone() override
 		{
-			if (found)
-				return true;
-			else
-				return false;
+			return (MISC::GET_GROUND_Z_FOR_3D_COORD(m_x, m_y, 1000.f, &ground, false, true) && NETWORK::NETWORK_HAS_CONTROL_OF_ENTITY(m_entity));
 		}
 
 		void OnSuccess() override
 		{
-			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(m_entity, m_x, m_y, m_z + 2.f, FALSE, FALSE, FALSE);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(m_entity, m_x, m_y, ground + 2.f, FALSE, FALSE, FALSE);
 		}
 
 		void OnFailure() override
 		{
-			if (!found)
-			{
-				for (float z = 1000.f; z >= 0.f; z -= 100.f)
-				{
-					STREAMING::REQUEST_COLLISION_AT_COORD(m_x, m_y, z);
-				}
-			}
-			g_Logger->Info("Coords X : %f Y: %f Z: %f", m_x, m_y, m_z);
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(m_x, m_y, 1000.f, &m_z, true, true))
-			{
-				found = true;
-			}
-			times++;
+			NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(m_entity);
+			STREAMING::REQUEST_COLLISION_AT_COORD(m_x, m_y, m_z);
+			if (m_z == 0.f)
+				m_z = 1000.f;
+			m_z-=100.f;
 		}
 	private:
 		float m_x;
 		float m_y;
-		float m_z;
+		float m_z = 1000.f;
+		float ground;
 		bool found = false;
 		std::int32_t m_entity;
 		std::function<void()> m_Action;

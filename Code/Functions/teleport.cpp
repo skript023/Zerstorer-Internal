@@ -91,13 +91,13 @@ namespace big
     
     void teleport::teleport_to_marker()
     {
-        auto pos = get_blip_coords(Waypoint, WaypointColor);//blip::get_blip_coords(Waypoint, WaypointColor);
+        auto pos = *g_GameVariables->m_waypoint_coords;//blip::get_blip_coords(Waypoint, WaypointColor);
         auto e = PED::IS_PED_IN_ANY_VEHICLE(PLAYER::PLAYER_PED_ID(), false) ? PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()) : PLAYER::PLAYER_PED_ID();
 
-        if (!systems::is_float_equal(pos.x, 0.f) && !systems::is_float_equal(pos.y, 0.f))
-        {
-            g_CallbackScript->AddCallback<RequestCollision>(e, pos.x, pos.y);
-        }
+        if (systems::is_float_equal(pos.x, 0.f) && systems::is_float_equal(pos.y, 0.f))
+            return;
+        
+        g_CallbackScript->AddCallback<TeleportWaypoint>(e, pos.x, pos.y);
     }
 
     void teleport::teleport_to_objective()
