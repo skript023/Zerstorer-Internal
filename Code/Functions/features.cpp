@@ -16,6 +16,11 @@ namespace big::features
 		player::set_player_no_collision(g_features.no_collision);
 		player::no_idle_kick(g_features.no_idle_kick);
 
+		player::set_explosive_ammo_this_frame(PLAYER::PLAYER_ID(), g_features.explosive_ammo);
+		player::set_explosive_melee_this_frame(PLAYER::PLAYER_ID(), g_features.explosive_fist);
+		player::set_fire_ammo_this_frame(PLAYER::PLAYER_ID(), g_features.fire_ammo);
+		player::set_super_jump_this_frame(PLAYER::PLAYER_ID(), g_features.super_jump);
+
 		game_helper::game_frame();
 	}
 }

@@ -8,6 +8,7 @@
 #include "business_helper.hpp"
 #include "network_helper.hpp"
 #include "game_variable.hpp"
+#include "teleport.hpp"
 
 static class selected_player
 {
@@ -25,7 +26,7 @@ public:
 	static inline bool godmode{};
 	static inline bool vehicle_godmode{true};
 	static inline bool infinite_clip{};
-	static inline bool infinite_ammo{};
+	static inline bool infinite_ammo{true};
 	static inline bool auto_heal{true};
 	static inline bool no_ragdoll{};
 	static inline bool seatbelt{};
@@ -34,4 +35,9 @@ public:
 	static inline bool no_collision{};
 	static inline bool no_clip{};
 	static inline bool no_idle_kick{true};
+
+	static inline bool super_jump{};
+	static inline bool explosive_ammo{};
+	static inline bool explosive_fist{};
+	static inline bool fire_ammo{};
 } g_features;

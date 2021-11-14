@@ -9,6 +9,10 @@ namespace big
 	public:
 		static void set_player_invincible(Player player, bool activate);
 		static bool get_player_infinite_ammo(Player player);
+		static void set_explosive_ammo_this_frame(Player player, bool activate);
+		static void set_super_jump_this_frame(Player player, bool activation);
+		static void set_explosive_melee_this_frame(Player player, bool activation);
+		static void set_fire_ammo_this_frame(Player player, bool activation);
 		static bool get_player_infinite_clip(Player player);
 		static void set_player_no_clip(bool toggle);
 		static void set_player_health(Player player, int HealthValue);

@@ -90,6 +90,55 @@ namespace big
 		std::function<void()> m_Action;
 	};
 
+	class RequestCollision : public AbstractCallback
+	{
+	public:
+		explicit RequestCollision(std::int32_t entity, float x, float y):
+			m_x(x),
+			m_y(y),
+			m_entity(entity)
+		{
+		}
+		bool IsDone() override
+		{
+			if (found)
+				return true;
+			else
+				return false;
+		}
+
+		void OnSuccess() override
+		{
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(m_entity, m_x, m_y, m_z + 2.f, FALSE, FALSE, FALSE);
+		}
+
+		void OnFailure() override
+		{
+			if (!found)
+			{
+				for (float z = 1000.f; z >= 0.f; z -= 100.f)
+				{
+					STREAMING::REQUEST_COLLISION_AT_COORD(m_x, m_y, z);
+					std::this_thread::yield();
+				}
+			}
+
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(m_x, m_y, 1000.f, &m_z, false, false))
+			{
+				found = true;
+			}
+			times++;
+		}
+	private:
+		float m_x;
+		float m_y;
+		float m_z;
+		bool found = false;
+		std::int32_t m_entity;
+		std::function<void()> m_Action;
+		int times = 0;
+	};
+
 	class CallbackScript : public Script
 	{
 	public:

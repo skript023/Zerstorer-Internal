@@ -14,4 +14,7 @@ namespace big
 	class GtaThread;
 	class CScriptedGameEvent;
 	class CNetworkIncrementStatEvent;
+	class BlipList;
+	class FriendList;
+	class CReplayInterface;
 }

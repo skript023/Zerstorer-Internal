@@ -308,7 +308,7 @@ namespace big
         return false;
     }
 
-	void set_explosive_ammo_this_frame(Player player, bool activate)
+	void player::set_explosive_ammo_this_frame(Player player, bool activate)
 	{
 		if (activate)
 		{
@@ -318,4 +318,36 @@ namespace big
 			}
 		}
 	}
+    void player::set_super_jump_this_frame(Player player, bool activation)
+    {
+        if (activation)
+        {
+            if (auto ped = get_player(player))
+            {
+                ped->m_playerinfo->m_frame_flags |= (1 << 14);
+            }
+        }
+    }
+
+    void player::set_explosive_melee_this_frame(Player player, bool activation)
+    {
+        if (activation)
+        {
+            if (auto ped = get_player(player))
+            {
+                ped->m_playerinfo->m_frame_flags |= (1 << 13);
+            }
+        }
+    }
+
+    void player::set_fire_ammo_this_frame(Player player, bool activation)
+    {
+        if (activation)
+        {
+            if (auto ped = get_player(player))
+            {
+                ped->m_playerinfo->m_frame_flags |= (1 << 12);
+            }
+        }
+    }
 }

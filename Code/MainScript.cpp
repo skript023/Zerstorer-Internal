@@ -49,7 +49,9 @@ namespace big
 		SubmenuVehicleList,
 		SubmenuLSCustoms,
 		SubmenuModList,
-		SubmenuProtection
+		SubmenuProtection,
+		SubmenuTeleport,
+		SubmenuWeapon
 	};
 
 	bool MainScript::IsInitialized()
@@ -73,6 +75,7 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Home", SubmenuHome, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<SubOption>("Self", nullptr, SubmenuTest);
+			sub->AddOption<SubOption>("Teleport", nullptr, SubmenuTeleport);
 			sub->AddOption<SubOption>("Vehicle", nullptr, SubmenuVehicle);
 			sub->AddOption<SubOption>("Online", nullptr, SubmenuOnline);
 			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
@@ -84,6 +87,18 @@ namespace big
 			sub->AddOption<RegularOption>("Unload", "Unload the menu.", []
 			{
 				g_Running = false;
+			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Option", SubmenuTeleport, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<RegularOption>("Teleport Waypoint", nullptr, []
+			{
+				teleport::teleport_to_marker();
+			}); 
+			sub->AddOption<RegularOption>("Teleport Objective", nullptr, []
+			{
+				teleport::teleport_to_objective();
 			});
 		});
 
@@ -594,15 +609,31 @@ namespace big
 				});
 			});
 			*/
+			sub->AddOption<SubOption>("Weapon Option", nullptr, SubmenuWeapon);
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features.godmode, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Idle Kick", nullptr, &g_features.no_idle_kick, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features.auto_heal, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &g_features.never_wanted, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Seatbelt", nullptr, &g_features.seatbelt, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Pass Through Wall", nullptr, &g_features.no_collision, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Clip", nullptr, &g_features.no_clip, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Super Jump", nullptr, &g_features.super_jump, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Explosive Fist", nullptr, &g_features.explosive_fist, BoolDisplay::OnOff);
+			
+			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &get_local_ped()->m_playerinfo->m_wanted_level, 0, 5);
+			sub->AddOption<NumberOption<float>>("Run Speed", nullptr, &get_local_playerinfo()->m_run_speed, 0.f, 10.f, 0.1f, 1);
+			sub->AddOption<NumberOption<float>>("Swim Speed", nullptr, &get_local_playerinfo()->m_swim_speed, 0.f, 10.f, 0.1f, 1);
+			sub->AddOption<NumberOption<float>>("Sneak Speed", nullptr, &get_local_playerinfo()->m_sneak_speed, 0.f, 10.f, 0.1f, 1);
+
+			static std::vector<std::uint64_t> vector{ 1, 2, 3 };
+			static size_t vectorPos{};
+
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Array", nullptr, &Lists::DemoList, &Lists::DemoListPos);
+			sub->AddOption<ChooseOption<std::uint64_t, std::size_t>>("Vector", nullptr, &vector, &vectorPos);
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Weapon Option", SubmenuWeapon, [](RegularSubmenu* sub) 
+		{
 			sub->AddOption<RegularOption>("Give Weapon", nullptr, []
 			{
 				int MaxAmmo;
@@ -621,17 +652,10 @@ namespace big
 					}
 				}
 			});
-			
-			sub->AddOption<NumberOption<std::int32_t>>("Wanted Level", nullptr, &get_local_ped()->m_playerinfo->m_wanted_level, 0, 5);
-			sub->AddOption<NumberOption<float>>("Run Speed", nullptr, &get_local_playerinfo()->m_run_speed, 0.f, 10.f, 0.1f, 1);
-			sub->AddOption<NumberOption<float>>("Swim Speed", nullptr, &get_local_playerinfo()->m_swim_speed, 0.f, 10.f, 0.1f, 1);
-			sub->AddOption<NumberOption<float>>("Sneak Speed", nullptr, &get_local_playerinfo()->m_sneak_speed, 0.f, 10.f, 0.1f, 1);
-
-			static std::vector<std::uint64_t> vector{ 1, 2, 3 };
-			static size_t vectorPos{};
-
-			sub->AddOption<ChooseOption<const char*, std::size_t>>("Array", nullptr, &Lists::DemoList, &Lists::DemoListPos);
-			sub->AddOption<ChooseOption<std::uint64_t, std::size_t>>("Vector", nullptr, &vector, &vectorPos);
+			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Explosive Ammo", nullptr, &g_features.explosive_ammo, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Fire Ammo", nullptr, &g_features.fire_ammo, BoolDisplay::OnOff);
 		});
 		
 		g_UiManager->AddSubmenu<RegularSubmenu>("Heist Option", SubmenuHeist, [](RegularSubmenu* sub)

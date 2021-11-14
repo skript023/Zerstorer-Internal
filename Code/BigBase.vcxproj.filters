@@ -157,6 +157,12 @@
     <ClInclude Include="functions_types.hpp">
       <Filter>memory</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\teleport.hpp">
+      <Filter>Functions\teleport</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions\Blip.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -224,6 +230,9 @@
     <ClCompile Include="Functions\game_helper.cpp">
       <Filter>Functions</Filter>
     </ClCompile>
+    <ClCompile Include="Functions\teleport.cpp">
+      <Filter>Functions\teleport</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -267,6 +276,9 @@
     </Filter>
     <Filter Include="memory">
       <UniqueIdentifier>{d50e49ac-aaf6-441c-837c-6b9bcfc60a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\teleport">
+      <UniqueIdentifier>{0dfad2c6-0058-4f03-8d5a-5960a335fb20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

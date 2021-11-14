@@ -22,6 +22,7 @@
     <ClInclude Include="Crossmap.hpp" />
     <ClInclude Include="CustomText.hpp" />
     <ClInclude Include="D3DRenderer.hpp" />
+    <ClInclude Include="Functions\Blip.hpp" />
     <ClInclude Include="Functions\business_helper.hpp" />
     <ClInclude Include="Functions\features.hpp" />
     <ClInclude Include="Functions\game_event.hpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Functions\network_helper.hpp" />
     <ClInclude Include="Functions\player_option.hpp" />
     <ClInclude Include="Functions\systems_helper.hpp" />
+    <ClInclude Include="Functions\teleport.hpp" />
     <ClInclude Include="Functions\vehicle.h" />
     <ClInclude Include="Functions\vehicle_helper.hpp" />
     <ClInclude Include="Functions\vehicle_value.h" />
@@ -96,6 +98,7 @@
     <ClCompile Include="Functions\network_helper.cpp" />
     <ClCompile Include="Functions\player_option.cpp" />
     <ClCompile Include="Functions\systems_helper.cpp" />
+    <ClCompile Include="Functions\teleport.cpp" />
     <ClCompile Include="Functions\vehicle_helper.cpp" />
     <ClCompile Include="Functions\weapon_helper.cpp" />
     <ClCompile Include="Game.cpp" />

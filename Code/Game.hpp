@@ -1,6 +1,7 @@
 #pragma once
 #include "Classes/Class.hpp"
 #include "functions_types.hpp"
+#include "Types.hpp"
 
 namespace big
 {
@@ -25,8 +26,17 @@ namespace big
 		std::uint64_t** m_GlobalBase;
 		char* m_GameBuild;
 		PVOID m_model_spawn_bypass;
+		PVOID m_add_owned_explosion_bypass_1;
+		PVOID m_add_owned_explosion_bypass_2;
+		Vector2 *m_waypoint_coords;
+
+		int *m_total_friend;
 		PVOID m_return_address;
 		CPedFactory** m_ped_factory;
+		BlipList* m_blip_ptr;
+		FriendList** m_friend_list;
+		CReplayInterface** m_replay_interface;
+
 		int64_t **m_script_threads;
 	};
 

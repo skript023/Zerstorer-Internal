@@ -18,7 +18,7 @@ namespace big
 		static std::string character_filter(const char* str);
 		static bool is_2d_vector_equal(NativeVector3 a, NativeVector3 b, float epsilon = FLT_EPSILON);
 		static bool is_3d_vector_equal(NativeVector3 a, NativeVector3 b, float epsilon = FLT_EPSILON);
-		static bool is_3d_vector_zero(Vector3 a, float epsilon = FLT_EPSILON);
+		static bool is_3d_vector_zero(NativeVector3 a, float epsilon = FLT_EPSILON);
 		static bool is_not_number(const char* str);
 		static bool has_special_character(const char* str);
 		static bool is_float_equal(float a, float b, float epsilon = FLT_EPSILON);

@@ -14,7 +14,14 @@ namespace big
 		m_ped_factory(Signature("48 8B 05 ? ? ? ? 48 8B 48 08 48 85 C9 74 52 8B 81").Scan().Add(3).Rip().As<decltype(m_ped_factory)>()),
 		m_return_address(Signature("FF E3").Scan().As<decltype(m_return_address)>()),
 		m_is_session_started(Signature("40 38 35 ? ? ? ? 75 0E 4C 8B C3 49 8B D7 49 8B CE").Scan().Add(3).Rip().As<decltype(m_is_session_started)>()),
-		m_script_threads(Signature("48 8B 05 ? ? ? ? 8B CF 48 8B 0C C8 39 59 68").Scan().Add(3).Rip().As<decltype(m_script_threads)>())
+		m_script_threads(Signature("48 8B 05 ? ? ? ? 8B CF 48 8B 0C C8 39 59 68").Scan().Add(3).Rip().As<decltype(m_script_threads)>()),
+		m_blip_ptr(Signature("4C 8D 05 ? ? ? ? 0F B7 C1").Scan().Add(3).Rip().As<decltype(m_blip_ptr)>()),
+		m_friend_list(Signature("48 03 0D ? ? ? ? E9 ? ? ? ? 48 8D 05").Scan().Add(3).Rip().As<decltype(m_friend_list)>()),
+		m_total_friend(Signature("3B 0D ? ? ? ? 73 13 48 63 C9").Scan().Add(3).Rip().As<decltype(m_total_friend)>()),
+		m_replay_interface(Signature("48 8D 0D ? ? ? ? 48 8B D7 E8 ? ? ? ? 48 8D 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 DB 75 13 48 8D 0D ? ? ? ?").Scan().Add(3).Rip().As<decltype(m_replay_interface)>()),
+		m_add_owned_explosion_bypass_1(Signature("0F 85 ? ? ? ? 48 8B 05 ? ? ? ? 48 8B 48 08 E8").Scan().As<decltype(m_add_owned_explosion_bypass_1)>()),
+		m_add_owned_explosion_bypass_2(Signature("74 0E 48 8D 4D ? 45 33 C0").Scan().As<decltype(m_add_owned_explosion_bypass_2)>()),
+		m_waypoint_coords(Signature("74 1F F3 0F 10 05 ? ? ? ? F3 0F 11 03").Scan().Add(6).Rip().As<decltype(m_waypoint_coords)>())
 	{
 		auto sig = Signature("48 83 EC 60 48 8D 0D ? ? ? ? E8").Scan().Sub(17);
 		m_GameBuild = sig.Add(265 + 3).Rip().As<decltype(m_GameBuild)>();
