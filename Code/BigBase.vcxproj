@@ -11,12 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classes\array.hpp" />
+    <ClInclude Include="Classes\base.hpp" />
     <ClInclude Include="Classes\Class.hpp" />
     <ClInclude Include="Classes\Classes.hpp" />
     <ClInclude Include="Classes\Enum.hpp" />
     <ClInclude Include="Classes\net_game_event.hpp" />
+    <ClInclude Include="Classes\net_object_mgr.hpp" />
+    <ClInclude Include="Classes\node_list.hpp" />
     <ClInclude Include="Classes\Player.hpp" />
     <ClInclude Include="Classes\script_thread.hpp" />
+    <ClInclude Include="Classes\sysMemAllocator.hpp" />
     <ClInclude Include="Classes\Weapon.h" />
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="Crossmap.hpp" />
@@ -30,6 +35,7 @@
     <ClInclude Include="Functions\game_helper.hpp" />
     <ClInclude Include="Functions\game_variable.hpp" />
     <ClInclude Include="Functions\heist_helper.hpp" />
+    <ClInclude Include="Functions\hook_helper.hpp" />
     <ClInclude Include="Functions\memory_address.hpp" />
     <ClInclude Include="Functions\network_helper.hpp" />
     <ClInclude Include="Functions\player_option.hpp" />
@@ -91,12 +97,15 @@
     <ClCompile Include="D3DRenderer.cpp" />
     <ClCompile Include="Functions\business_helper.cpp" />
     <ClCompile Include="Functions\features.cpp" />
+    <ClCompile Include="Functions\freemode_script_recovery.cpp" />
     <ClCompile Include="Functions\game_event.cpp" />
     <ClCompile Include="Functions\game_helper.cpp" />
     <ClCompile Include="Functions\game_variable.cpp" />
     <ClCompile Include="Functions\heist_helper.cpp" />
     <ClCompile Include="Functions\network_helper.cpp" />
     <ClCompile Include="Functions\player_option.cpp" />
+    <ClCompile Include="Functions\received_event.cpp" />
+    <ClCompile Include="Functions\sync_can_apply.cpp" />
     <ClCompile Include="Functions\systems_helper.cpp" />
     <ClCompile Include="Functions\teleport.cpp" />
     <ClCompile Include="Functions\vehicle_helper.cpp" />

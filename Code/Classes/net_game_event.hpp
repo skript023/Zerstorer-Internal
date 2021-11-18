@@ -126,7 +126,7 @@ namespace rage
 
 		inline bool ReadArray(void* array, int size)
 		{
-			//return big::g_pointers->m_read_bitbuf_array(this, array, size, 0);
+			return big::g_GameFunctions->m_read_bitbuf_array(this, array, size, 0);
 		}
 		
 	public:

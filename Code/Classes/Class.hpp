@@ -1,9 +1,17 @@
 #pragma once
 namespace rage
 {
+	template <typename T>
+	class atArray;
+	class sysMemAllocator;
 	struct scrNativeRegistration;
 	struct scrNativeCallContext;
 	class datBitBuffer;
+	class netEventMgr;
+	class netObject;
+	class CNetworkObjectMgr;
+	class CObject;
+	class netSyncTree;
 }
 
 namespace big
@@ -17,4 +25,6 @@ namespace big
 	class BlipList;
 	class FriendList;
 	class CReplayInterface;
+	class BusinessMoney;
+	class LocalScript;
 }

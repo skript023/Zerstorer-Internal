@@ -22,7 +22,9 @@ namespace big
 		m_add_owned_explosion_bypass_1(Signature("0F 85 ? ? ? ? 48 8B 05 ? ? ? ? 48 8B 48 08 E8").Scan().As<decltype(m_add_owned_explosion_bypass_1)>()),
 		m_add_owned_explosion_bypass_2(Signature("74 0E 48 8D 4D ? 45 33 C0").Scan().As<decltype(m_add_owned_explosion_bypass_2)>()),
 		m_waypoint_coords(Signature("74 1F F3 0F 10 05 ? ? ? ? F3 0F 11 03").Scan().Add(6).Rip().As<decltype(m_waypoint_coords)>()),
-		m_player_user_id(Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 83").Scan().Add(3).Rip().Add(8).As<decltype(m_player_user_id)>())
+		m_player_user_id(Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 83").Scan().Add(3).Rip().Add(8).As<decltype(m_player_user_id)>()),
+		m_network_object_manager(Signature("48 8B 0D ? ? ? ? 45 33 C0 E8 ? ? ? ? 33 FF 4C 8B F0").Scan().Add(3).Rip().As<decltype(m_network_object_manager)>()),
+		m_money_in_bunker(Signature("48 8D 05 ? ? ? ? 48 C1 E1 ? 48 03 C8 E8 ? ? ? ? 48 8B 5C").Scan().Add(3).Rip().As<decltype(m_money_in_bunker)>())
 	{
 		auto sig = Signature("48 83 EC 60 48 8D 0D ? ? ? ? E8").Scan().Sub(17);
 		m_GameBuild = sig.Add(265 + 3).Rip().As<decltype(m_GameBuild)>();
@@ -42,12 +44,15 @@ namespace big
 		m_get_player_name(Signature("40 53 48 83 EC 20 80 3D ? ? ? ? ? 8B D9 74 22").Scan().As<decltype(m_get_player_name)>()),
 		m_handle_to_ptr(Signature("75 0D 41 8B 41").Scan().Sub(27).As<decltype(m_handle_to_ptr)>()),
 		m_ptr_to_handle(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 8B 15 ? ? ? ? 48 8B F9 48 83 C1 10 33 DB").Scan().As<decltype(m_ptr_to_handle)>()),
-		m_script_event(Signature("40 53 48 81 EC ? ? ? ? 44 8B 81").Scan().As<decltype(m_script_event)>()),
-		m_increment_event(Signature("48 89 5C 24 ? 48 89 74 24 ? 55 57 41 55 41 56 41 57 48 8B EC 48 83 EC 60 8B 79 30").Scan().As<decltype(m_increment_event)>()),
-		m_clear_ped_event(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 30 0F B7 51 30").Scan().As<decltype(m_clear_ped_event)>()),
-		m_remove_weapon(Signature("48 8B D8 E8 ? ? ? ? 80 7B").Scan().Sub(0x28).As<decltype(m_remove_weapon)>()),
-		m_kick_vote(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 48 8D 71 30").Scan().As<decltype(m_kick_vote)>()),
-		m_read_bitbuf_dword(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 33 C9 41 8B F0 8A 43").Scan().As<decltype(m_read_bitbuf_dword)>())
+		m_read_bitbuf_dword(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 33 C9 41 8B F0 8A 43").Scan().As<decltype(m_read_bitbuf_dword)>()),
+		m_read_bitbuf_array(Signature("48 89 5C 24 ? 57 48 83 EC 30 41 8B F8 4C").Scan().As<decltype(m_read_bitbuf_array)>()),
+		m_received_event(Signature("66 41 83 F9 ? 0F 83 ? ? ? ?").Scan().As<decltype(m_received_event)>()),
+		m_send_event_ack(Signature("48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 7A").Scan().As<decltype(m_send_event_ack)>()),
+		m_get_network_object(Signature("44 38 33 75 30 66 44").Scan().Sub(0x40).As<decltype(m_get_network_object)>()),
+		m_sync_can_apply(Signature("49 8B CE FF 50 70 84 C0 74 31 33 FF").Scan().Sub(0x2C).As<decltype(m_sync_can_apply)>()),
+		m_clone_create(Signature("48 8B C4 66 44 89 48").Scan().As<decltype(m_clone_create)>()),
+		m_gta_thread_tick(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 B9 ? ? ? ? ? 8B FA 48 8B D9 74 05").Scan().As<decltype(m_gta_thread_tick)>()),
+		m_gta_thread_kill(Signature("48 89 5C 24 ? 57 48 83 EC 20 48 83 B9 ? ? ? ? ? 48 8B D9 74 14").Scan().As<decltype(m_gta_thread_kill)>())
 	{
 	}
 }

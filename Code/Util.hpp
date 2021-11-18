@@ -170,13 +170,11 @@ namespace big
 
 	inline GtaThread* find_script_thread(uint32_t hash)
 	{
-		for (int i = 0; i <= 52; i++)
+		auto local_script = *g_GameVariables->m_script_threads;
+		for (int i = 0; i < 53; i++)
 		{
-			auto thread = reinterpret_cast<GtaThread*>(*g_GameVariables->m_script_threads + (i * 0x8LL));
-			if (thread
-				&& thread->m_context.m_thread_id
-				&& thread->m_handler
-				&& thread->m_script_hash == hash)
+			auto thread = local_script->m_thread_list[i];
+			if (thread && thread->m_context.m_thread_id && thread->m_handler && thread->m_script_hash == hash)
 			{
 				return thread;
 			}

@@ -51,7 +51,11 @@ namespace big
 		SubmenuModList,
 		SubmenuProtection,
 		SubmenuTeleport,
-		SubmenuWeapon
+		SubmenuWeapon,
+		SubmenuSession,
+		SubmenuMC,
+		SubmenuBunker,
+		SubmenuSpecialCargo
 	};
 
 	bool MainScript::IsInitialized()
@@ -114,73 +118,83 @@ namespace big
 			sub->AddOption<BoolOption<bool>>("Transaction Error", nullptr, &g_protection.block_transaction_error, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Force Send Mission", nullptr, &g_protection.block_send_mission, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Kick", nullptr, &g_protection.block_kick, BoolDisplay::YesNo);
-			sub->AddOption<BoolOption<bool>>("Block Cancel Animation", nullptr, &g_protection.clear_ped_task, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Block Freeze", nullptr, &g_protection.clear_ped_task, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Report Block", nullptr, &g_protection.block_report, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Remove Weapon", nullptr, &g_protection.block_remove_weapon, BoolDisplay::YesNo);
 			sub->AddOption<BoolOption<bool>>("Kick Vote", nullptr, &g_protection.block_kick_vote, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Request Control", nullptr, &g_protection.block_request_control, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Explosion Event", nullptr, &g_protection.block_explosion_event, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("PTFX Event", nullptr, &g_protection.block_ptfx_event, BoolDisplay::YesNo);
+			sub->AddOption<BoolOption<bool>>("Invalid Model", nullptr, &g_protection.crash, BoolDisplay::YesNo);
+
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Online Option", SubmenuOnline, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<ChooseOption<const char*, std::size_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
-			{
-				switch (Lists::session_list_pos)
-				{
-				case 0:
-					network::set_session(0);
-					break;
-				case 1:
-					network::set_session(1);
-					break;
-				case 2:
-					network::set_session(2);
-					break;
-				case 3:
-					network::set_session(3);
-					break;
-				case 4:
-					network::set_session(6);
-					break;
-				case 5:
-					network::set_session(9);
-					break;
-				case 6:
-					network::set_session(10);
-					break;
-				case 7:
-					network::set_session(11);
-					break;
-				case 8:
-					network::set_session(12);
-					break;
-				case 9:
-					network::set_session(13);
-					break;
-				case 10:
-					network::set_session(-1);
-					break;
-				}
-			});
+			sub->AddOption<SubOption>("Session Option", nullptr, SubmenuSession);
 			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
 			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Session Option", SubmenuSession, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
+				{
+					switch (Lists::session_list_pos)
+					{
+					case 0:
+						network::set_session(0);
+						break;
+					case 1:
+						network::set_session(1);
+						break;
+					case 2:
+						network::set_session(2);
+						break;
+					case 3:
+						network::set_session(3);
+						break;
+					case 4:
+						network::set_session(6);
+						break;
+					case 5:
+						network::set_session(9);
+						break;
+					case 6:
+						network::set_session(10);
+						break;
+					case 7:
+						network::set_session(11);
+						break;
+					case 8:
+						network::set_session(12);
+						break;
+					case 9:
+						network::set_session(13);
+						break;
+					case 10:
+						network::set_session(-1);
+						break;
+					}
+				});
 			sub->AddOption<RegularOption>("Choose Character", nullptr, []
-			{
-				*script_global(g_global.session_unk_1).as<int*>() = 0;
-				*script_global(g_global.session_change).at(2).as<int*>() = 0;
-				*script_global(g_global.session_change).as<int*>() = 65;
-				*script_global(g_global.session_unk_2).as<int*>() = 1;
-				*script_global(g_global.session_unk_3).as<int*>() = 4;
-			});
+				{
+					*script_global(g_global.session_unk_1).as<int*>() = 0;
+					*script_global(g_global.session_change).at(2).as<int*>() = 0;
+					*script_global(g_global.session_change).as<int*>() = 65;
+					*script_global(g_global.session_unk_2).as<int*>() = 1;
+					*script_global(g_global.session_unk_3).as<int*>() = 4;
+				});
 			sub->AddOption<RegularOption>("Creator Mode", nullptr, []
-			{
-				*script_global(g_global.session_unk_1).as<int*>() = 2;
-				*script_global(g_global.session_change).at(2).as<int*>() = 2;
-				*script_global(g_global.session_change).as<int*>() = 1;
-			});
+				{
+					*script_global(g_global.session_unk_1).as<int*>() = 2;
+					*script_global(g_global.session_change).at(2).as<int*>() = 2;
+					*script_global(g_global.session_change).as<int*>() = 1;
+				});
 			sub->AddOption<RegularOption>("Disconnect", nullptr, []
-			{
-				NETWORK::NETWORK_BAIL(49, 0, 0);
-			});
+				{
+					NETWORK::NETWORK_BAIL(49, 0, 0);
+				});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Option", SubmenuVehicle, [](RegularSubmenu* sub)
@@ -569,17 +583,166 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Business Option", SubmenuBusiness, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<BoolOption<bool>>("Set As Public", nullptr, &g_features.vehicle_godmode, BoolDisplay::OnOff);
-			sub->AddOption<RegularOption>("Trigger MC Production", nullptr, []
+			sub->AddOption<SubOption>("MC Business", nullptr, SubmenuMC);
+			sub->AddOption<SubOption>("Bunker Business", nullptr, SubmenuBunker);
+			sub->AddOption<SubOption>("Special Cargo Business", nullptr, SubmenuSpecialCargo);
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Special Cargo Business", SubmenuSpecialCargo, [](RegularSubmenu* sub)
 			{
-				business::trigger_meth_production(PLAYER::PLAYER_ID());
-				business::trigger_weed_production(PLAYER::PLAYER_ID());
-				business::trigger_cocain_production(PLAYER::PLAYER_ID());
-				business::trigger_cash_production(PLAYER::PLAYER_ID());
-				business::trigger_document_production(PLAYER::PLAYER_ID());
+				sub->AddOption<NumberOption<int32_t>>("Special Cargo Money", "Money Option", &g_features.cargo_money, 0, INT32_MAX, 100000, 3, false, "", "", []
+				{
+					business::special_cargo_selling_mission(g_features.cargo_money);
+				});
+
+				sub->AddOption<NumberOption<int32_t>>("Special Cargo Crates", "Money Option", &g_features.cargo_crates, 0, INT32_MAX, 100000, 3, false, "", "", []
+				{
+					business::special_cargo_crates(g_features.cargo_crates);
+				});
+
+				sub->AddOption<BoolOption<bool>>("Remove Sell Cooldown", nullptr, &g_features.sell_cargo_cooldown, BoolDisplay::OnOff, false, []
+				{
+					if (g_features.sell_cargo_cooldown)
+						*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 0;
+					else
+						*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 1800000;
+				});
+
+				sub->AddOption<BoolOption<bool>>("Remove Buy Cooldown", nullptr, &g_features.buy_cargo_cooldown, BoolDisplay::OnOff, false, []
+				{
+					if (g_features.buy_cargo_cooldown)
+						*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 0;
+					else
+						*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 300000;
+				});
+
+				sub->AddOption<BoolOption<bool>>("Extend Selling Timer", nullptr, &g_features.cargo_selling_time, BoolDisplay::OnOff, false, []
+				{
+					if (g_features.cargo_selling_time)
+						*script_global(g_global.special_cargo_selling_time).as<int*>() = 18000000;
+					else
+						*script_global(g_global.special_cargo_selling_time).as<int*>() = 1800000;
+				});
 			});
+
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Bunker Business", SubmenuBunker, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<NumberOption<int32_t>>("Bunker Money", "Money Option", &g_features.bunker_business_money, 0, INT32_MAX, 100000, 3, false, "", "", []
+			{
+				business::bunker_selling_mission(g_features.bunker_business_money);
+			});
+
 			sub->AddOption<RegularOption>("Trigger Bunker Production", nullptr, []
 			{
-					business::trigger_bunker_production(PLAYER::PLAYER_ID());
+				business::trigger_bunker_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<RegularOption>("Trigger Bunker Research", nullptr, []
+			{
+				business::trigger_bunker_research(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<BoolOption<bool>>("Remove Supply Delay", nullptr, &g_features.bunker_supply_bool, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.bunker_supply_bool)
+					*script_global(g_global.bunker_supplies_delay).as<int*>() = 0;
+				else
+					*script_global(g_global.bunker_supplies_delay).as<int*>() = 600;
+			});
+
+			sub->AddOption<BoolOption<bool>>("Extend Selling TImer", nullptr, &g_features.bunker_supply_bool, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.bunker_timer_bool)
+				{
+					*script_global(g_global.bunker_selling_time_1).as<int*>() = 18000000;
+					*script_global(g_global.bunker_selling_time_2).as<int*>() = 9000000;
+					*script_global(g_global.bunker_selling_time_3).as<int*>() = 9000000;
+					*script_global(g_global.bunker_selling_time_4).as<int*>() = 9000000;
+					*script_global(g_global.bunker_selling_time_5).as<int*>() = 9000000;
+					*script_global(g_global.bunker_selling_time_6).as<int*>() = 9000000;
+				}
+				else
+				{
+					*script_global(g_global.bunker_selling_time_1).as<int*>() = 1800000;
+					*script_global(g_global.bunker_selling_time_2).as<int*>() = 900000;
+					*script_global(g_global.bunker_selling_time_3).as<int*>() = 900000;
+					*script_global(g_global.bunker_selling_time_4).as<int*>() = 900000;
+					*script_global(g_global.bunker_selling_time_5).as<int*>() = 900000;
+					*script_global(g_global.bunker_selling_time_6).as<int*>() = 900000;
+				}
+			});
+
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("MC Business", SubmenuMC, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<NumberOption<int32_t>>("MC Business Money", "Money Option", &g_features.mc_business_money, 0, 2500000, 100000, 3, false, "", "", []
+			{
+				business::biker_selling_mission(g_features.mc_business_money);
+			});
+
+			sub->AddOption<RegularOption>("Trigger Meth Production", nullptr, []
+			{
+				business::trigger_meth_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<RegularOption>("Trigger Weed Production", nullptr, []
+			{
+				business::trigger_weed_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<RegularOption>("Trigger Cocain Production", nullptr, []
+			{
+				business::trigger_cocain_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<RegularOption>("Trigger Cash Production", nullptr, []
+			{
+				business::trigger_cash_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<RegularOption>("Trigger Document Production", nullptr, []
+			{
+				business::trigger_document_production(PLAYER::PLAYER_ID());
+			});
+
+			sub->AddOption<BoolOption<bool>>("Remove Supply Delay", nullptr, &g_features.mc_supply_bool, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.mc_supply_bool)
+					*script_global(g_global.mc_supplies_delay).as<int*>() = 0;
+				else
+					*script_global(g_global.mc_supplies_delay).as<int*>() = 600;
+			});
+
+			sub->AddOption<BoolOption<bool>>("Extend Selling Timer", nullptr, &g_features.mc_timer_bool, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.mc_timer_bool)
+				{
+					*script_global(g_global.mc_selling_time_1).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_2).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_3).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_4).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_5).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_6).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_7).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_8).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_9).as<int*>() = 18000000;
+					*script_global(g_global.mc_selling_time_10).as<int*>() = 18000000;
+				}
+				else
+				{
+					*script_global(g_global.mc_selling_time_1).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_2).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_3).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_4).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_5).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_6).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_7).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_8).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_9).as<int*>() = 1800000;
+					*script_global(g_global.mc_selling_time_10).as<int*>() = 1800000;
+				}
 			});
 		});
 

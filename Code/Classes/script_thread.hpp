@@ -81,6 +81,11 @@ namespace rage
 
 namespace big
 {
+	class LocalScript
+	{
+	public:
+		GtaThread* m_thread_list[53];
+	};
 	class GtaThread : public rage::scrThread
 	{
 	public:

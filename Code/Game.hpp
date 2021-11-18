@@ -30,6 +30,7 @@ namespace big
 		PVOID m_add_owned_explosion_bypass_2;
 		Vector2 *m_waypoint_coords;
 		uint64_t* m_player_user_id;
+		BusinessMoney** m_money_in_bunker;
 
 		int *m_total_friend;
 		PVOID m_return_address;
@@ -37,8 +38,9 @@ namespace big
 		BlipList* m_blip_ptr;
 		FriendList** m_friend_list;
 		CReplayInterface** m_replay_interface;
+		rage::CNetworkObjectMgr** m_network_object_manager;
 
-		int64_t **m_script_threads;
+		LocalScript** m_script_threads;
 	};
 
 	class GameFunctions
@@ -62,12 +64,18 @@ namespace big
 		functions::GetNetGamePlayer get_net_player;
 		functions::ptr_to_handle_t m_ptr_to_handle;
 		functions::handle_to_ptr_t m_handle_to_ptr;
-		functions::ScriptedGameEvent m_script_event;
-		functions::IncrementEvent m_increment_event;
-		functions::ClearPedTask m_clear_ped_event;
-		functions::CRemoveWeaponEvent m_remove_weapon;
-		functions::CSendKickVoteEvent m_kick_vote;
+
 		functions::ReadDword m_read_bitbuf_dword;
+		functions::read_bitbuf_array m_read_bitbuf_array;
+		functions::received_event m_received_event;
+		functions::send_event_ack m_send_event_ack;
+
+		functions::get_network_object_t m_get_network_object;
+		functions::sync_can_apply_t m_sync_can_apply;
+		functions::clone_create_t m_clone_create;
+
+		functions::gta_thread_tick m_gta_thread_tick;
+		functions::gta_thread_kill m_gta_thread_kill;
 	};
 
 	inline std::unique_ptr<GameVariables> g_GameVariables;

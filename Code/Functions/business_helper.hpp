@@ -7,6 +7,14 @@ namespace big
 	{
 	public:
 
+		static void special_cargo_crates(int crates);
+
+		static void special_cargo_selling_mission(int money);
+
+		static void bunker_selling_mission(int money);
+
+		static void biker_selling_mission(int money);
+
 		static void add_meth_supply(Player player, int supply);
 
 		static void add_weed_supply(Player player, int supply);
@@ -70,6 +78,8 @@ namespace big
 		static void trigger_bunker_production(Player player);
 
 		static void trigger_bunker_research(Player player);
+
+		static void trigger_nightclub_production();
 
 	};
 }

@@ -215,7 +215,6 @@ namespace big
 				{
 					__try
 					{
-						//static_cast<void(*)(rage::scrNativeCallContext*)>(handler)(&m_Context);
 						_call_asm(reinterpret_cast<void*>(&m_Context), handler, g_GameVariables->m_return_address);
 						g_GameFunctions->m_Fix_Vectors(&m_Context);
 					}

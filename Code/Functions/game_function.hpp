@@ -40,4 +40,19 @@ public:
 	static inline bool explosive_ammo{};
 	static inline bool explosive_fist{};
 	static inline bool fire_ammo{};
+
+	static inline int mc_business_money{};
+	static inline bool mc_supply_bool{};
+	static inline bool mc_timer_bool{};
+	static inline int bunker_business_money{};
+	static inline bool bunker_supply_bool{};
+	static inline bool bunker_timer_bool{};
+
+	static inline bool sell_cargo_cooldown{};
+	static inline bool buy_cargo_cooldown{};
+	static inline bool cargo_selling_time{};
+	static inline int cargo_money{};
+	static inline int cargo_crates{};
+
+
 } g_features;

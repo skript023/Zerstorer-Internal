@@ -1,8 +1,80 @@
 #include "business_helper.hpp"
 #include "game_helper.hpp"
+#include "../Util.hpp"
 
 namespace big
 {
+    void business::special_cargo_crates(int crates)
+    {
+        if (auto crates_cargo = find_script_thread(RAGE_JOAAT("gb_contraband_buy")))
+        {
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(1).as<int*>() = crates;
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(193).as<int*>() = crates;
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(6).as<int*>() = 9;
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(8).as<int*>() = 4;
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(9).as<int*>() = 9;
+            *script_local(crates_cargo, m_local.special_cargo_buying).at(7).as<int*>() = 21;
+        }
+    }
+
+    void business::special_cargo_selling_mission(int money)
+    {
+        if (auto special_cargo = find_script_thread(RAGE_JOAAT("gb_contraband_sell")))
+        {
+            int requirement = *script_local(special_cargo, m_local.special_cargo_sell).at(65).as<int*>();
+            int cargo = *script_local(special_cargo, m_local.special_cargo_sell).at(55).as<int*>();//54 2 choice
+            auto tuneable = game_helper::func_799(cargo);
+            int temp = *script_global(tuneable).as<int*>();
+            int result = money / cargo;
+            if (result == 0) return;
+            *script_global(tuneable).as<int*>() = result;
+            *script_local(special_cargo, m_local.special_cargo_sell).at(56).as<int*>() = requirement;
+
+            while (systems::is_script_active(RAGE_JOAAT("gb_contraband_sell"))) std::this_thread::yield();
+
+            *script_global(tuneable).as<int*>() = temp;
+        }
+    }
+
+    void business::bunker_selling_mission(int money)
+    {
+        if (auto bunker_selling = find_script_thread(RAGE_JOAAT("gb_gunrunning")))
+        {
+            auto money_bunker = *g_GameVariables->m_money_in_bunker;
+            if (money_bunker->money_in_bunker == 0) return;
+
+            int kargo = *script_local(bunker_selling, m_local.bunker_sell).at(551).at(1).at(19).as<int*>();
+            int data = money / money_bunker->money_in_bunker;
+            *script_local(bunker_selling, m_local.bunker_sell).at(816).as<int*>() = kargo;
+            *script_global(g_global.bunker_selling_mult_far).as<float*>() = systems::int_to_float(data);
+            *script_global(g_global.bunker_selling_mult_near).as<float*>() = systems::int_to_float(data);
+
+            int mission_time_remaining = *script_local(bunker_selling, m_local.bunker_sell_time_remaining).as<int*>();
+            int mission_time_delivering = *script_local(bunker_selling, m_local.bunker_sell).at(579).as<int*>();
+            int mission_time = mission_time_delivering - (mission_time_remaining - 1000);
+            *script_local(bunker_selling, m_local.bunker_sell).at(579).as<int*>() = mission_time;
+        }
+    }
+
+    void business::biker_selling_mission(int money)
+    {
+        if (auto mc_selling = find_script_thread(RAGE_JOAAT("gb_biker_contraband_sell")))
+        {
+            auto money_business = *g_GameVariables->m_money_in_bunker; int money_in_mc = money_business->money_in_bunker;
+
+            if (money_in_mc == 0) return;
+            float mc_multiplier = systems::int_to_float(money / money_in_mc);
+
+            g_Logger->Info("Money : %f", mc_multiplier);
+
+            *script_global(g_global.mc_sell_mult_far).as<float*>() = mc_multiplier;
+            *script_global(g_global.mc_sell_mult_near).as<float*>() = mc_multiplier;
+            int requirement = *script_local(mc_selling, m_local.mc_sell).at(143).as<int*>();
+            *script_local(mc_selling, m_local.mc_sell).at(122).as<int*>() = requirement;
+
+        }
+    }
+
     void business::add_meth_supply(Player player, int supply)
     {
         for (int i = 0; i <= 4; i++)
@@ -558,5 +630,16 @@ namespace big
             *script_global(g_global.business_index).at(5, 12).at(13).as<int*>() = 0;
         else
             message::notification("~bold~~g~Ellohim Private Menu", "~bold~~g~Trigger Bunker Research Function: Supplies are empty! Buy Supplies!", "~bold~~g~Ellohim Business Manager");
+    }
+
+    void business::trigger_nightclub_production()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (*script_global(g_global.nc_trigger_product).at(i, 2).at(1).as<int*>() == 1)
+            {
+                *script_global(g_global.nc_trigger_product).at(i, 2).as<int*>() = 0;//2515749
+            }
+        }
     }
 }

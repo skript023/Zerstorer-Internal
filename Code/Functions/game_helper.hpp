@@ -37,6 +37,9 @@ namespace big
 		static inline bool block_report = true;
 		static inline bool block_remove_weapon = true;
 		static inline bool block_kick_vote = true;
+		static inline bool block_request_control = true;
+		static inline bool block_explosion_event = true;
+		static inline bool block_ptfx_event = true;
 		static inline bool crash = true;
 	};
 
@@ -44,6 +47,7 @@ namespace big
     {
 	public:
 		static inline int64_t tick{};
+		static inline int64_t tick_2{};
 		static inline bool auto_getin{};
 		static inline bool full_upgrade{true};
 		static inline bool first_load{ true };
@@ -92,6 +96,21 @@ namespace big
 				tick = 0;
 			}
 
+			if (tick_2 == 1000)
+			{
+				if (!systems::is_float_equal(*script_global(g_global.mc_sell_mult_far).as<float*>(), 1.5f) && !systems::is_float_equal(*script_global(g_global.mc_sell_mult_near).as<float*>(), 1.0f))
+				{
+					*script_global(g_global.mc_sell_mult_far).as<float*>() = 1.5f;
+					*script_global(g_global.mc_sell_mult_near).as<float*>() = 1.0f;
+				}
+
+				if (!systems::is_float_equal(*script_global(g_global.bunker_selling_mult_far).as<float*>(), 1.5f) && !systems::is_float_equal(*script_global(g_global.bunker_selling_mult_near).as<float*>(), 1.0f))
+				{
+					*script_global(g_global.bunker_selling_mult_far).as<float*>() = 1.5f;
+					*script_global(g_global.bunker_selling_mult_near).as<float*>() = 1.0f;
+				}
+			}
+
 			if (tick >= 200)
 				tick = 0;
 
@@ -103,7 +122,7 @@ namespace big
 				HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, true);
 			}
 
-			tick++;
+			tick++; tick_2++; first_load = false;
 		}
 		static void when_game_closed()
 		{
@@ -113,6 +132,90 @@ namespace big
 		static const char* get_mod_slot_name(int mod_slot, Vehicle vehicle);
 		static const char* get_mod_name(int mod, int mod_slot, int mod_count, Vehicle vehicle);
 		static void get_vehicle_mod();
+		static int func_799(int iParam0)
+		{
+			if (iParam0 >= *script_global(262145).at(15507).as<int*>())
+			{
+				return (262145 + 15528);
+			}
+			else if (iParam0 >= *script_global(262145).at(15506).as<int*>())
+			{
+				return (262145 + 15527);
+			}
+			else if (iParam0 >= *script_global(262145).at(15505).as<int*>())
+			{
+				return (262145 + 15526);
+			}
+			else if (iParam0 >= *script_global(262145).at(15504).as<int*>())
+			{
+				return (262145 + 15525);
+			}
+			else if (iParam0 >= *script_global(262145).at(15503).as<int*>())
+			{
+				return (262145 + 15524);
+			}
+			else if (iParam0 >= *script_global(262145).at(15502).as<int*>())
+			{
+				return (262145 + 15523);
+			}
+			else if (iParam0 >= *script_global(262145).at(15501).as<int*>())
+			{
+				return (262145 + 15522);
+			}
+			else if (iParam0 >= *script_global(262145).at(15500).as<int*>())
+			{
+				return (262145 + 15521);
+			}
+			else if (iParam0 >= *script_global(262145).at(15499).as<int*>())
+			{
+				return (262145 + 15520);
+			}
+			else if (iParam0 >= *script_global(262145).at(15498).as<int*>())
+			{
+				return (262145 + 15519);
+			}
+			else if (iParam0 >= *script_global(262145).at(15497).as<int*>())
+			{
+				return (262145 + 15518);
+			}
+			else if (iParam0 >= *script_global(262145).at(15496).as<int*>())
+			{
+				return (262145 + 15517);
+			}
+			else if (iParam0 >= *script_global(262145).at(15495).as<int*>())
+			{
+				return (262145 + 15516);
+			}
+			else if (iParam0 >= *script_global(262145).at(15494).as<int*>())
+			{
+				return (262145 + 15515);
+			}
+			else if (iParam0 >= *script_global(262145).at(15493).as<int*>())
+			{
+				return (262145 + 15514);
+			}
+			else if (iParam0 >= *script_global(262145).at(15492).as<int*>())
+			{
+				return (262145 + 15513);
+			}
+			else if (iParam0 >= *script_global(262145).at(15491).as<int*>())
+			{
+				return (262145 + 15512);
+			}
+			else if (iParam0 >= *script_global(262145).at(15490).as<int*>())
+			{
+				return (262145 + 15511);
+			}
+			else if (iParam0 >= *script_global(262145).at(15489).as<int*>())
+			{
+				return (262145 + 15510);
+			}
+			else if (iParam0 >= *script_global(262145).at(15488).as<int*>())
+			{
+				return (262145 + 15509);
+			}
+			return (262145 + 15508);
+		}
     };
 
 	inline static game_helper g_game_helper;
