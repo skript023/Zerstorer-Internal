@@ -23,16 +23,12 @@ namespace big
         {
             int requirement = *script_local(special_cargo, m_local.special_cargo_sell).at(65).as<int*>();
             int cargo = *script_local(special_cargo, m_local.special_cargo_sell).at(55).as<int*>();//54 2 choice
-            auto tuneable = game_helper::func_799(cargo);
-            int temp = *script_global(tuneable).as<int*>();
+            g_game_helper.tuneable = game_helper::func_799(cargo);
+            g_game_helper.temp = *script_global(g_game_helper.tuneable).as<int*>();
             int result = money / cargo;
             if (result == 0) return;
-            *script_global(tuneable).as<int*>() = result;
+            *script_global(g_game_helper.tuneable).as<int*>() = result;
             *script_local(special_cargo, m_local.special_cargo_sell).at(56).as<int*>() = requirement;
-
-            while (systems::is_script_active(RAGE_JOAAT("gb_contraband_sell"))) std::this_thread::yield();
-
-            *script_global(tuneable).as<int*>() = temp;
         }
     }
 

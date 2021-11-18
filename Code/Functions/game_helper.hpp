@@ -48,6 +48,10 @@ namespace big
 	public:
 		static inline int64_t tick{};
 		static inline int64_t tick_2{};
+
+		static inline int tuneable{0};
+		static inline int temp{0};
+
 		static inline bool auto_getin{};
 		static inline bool full_upgrade{true};
 		static inline bool first_load{ true };
@@ -90,9 +94,10 @@ namespace big
     public:
         static void game_frame()
 		{
-			if (tick == 200 && *script_global(g_global.session_change).as<int*>() == 1)
+			if (tick == 200)
 			{
-				*script_global(g_global.session_change).as<int*>() = 0;
+				if (*script_global(g_global.session_change).as<int*>() == 1)
+					*script_global(g_global.session_change).as<int*>() = 0;
 				tick = 0;
 			}
 
@@ -109,10 +114,15 @@ namespace big
 					*script_global(g_global.bunker_selling_mult_far).as<float*>() = 1.5f;
 					*script_global(g_global.bunker_selling_mult_near).as<float*>() = 1.0f;
 				}
-			}
 
-			if (tick >= 200)
-				tick = 0;
+				if (!systems::is_script_active(RAGE_JOAAT("gb_contraband_sell")))
+				{
+					if (tuneable != 0)
+						*script_global(tuneable).as<int*>() = temp;
+				}
+
+				tick_2 = 0;
+			}
 
 			if (first_load)
 			{

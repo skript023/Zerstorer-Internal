@@ -55,7 +55,8 @@ namespace big
 		SubmenuSession,
 		SubmenuMC,
 		SubmenuBunker,
-		SubmenuSpecialCargo
+		SubmenuSpecialCargo,
+		SubmenuNightclub
 	};
 
 	bool MainScript::IsInitialized()
@@ -85,8 +86,7 @@ namespace big
 			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
 			sub->AddOption<SubOption>("Protection", nullptr, SubmenuProtection);
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
-			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
-
+			
 			//sub->AddOption<BoolOption<bool>>("Log Script Events", nullptr, &g_LogScriptEvents, BoolDisplay::OnOff);
 			sub->AddOption<RegularOption>("Unload", "Unload the menu.", []
 			{
@@ -586,49 +586,65 @@ namespace big
 			sub->AddOption<SubOption>("MC Business", nullptr, SubmenuMC);
 			sub->AddOption<SubOption>("Bunker Business", nullptr, SubmenuBunker);
 			sub->AddOption<SubOption>("Special Cargo Business", nullptr, SubmenuSpecialCargo);
+			sub->AddOption<SubOption>("Nightclub Business", nullptr, SubmenuNightclub);
+
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Nightclub Business", SubmenuNightclub, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<RegularOption>("Trigger Nightclub Production", nullptr, []
+			{
+				business::trigger_nightclub_production();
+			});
+
+			sub->AddOption<RegularOption>("Trigger Nightclub Production", nullptr, []
+			{
+				const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+				STATS::STAT_SET_INT(joaat("MP" + mpx + "_CLUB_POPULARITY"), 1000, TRUE);
+			});
+
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Special Cargo Business", SubmenuSpecialCargo, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<NumberOption<int32_t>>("Special Cargo Money", "Money Option", &g_features.cargo_money, 0, 6000000, 100000, 3, false, "", "", []
 			{
-				sub->AddOption<NumberOption<int32_t>>("Special Cargo Money", "Money Option", &g_features.cargo_money, 0, INT32_MAX, 100000, 3, false, "", "", []
-				{
-					business::special_cargo_selling_mission(g_features.cargo_money);
-				});
-
-				sub->AddOption<NumberOption<int32_t>>("Special Cargo Crates", "Money Option", &g_features.cargo_crates, 0, INT32_MAX, 100000, 3, false, "", "", []
-				{
-					business::special_cargo_crates(g_features.cargo_crates);
-				});
-
-				sub->AddOption<BoolOption<bool>>("Remove Sell Cooldown", nullptr, &g_features.sell_cargo_cooldown, BoolDisplay::OnOff, false, []
-				{
-					if (g_features.sell_cargo_cooldown)
-						*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 0;
-					else
-						*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 1800000;
-				});
-
-				sub->AddOption<BoolOption<bool>>("Remove Buy Cooldown", nullptr, &g_features.buy_cargo_cooldown, BoolDisplay::OnOff, false, []
-				{
-					if (g_features.buy_cargo_cooldown)
-						*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 0;
-					else
-						*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 300000;
-				});
-
-				sub->AddOption<BoolOption<bool>>("Extend Selling Timer", nullptr, &g_features.cargo_selling_time, BoolDisplay::OnOff, false, []
-				{
-					if (g_features.cargo_selling_time)
-						*script_global(g_global.special_cargo_selling_time).as<int*>() = 18000000;
-					else
-						*script_global(g_global.special_cargo_selling_time).as<int*>() = 1800000;
-				});
+				business::special_cargo_selling_mission(g_features.cargo_money);
 			});
 
+			sub->AddOption<NumberOption<int32_t>>("Special Cargo Crates", "Money Option", &g_features.cargo_crates, 0, 111, 1, 3, false, "", "", []
+			{
+				business::special_cargo_crates(g_features.cargo_crates);
+			});
+
+			sub->AddOption<BoolOption<bool>>("Remove Sell Cooldown", nullptr, &g_features.sell_cargo_cooldown, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.sell_cargo_cooldown)
+					*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 0;
+				else
+					*script_global(g_global.special_cargo_selling_cooldown).as<int*>() = 1800000;
+			});
+
+			sub->AddOption<BoolOption<bool>>("Remove Buy Cooldown", nullptr, &g_features.buy_cargo_cooldown, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.buy_cargo_cooldown)
+					*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 0;
+				else
+					*script_global(g_global.special_cargo_buying_cooldown).as<int*>() = 300000;
+			});
+
+			sub->AddOption<BoolOption<bool>>("Extend Selling Timer", nullptr, &g_features.cargo_selling_time, BoolDisplay::OnOff, false, []
+			{
+				if (g_features.cargo_selling_time)
+					*script_global(g_global.special_cargo_selling_time).as<int*>() = 18000000;
+				else
+					*script_global(g_global.special_cargo_selling_time).as<int*>() = 1800000;
+			});
+		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Bunker Business", SubmenuBunker, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<NumberOption<int32_t>>("Bunker Money", "Money Option", &g_features.bunker_business_money, 0, INT32_MAX, 100000, 3, false, "", "", []
+			sub->AddOption<NumberOption<int32_t>>("Bunker Money", "Money Option", &g_features.bunker_business_money, 0, 5000000, 100000, 3, false, "", "", []
 			{
 				business::bunker_selling_mission(g_features.bunker_business_money);
 			});
@@ -1035,6 +1051,7 @@ namespace big
 			sub->AddOption<NumberOption<float>>("Width", nullptr, &g_UiManager->m_Width, 0.01f, 1.f, 0.01f, 2);
 			sub->AddOption<BoolOption<bool>>("Sounds", nullptr, &g_UiManager->m_Sounds, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<std::atomic_bool>>("Log Window", nullptr, &g_Settings.m_LogWindow, BoolDisplay::OnOff);
+			sub->AddOption<RegularOption>(std::move(RegularOption("Version").SetRightText(g_GameVariables->m_GameBuild)));
 			sub->AddOption<RegularOption>("Quit Game", "Quit Game.", []
 			{
 				exit(0);
