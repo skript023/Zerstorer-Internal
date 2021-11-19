@@ -181,6 +181,9 @@
     <ClInclude Include="Classes\sysMemAllocator.hpp">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="teleport_persist.hpp">
+      <Filter>Functions\teleport</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

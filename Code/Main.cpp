@@ -9,6 +9,7 @@
 #include "D3DRenderer.hpp"
 #include "UI/UIManager.hpp"
 #include "Translation.hpp"
+#include "teleport_persist.hpp"
 
 /**
  * \brief The entry point of the library
@@ -29,6 +30,9 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 
 			g_TranslationManager = std::make_unique<TranslationManager>();
 			g_TranslationManager->LoadTranslations("English");
+
+			g_teleport_persist = std::make_unique<TeleportManager>();
+
 
 			g_GameFunctions = std::make_unique<GameFunctions>();
 			g_GameVariables = std::make_unique<GameVariables>();
@@ -59,7 +63,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_Hooking->Hook();
 
 			//g_Logger->Info("BigBase loaded.");
-			while (g_Running && (*g_GameVariables->m_player_user_id == 199227111 || *g_GameVariables->m_player_user_id == 160920790))// && *g_GameVariables->m_player_user_id == 170730888
+			while (g_Running)//  && (*g_GameVariables->m_player_user_id == 199227111 || *g_GameVariables->m_player_user_id == 160920790)
 			{
 				if (IsKeyPressed(VK_DELETE))
 					g_Running = false;

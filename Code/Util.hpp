@@ -181,7 +181,7 @@ namespace big
 		}
 		return nullptr;
 	}
-	
+
 	/**
 	 * \brief Hashes a string with the Jenkins-one-at-a-time hash function
 	 * \param str The string to be hashed

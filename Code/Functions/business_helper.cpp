@@ -612,7 +612,7 @@ namespace big
         int product = *script_global(1590908).at(player, 874).at(267).at(185).at(5, 12).at(1).as<int*>();
         if (product == 100) message::notification("~bold~~g~Ellohim Private Menu", "~bold~~g~Trigger Bunker Production Function: Full Stock!", "~bold~~g~Ellohim Business Manager");
         if (supply > 0)
-            *script_global(g_global.business_index).at(5, 12).at(9).as<int*>() = 0;
+            *script_global(1590908).at(player, 874).at(267).at(185).at(5, 12).at(9).as<int*>() = 0;
         else
             message::notification("~bold~~g~Ellohim Private Menu", "~bold~~g~Trigger Bunker Production Function: Supplies are empty! Buy Supplies!", "~bold~~g~Ellohim Business Manager");
     }
@@ -623,7 +623,7 @@ namespace big
         int product = *script_global(1590908).at(player, 874).at(267).at(185).at(5, 12).at(1).as<int*>();
         if (product == 60) message::notification("~bold~~g~Ellohim Private Menu", "~bold~~g~Trigger Bunker Research Function: Research Progress Done!", "~bold~~g~Ellohim Business Manager");
         if (supply > 0)
-            *script_global(g_global.business_index).at(5, 12).at(13).as<int*>() = 0;
+            *script_global(1590908).at(player, 874).at(267).at(185).at(5, 12).at(13).as<int*>() = 0;
         else
             message::notification("~bold~~g~Ellohim Private Menu", "~bold~~g~Trigger Bunker Research Function: Supplies are empty! Buy Supplies!", "~bold~~g~Ellohim Business Manager");
     }

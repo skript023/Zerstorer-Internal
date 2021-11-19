@@ -44,4 +44,8 @@ namespace big::Lists
 	inline const char* casino_heist[]{ "Silent", "Bigcon", "Aggressive" };
 
 	inline std::size_t casino_heist_pos = 0;
+
+	inline const char* special_cargo_rare_items[] = { "Ornament Egg", "Gold Minigun", "Large Diamond", "Rare Hide", "Film Reel", "Pocket Watch" };
+
+	inline std::size_t special_cargo_selected = 0;
 }

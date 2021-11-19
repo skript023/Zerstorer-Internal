@@ -3,6 +3,8 @@
 #include "../Natives.hpp"
 #include "game_variable.hpp"
 #include "game_helper.hpp"
+#include "../ScriptCallback.hpp"
+#include "../Classes/Enum.hpp"
 
 namespace big
 {
@@ -194,5 +196,100 @@ namespace big
             return "Military Rifle";
         }
         return "Unarmed";
+    }
+
+    void weapon::ghost_gun(bool Activation)
+    {
+        Entity EntityID;
+        if (Activation && (PAD::IS_CONTROL_PRESSED(0, INPUT_ATTACK)))
+        {
+            if (PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(PLAYER::PLAYER_ID(), &EntityID))
+            {
+                if (ENTITY::DOES_ENTITY_EXIST(EntityID))
+                {
+                    g_CallbackScript->AddCallback<NetworkControlCallback>(EntityID, [=]
+                    {
+                        ENTITY::SET_ENTITY_ALPHA(EntityID, 102, FALSE);
+                        ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::PLAYER_PED_ID(), EntityID, FALSE);
+                    });
+                }
+            }
+        }
+    }
+
+    void weapon::remove_object_gun(bool activation)
+    {
+        Entity EntityID;
+        if ((activation) && (PAD::IS_CONTROL_PRESSED(0, INPUT_ATTACK)))
+        {
+            if (PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(PLAYER::PLAYER_ID(), &EntityID))
+            {
+                if (ENTITY::DOES_ENTITY_EXIST(EntityID))
+                {
+                    g_CallbackScript->AddCallback<NetworkControlCallback>(EntityID, [&EntityID]
+                    {
+                        ENTITY::SET_ENTITY_COORDS(EntityID, 0, 0, -100, 0, 0, 0, 0);
+                        NETWORK::NETWORK_FADE_OUT_ENTITY(EntityID, 0, 0);
+                        ENTITY::SET_ENTITY_AS_MISSION_ENTITY(EntityID, TRUE, TRUE);
+                        ENTITY::DELETE_ENTITY(&EntityID);
+                    });
+                }
+            }
+        }
+    }
+
+    NativeVector3 addVector(NativeVector3 vector, NativeVector3 vector2)
+    {
+        vector.x += vector2.x;
+        vector.y += vector2.y;
+        vector.z += vector2.z;
+        return vector;
+    }
+
+    double DegreeToRadian(double n)
+    {
+        return n * 0.017453292519943295;
+    }
+
+    NativeVector3 RotationToDirection(NativeVector3 rot)
+    {
+        double num = DegreeToRadian(rot.z);
+        double num2 = DegreeToRadian(rot.x);
+        double val = cos(num2);
+        double num3 = abs(val);
+        rot.x = (float)(-(float)sin(num) * num3);
+        rot.y = (float)(cos(num) * num3);
+        rot.z = (float)sin(num2);
+        return rot;
+    }
+
+    NativeVector3 multiplyVector(NativeVector3 vector, float inc)
+    {
+        vector.x *= inc;
+        vector.y *= inc;
+        vector.z *= inc;
+        return vector;
+    }
+
+    void weapon::rapid_fire(bool toggle)
+    {
+        if (toggle)
+        {
+            Player playerPed = PLAYER::PLAYER_PED_ID();
+            if (!PED::IS_PED_IN_ANY_VEHICLE(PLAYER::PLAYER_PED_ID(), TRUE)) {
+                PLAYER::DISABLE_PLAYER_FIRING(PLAYER::PLAYER_PED_ID(), TRUE);
+                NativeVector3 gameplayCam = CAM::GET_GAMEPLAY_CAM_COORD();
+                NativeVector3 gameplayCamRot = CAM::GET_GAMEPLAY_CAM_ROT(0);
+                NativeVector3 gameplayCamDirection = RotationToDirection(gameplayCamRot);
+                NativeVector3 startCoords = addVector(gameplayCam, (multiplyVector(gameplayCamDirection, 1.0f)));
+                NativeVector3 endCoords = addVector(startCoords, multiplyVector(gameplayCamDirection, 500.0f));
+                Hash weaponhash;
+                WEAPON::GET_CURRENT_PED_WEAPON(playerPed, &weaponhash, 1);
+                if (PAD::IS_CONTROL_PRESSED(2, 208) || (GetKeyState(VK_LBUTTON) & 0x8000))
+                {
+                    MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(startCoords.x, startCoords.y, startCoords.z, endCoords.x, endCoords.y, endCoords.z, 50, TRUE, weaponhash, playerPed, TRUE, TRUE, 0xbf800000);
+                }
+            }
+        }
     }
 }

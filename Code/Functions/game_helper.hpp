@@ -96,8 +96,7 @@ namespace big
 		{
 			if (tick == 200)
 			{
-				if (*script_global(g_global.session_change).as<int*>() == 1)
-					*script_global(g_global.session_change).as<int*>() = 0;
+				
 				tick = 0;
 			}
 

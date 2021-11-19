@@ -9,6 +9,7 @@
 #include "network_helper.hpp"
 #include "game_variable.hpp"
 #include "teleport.hpp"
+#include "../teleport_persist.hpp"
 
 static class selected_player
 {
@@ -19,7 +20,7 @@ public:
 	static inline const char* vehicle{};
 } g_selected;
 
-static class features
+class contents
 {
 public:
 	static inline int64_t tick{};
@@ -41,6 +42,11 @@ public:
 	static inline bool explosive_fist{};
 	static inline bool fire_ammo{};
 
+	static inline bool rapid_fire{};
+	static inline bool delete_gun{};
+	static inline bool ghost_gun{};
+
+
 	static inline int mc_business_money{};
 	static inline bool mc_supply_bool{};
 	static inline bool mc_timer_bool{};
@@ -55,4 +61,6 @@ public:
 	static inline int cargo_crates{};
 
 
-} g_features;
+};
+
+inline static contents g_features;

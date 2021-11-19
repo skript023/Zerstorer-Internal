@@ -20,6 +20,9 @@
 #include "Functions/game_helper.hpp"
 #include "Functions/vehicle_value.h"
 
+#pragma warning(disable:4477)
+#pragma warning(disable:4244)
+
 namespace big
 {
 	enum Submenu : std::uint32_t
@@ -56,7 +59,8 @@ namespace big
 		SubmenuMC,
 		SubmenuBunker,
 		SubmenuSpecialCargo,
-		SubmenuNightclub
+		SubmenuNightclub,
+		SubmenuSaveTeleport
 	};
 
 	bool MainScript::IsInitialized()
@@ -96,6 +100,17 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Option", SubmenuTeleport, [](RegularSubmenu* sub)
 		{
+			sub->AddOption<RegularOption>("Add Teleport", "Add some to use them!", []
+			{
+				MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "Teleport Name", "", "", "", 25);
+
+				g_CallbackScript->AddCallback<KeyBoardCallBack>("Teleport Name", 25, [] {
+					std::string text = MISC::GET_ONSCREEN_KEYBOARD_RESULT();
+					auto pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), false);
+					g_teleport_persist->AddTeleport(text, pos);
+					});
+			});
+			sub->AddOption<SubOption>("Saved Teleport", nullptr, SubmenuSaveTeleport);
 			sub->AddOption<RegularOption>("Teleport Waypoint", nullptr, []
 			{
 				teleport::teleport_to_marker();
@@ -134,6 +149,68 @@ namespace big
 			sub->AddOption<SubOption>("Session Option", nullptr, SubmenuSession);
 			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
 			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
+
+			sub->AddOption<RegularOption>("Call Terrorbyte", nullptr, []
+			{
+				*script_global(g_global.terorbyte).as<bool*>() = true;
+			});
+
+			sub->AddOption<RegularOption>("Call Kosatka", nullptr, []
+			{
+				*script_global(g_global.kosatka).as<bool*>() = true;
+			});
+
+			sub->AddOption<RegularOption>("Call Avenger", nullptr, []
+			{
+				*script_global(g_global.avanger).as<bool*>() = true;
+			});
+
+			sub->AddOption<RegularOption>("Call Mobile Operation Center", nullptr, []
+			{
+				*script_global(g_global.moc).as<bool*>() = true;
+			});
+
+			sub->AddOption<RegularOption>("Dinghy", nullptr, []
+			{
+				*script_global(g_global.dinghy).as<bool*>() = true;
+			});
+
+			sub->AddOption<RegularOption>("Drone", nullptr, []
+			{
+				int flags = *script_global(g_global.drone).as<int*>();
+				flags = Memory::set_bit(flags, 2);
+				flags = Memory::set_bit(flags, 22);
+				flags = Memory::set_bit(flags, 23);
+				flags = Memory::set_bit(flags, 24);
+				*script_global(g_global.drone).as<int*>() = flags;
+				
+				g_CallbackScript->AddCallback<DelayCallback>(100ms, []
+				{
+					int flags = *script_global(g_global.drone).as<int*>();
+					flags = Memory::clear_bit(flags, 2);
+					flags = Memory::clear_bit(flags, 22);
+					flags = Memory::clear_bit(flags, 23);
+					*script_global(g_global.drone).as<int*>() = flags;
+				});
+			});
+
+			sub->AddOption<RegularOption>("Minitank", nullptr, []
+			{
+				*script_global(g_global.mini_tank).as<int*>() = 1;
+				g_CallbackScript->AddCallback<DelayCallback>(1000ms, []
+				{
+					*script_global(g_global.mini_tank).as<int*>() = 0;
+				});
+			});
+
+			sub->AddOption<RegularOption>("RC Bandito", nullptr, []
+			{
+				*script_global(g_global.rc_bandito).as<int*>() = 1;
+				g_CallbackScript->AddCallback<DelayCallback>(1000ms, []
+				{
+					*script_global(g_global.rc_bandito).as<int*>() = 0;
+				});
+			});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Session Option", SubmenuSession, [](RegularSubmenu* sub)
@@ -215,6 +292,7 @@ namespace big
 			});
 			sub->AddOption<SubOption>("Vehicle Spawn", nullptr, SubmenuVehicleCategory);
 			sub->AddOption<SubOption>("LS Customs", "Must Be In Vehicle", SubmenuLSCustoms);
+			sub->AddOption<SubOption>("Vehicle Handling", "Must Be In Vehicle", SubmenuLSCustoms);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Los Santos Customs", SubmenuLSCustoms, [](RegularSubmenu* sub)
@@ -640,6 +718,34 @@ namespace big
 				else
 					*script_global(g_global.special_cargo_selling_time).as<int*>() = 1800000;
 			});
+
+			sub->AddOption<BoolOption<bool>>("Enable Rare Items", nullptr, script_global(g_global.rare_item).as<bool*>(), BoolDisplay::OnOff);
+
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Session", nullptr, &Lists::special_cargo_rare_items, &Lists::special_cargo_selected, true, []
+			{
+				switch (Lists::special_cargo_selected)
+				{
+				case 0:
+					*script_global(g_global.special_crates).as<int*>() = 2;
+					break;
+				case 1:
+					*script_global(g_global.special_crates).as<int*>() = 4;
+					break;
+				case 2:
+					*script_global(g_global.special_crates).as<int*>() = 6;
+					break;
+				case 3:
+					*script_global(g_global.special_crates).as<int*>() = 7;
+					break;
+				case 4:
+					*script_global(g_global.special_crates).as<int*>() = 8;
+					break;
+				case 5:
+					*script_global(g_global.special_crates).as<int*>() = 9;
+					break;
+				}
+			});
+
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Bunker Business", SubmenuBunker, [](RegularSubmenu* sub)
@@ -831,10 +937,29 @@ namespace big
 					}
 				}
 			});
+			sub->AddOption<RegularOption>("Give Max Ammo", nullptr, []
+			{
+				for (auto Weapon : game_variable::AllWeaponHashes)
+				{
+					int max_ammo;
+					if (WEAPON::IS_WEAPON_VALID(joaat(Weapon)))
+					{
+						int max_clip = WEAPON::GET_MAX_AMMO_IN_CLIP(PLAYER::PLAYER_PED_ID(), joaat(Weapon), FALSE);
+						WEAPON::GET_MAX_AMMO(PLAYER::PLAYER_PED_ID(), joaat(Weapon), &max_ammo);
+						WEAPON::SET_AMMO_IN_CLIP(PLAYER::PLAYER_PED_ID(), joaat(Weapon), max_clip);
+						WEAPON::SET_PED_AMMO(PLAYER::PLAYER_PED_ID(), joaat(Weapon), max_ammo, FALSE);
+					}
+				}
+			});
+
 			sub->AddOption<BoolOption<bool>>("Infinite Ammo", nullptr, &g_features.infinite_ammo, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Infinite Clip", nullptr, &g_features.infinite_clip, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Explosive Ammo", nullptr, &g_features.explosive_ammo, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Fire Ammo", nullptr, &g_features.fire_ammo, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Rapid Fire", nullptr, &g_features.rapid_fire, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Delete Gun", nullptr, &g_features.delete_gun, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Ghost Gun", nullptr, &g_features.ghost_gun, BoolDisplay::OnOff);
+
 		});
 		
 		g_UiManager->AddSubmenu<RegularSubmenu>("Heist Option", SubmenuHeist, [](RegularSubmenu* sub)
@@ -881,21 +1006,6 @@ namespace big
 				switch (Lists::casino_heist_pos)
 				{
 				case 0:
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 2, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 3, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 2, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_TARGET"), 3, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_DISRUPTSHIP"), 3, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_KEYLEVELS"), 2, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWWEAP"), 2, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWDRIVER"), 2, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWHACKER"), 4, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_VEHS"), 3, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 0, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 159, TRUE);
-					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 392982, TRUE);
-					break;
-				case 1:
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 1, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 2, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 1, TRUE);
@@ -909,6 +1019,21 @@ namespace big
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 1, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 127, TRUE);
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 62, TRUE);
+					break;
+				case 1:
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_LAST_APPROACH"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3_HARD_APPROACH"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_TARGET"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_DISRUPTSHIP"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_KEYLEVELS"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWWEAP"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWDRIVER"), 2, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_CREWHACKER"), 4, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_VEHS"), 3, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_WEAPS"), 0, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET1"), 159, TRUE);
+					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_BITSET0"), 392982, TRUE);
 					break;
 				case 2:
 					STATS::STAT_SET_INT(joaat("MP" + mpx + "_H3OPT_APPROACH"), 3, TRUE);
@@ -1258,6 +1383,69 @@ namespace big
 				NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(g_features.spectating, g_selected.ped);
 			});
 		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Locations", SubmenuSaveTeleport, [](RegularSubmenu* sub)
+			{
+				namespace fs = std::filesystem;
+				fs::directory_iterator dirIt{ g_teleport_persist->GetTeleportDirectory() };
+				for (auto&& dirEntry : dirIt)
+				{
+					if (dirEntry.is_regular_file())
+					{
+						auto path = dirEntry.path();
+						if (path.has_filename() && !fs::is_empty(path))
+						{
+							sub->AddOption<RegularOption>(path.stem().u8string().c_str(), nullptr, [=]
+								{
+									fs::path m_FilePath;
+									char prefix[64] = {};
+									std::snprintf(prefix, sizeof(prefix) - 1, "%s%s", path.stem().u8string(), ".big");
+
+									m_FilePath.append(std::getenv("appdata"));
+									m_FilePath.append(BIGBASE_NAME);
+									m_FilePath.append("Teleports\\");
+
+									m_FilePath.append(prefix);
+
+									std::ifstream ifs(m_FilePath);
+
+									std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+									std::stringstream ss(content);
+									std::vector<float> result;
+
+									while (ss.good())
+									{
+										std::string substr;
+										std::getline(ss, substr, ',');
+										result.push_back(::atof(substr.c_str()));
+									}
+									if (PED::IS_PED_IN_VEHICLE(PLAYER::PLAYER_PED_ID(), PED::GET_VEHICLE_PED_IS_IN(PLAYER::PLAYER_PED_ID(), 0), true))
+									{
+										Vehicle veh = PED::GET_VEHICLE_PED_IS_IN(PLAYER::PLAYER_PED_ID(), 0);
+										ENTITY::SET_ENTITY_COORDS_NO_OFFSET(veh, result[0], result[1], result[2], false, false, false);
+									}
+									else {
+										ENTITY::SET_ENTITY_COORDS_NO_OFFSET(PLAYER::PLAYER_PED_ID(), result[0], result[1], result[2], false, false, false);
+									}
+								});
+						}
+						else
+						{
+							sub->AddOption<RegularOption>("No Teleports Found", "Add some to use them!", []
+							{
+								MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "Teleport Name", "", "", "", 25);
+
+								g_CallbackScript->AddCallback<KeyBoardCallBack>("Teleport Name", 25, [] {
+									std::string text = MISC::GET_ONSCREEN_KEYBOARD_RESULT();
+									auto pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), false);
+									g_teleport_persist->AddTeleport(text, pos);
+								});
+							});
+						}
+					}
+				}
+
+			});
 	}
 
 	void MainScript::Destroy()

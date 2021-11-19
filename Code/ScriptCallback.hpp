@@ -90,6 +90,194 @@ namespace big
 		std::function<void()> m_Action;
 	};
 
+	class DelayCallback : public AbstractCallback
+	{
+	public:
+		explicit DelayCallback(std::chrono::high_resolution_clock::duration delay, std::function<void()> action) :
+			m_StartTime(std::chrono::high_resolution_clock::now()),
+			m_Delay(delay),
+			m_Action(std::move(action))
+		{
+		}
+
+		bool IsDone() override
+		{
+			return (std::chrono::high_resolution_clock::now() - m_StartTime).count() >= m_Delay.count();
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+		}
+
+	private:
+		std::chrono::steady_clock::time_point m_StartTime;
+		std::chrono::high_resolution_clock::duration m_Delay;
+		std::function<void()> m_Action;
+	};
+
+	class FadeCallback : public AbstractCallback
+	{
+	public:
+		explicit FadeCallback(std::uint32_t fadeInTime, std::uint32_t fadeOutTime, std::function<void()> action) :
+			m_FadeIn(fadeInTime),
+			m_FadeOut(fadeOutTime),
+			m_Action(std::move(action))
+		{
+		}
+
+		bool IsDone() override
+		{
+			auto ret = CAM::IS_SCREEN_FADED_OUT();
+			if (ret)
+			{
+				CAM::DO_SCREEN_FADE_IN(m_FadeIn);
+			}
+			return ret;
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+			if (!CAM::IS_SCREEN_FADED_OUT() || !CAM::IS_SCREEN_FADING_OUT())
+			{
+				CAM::DO_SCREEN_FADE_OUT(m_FadeOut);
+			}
+		}
+	private:
+		std::uint32_t m_FadeIn;
+		std::uint32_t m_FadeOut;
+		std::function<void()> m_Action;
+	};
+
+	class ModelCollisionCallback : public AbstractCallback
+	{
+	public:
+		explicit ModelCollisionCallback(Hash model, std::function<void()> action) :
+			m_Model(model),
+			m_Action(std::move(action))
+		{
+		}
+
+		bool IsDone() override
+		{
+			return STREAMING::HAS_COLLISION_FOR_MODEL_LOADED(m_Model);
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+			STREAMING::REQUEST_COLLISION_FOR_MODEL(m_Model);
+		}
+	private:
+		Hash m_Model;
+		std::function<void()> m_Action;
+	};
+
+	class PTFXAssetCallback : public AbstractCallback
+	{
+	public:
+		explicit PTFXAssetCallback(const char* asset, std::function<void()> action) :
+			m_Asset(asset),
+			m_Action(std::move(action))
+		{
+		}
+
+		bool IsDone() override
+		{
+			return STREAMING::HAS_NAMED_PTFX_ASSET_LOADED(m_Asset);
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+			STREAMING::REQUEST_NAMED_PTFX_ASSET(m_Asset);
+		}
+	private:
+		const char* m_Asset;
+		std::function<void()> m_Action;
+	};
+
+	class AssetCallback : public AbstractCallback
+	{
+	public:
+		explicit AssetCallback(std::uint32_t asset, std::function<void()> action) :
+			m_Asset(asset),
+			m_Action(std::move(action))
+		{
+		}
+
+		bool IsDone() override
+		{
+			return WEAPON::HAS_WEAPON_ASSET_LOADED(m_Asset);
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+			WEAPON::REQUEST_WEAPON_ASSET(m_Asset, 31, false);
+		}
+	private:
+		std::uint32_t m_Asset;
+		std::function<void()> m_Action;
+	};
+
+	class KeyBoardCallBack : public AbstractCallback
+	{
+	public:
+		explicit KeyBoardCallBack(const char* title, int input, std::function<void()> action) :
+			Title(title),
+			m_Action(std::move(action)),
+			Input(input)
+		{
+		}
+
+		bool IsDone() override
+		{
+			return MISC::GET_ONSCREEN_KEYBOARD_RESULT();
+		}
+
+		void OnSuccess() override
+		{
+			if (m_Action)
+				std::invoke(m_Action);
+		}
+
+		void OnFailure() override
+		{
+
+		}
+	private:
+		const char* Title;
+		int Input;
+		std::function<void()> m_Action;
+	};
+
 	class TeleportWaypoint : public AbstractCallback
 	{
 	public:

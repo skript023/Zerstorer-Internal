@@ -69,6 +69,7 @@
     <ClInclude Include="ScriptLocal.hpp" />
     <ClInclude Include="ScriptManager.hpp" />
     <ClInclude Include="Settings.hpp" />
+    <ClInclude Include="teleport_persist.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="Translation.hpp" />
     <ClInclude Include="Types.hpp" />
