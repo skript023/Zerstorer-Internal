@@ -238,7 +238,7 @@ namespace big
         }
     }
 
-    NativeVector3 addVector(NativeVector3 vector, NativeVector3 vector2)
+    NativeVector3 add_vector(NativeVector3 vector, NativeVector3 vector2)
     {
         vector.x += vector2.x;
         vector.y += vector2.y;
@@ -281,8 +281,8 @@ namespace big
                 NativeVector3 gameplayCam = CAM::GET_GAMEPLAY_CAM_COORD();
                 NativeVector3 gameplayCamRot = CAM::GET_GAMEPLAY_CAM_ROT(0);
                 NativeVector3 gameplayCamDirection = RotationToDirection(gameplayCamRot);
-                NativeVector3 startCoords = addVector(gameplayCam, (multiplyVector(gameplayCamDirection, 1.0f)));
-                NativeVector3 endCoords = addVector(startCoords, multiplyVector(gameplayCamDirection, 500.0f));
+                NativeVector3 startCoords = add_vector(gameplayCam, (multiplyVector(gameplayCamDirection, 1.0f)));
+                NativeVector3 endCoords = add_vector(startCoords, multiplyVector(gameplayCamDirection, 500.0f));
                 Hash weaponhash;
                 WEAPON::GET_CURRENT_PED_WEAPON(playerPed, &weaponhash, 1);
                 if (PAD::IS_CONTROL_PRESSED(2, 208) || (GetKeyState(VK_LBUTTON) & 0x8000))
