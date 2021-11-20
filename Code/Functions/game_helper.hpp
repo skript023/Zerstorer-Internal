@@ -138,6 +138,7 @@ namespace big
 			if (!g_Running)
 				message::notification("Zerstorer Gold Edition", "~bold~~g~Menu Unloaded", "~bold~~g~Zerstorer Unloader");
 		}
+		static script_local mission_lives();
 		static const char* get_mod_slot_name(int mod_slot, Vehicle vehicle);
 		static const char* get_mod_name(int mod, int mod_slot, int mod_count, Vehicle vehicle);
 		static void get_vehicle_mod();
@@ -228,5 +229,5 @@ namespace big
     };
 
 	inline static game_helper g_game_helper;
-	inline static game_protection g_protection;
+	inline static game_protection* g_protection{};
 }

@@ -309,7 +309,7 @@ namespace big
 		float m_x;
 		float m_y;
 		float m_z = 1000.f;
-		float ground;
+		float ground = 0.f;
 		bool found = false;
 		std::int32_t m_entity;
 		std::function<void()> m_Action;

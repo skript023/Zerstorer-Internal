@@ -16,7 +16,7 @@ namespace big::hook_helper
 		auto sender_id = sender->player_id;
 		char sender_info[120] = "~g~Blocked Report From ";
 		
-		if (g_protection.block_report)
+		if (g_protection->block_report)
 		{
 			switch (hash)
 			{
@@ -40,7 +40,7 @@ namespace big::hook_helper
 				strcat(sender_info, sender_name);
 
 				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Ellohim Menu Received Event");
-				if (g_protection.redirect_report)
+				if (g_protection->redirect_report)
 				{
 					char redirect_message[120] = "~g~redirected to ";
 					strcat(redirect_message, sender_name);
@@ -67,7 +67,7 @@ namespace big::hook_helper
 		switch (EventHash)
 		{
 		case TELEPORT_APARTMENT: //Invite
-			if (g_protection.block_apartment)
+			if (g_protection->block_apartment)
 			{
 				strcpy(sender_info, "~g~Blocked Invite Event From ");
 				strcat(sender_info, sender_name);
@@ -76,7 +76,7 @@ namespace big::hook_helper
 			}
 			break;
 		case TELEPORT_CAYO: //send cayo
-			if (g_protection.block_cayo)
+			if (g_protection->block_cayo)
 			{
 				strcpy(sender_info, "~g~Blocked Teleport Cayo Event From ");
 				strcat(sender_info, sender_name);
@@ -86,7 +86,7 @@ namespace big::hook_helper
 			}
 			break;
 		case CEO_KICK: //CEO Kick
-			if (g_protection.block_ceo_kick)
+			if (g_protection->block_ceo_kick)
 			{
 				strcpy(sender_info, "~g~Blocked CEO Kick Event From ");
 				strcat(sender_info, sender_name);
@@ -96,7 +96,7 @@ namespace big::hook_helper
 			}
 			break;
 		case CEO_BAN: //CEO Ban
-			if (g_protection.block_ceo_ban)
+			if (g_protection->block_ceo_ban)
 			{
 				strcpy(sender_info, "~g~Blocked CEO Ban Event From ");
 				strcat(sender_info, sender_name);
@@ -106,7 +106,7 @@ namespace big::hook_helper
 			}
 			break;
 		case ROTATE_CAM: //Rotete Cam
-			if (g_protection.block_rotate_cam)
+			if (g_protection->block_rotate_cam)
 			{
 				/*
 				HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
@@ -118,7 +118,7 @@ namespace big::hook_helper
 			}
 			break;
 		case VEHICLE_KICK: //Vehicle Kick
-			if (g_protection.block_vehicle_kick)
+			if (g_protection->block_vehicle_kick)
 			{
 				strcpy(sender_info, "~g~Blocked Vehicle Kick Event From ");
 				strcat(sender_info, sender_name);
@@ -128,7 +128,7 @@ namespace big::hook_helper
 			}
 			break;
 		case TRANSACTION_ERROR:
-			if (g_protection.block_transaction_error)
+			if (g_protection->block_transaction_error)
 			{
 				strcpy(sender_info, "~g~Blocked Transaction Error Event From ");
 				strcat(sender_info, sender_name);
@@ -139,7 +139,7 @@ namespace big::hook_helper
 			break;
 		case SEND_TO_MISSION_1:
 		case SEND_TO_MISSION_2:
-			if (g_protection.block_send_mission)
+			if (g_protection->block_send_mission)
 			{
 				strcpy(sender_info, "~g~Blocked Force Mission Event From ");
 				strcat(sender_info, sender_name);
@@ -149,7 +149,7 @@ namespace big::hook_helper
 			}
 			break;
 		case PHONE_INVITE:
-			if (g_protection.block_spam)
+			if (g_protection->block_spam)
 			{
 				strcpy(sender_info, "~g~Blocked Phone Spam Event From ");
 				strcat(sender_info, sender_name);
@@ -159,7 +159,7 @@ namespace big::hook_helper
 			}
 			break;
 		case 2092565704:
-			if (g_protection.block_kick)
+			if (g_protection->block_kick)
 			{
 				strcpy(sender_info, "~g~Blocked Network Error From ");
 				strcat(sender_info, sender_name);
@@ -189,7 +189,7 @@ namespace big::hook_helper
 		case -1277389265:
 		case -892744477:
 		case 600486780:
-			if (g_protection.block_kick)
+			if (g_protection->block_kick)
 			{
 				return true;
 			}
@@ -224,7 +224,7 @@ namespace big::hook_helper
 		case 987018372:
 		case 813647057:
 		case 696123127:
-			if (g_protection.block_kick)
+			if (g_protection->block_kick)
 			{
 				strcpy(sender_info, "~g~Blocked Kick Event From ");
 				strcat(sender_info, sender_name);

@@ -19,7 +19,7 @@ namespace big
 		char sender_info[128] = "Crash has been sent by ";
 		strcat(sender_info, sender_name);
 		
-		if (g_protection.crash)
+		if (g_protection->crash)
 		{
 			switch (ped_hash)
 			{

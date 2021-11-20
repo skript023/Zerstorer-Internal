@@ -184,6 +184,9 @@
     <ClInclude Include="teleport_persist.hpp">
       <Filter>Functions\teleport</Filter>
     </ClInclude>
+    <ClInclude Include="Functions\stat_helper.hpp">
+      <Filter>Functions\stat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -263,6 +266,9 @@
     <ClCompile Include="Functions\freemode_script_recovery.cpp">
       <Filter>Functions\hooks</Filter>
     </ClCompile>
+    <ClCompile Include="Functions\stat_helper.cpp">
+      <Filter>Functions\stat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -312,6 +318,9 @@
     </Filter>
     <Filter Include="Functions\hooks">
       <UniqueIdentifier>{b76d7001-8bd2-4b60-a1c9-616a75f5e512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\stat">
+      <UniqueIdentifier>{e10b5828-4207-4233-abd5-dfa7fbf052af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,20 @@
 
 namespace big
 {
+    void business::set_nightclub_popularity(int popularity)
+    {
+        const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+        STATS::STAT_SET_INT(joaat("MP" + mpx + "_CLUB_POPULARITY"), popularity, TRUE);
+    }
+
+    int business::get_nightclub_popularity()
+    {
+        int popularity;
+        const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+        STATS::STAT_GET_INT(joaat("MP" + mpx + "_CLUB_POPULARITY"), &popularity, -1);
+        return popularity;
+    }
+
     void business::special_cargo_crates(int crates)
     {
         if (auto crates_cargo = find_script_thread(RAGE_JOAAT("gb_contraband_buy")))

@@ -7,6 +7,10 @@ namespace big
 	{
 	public:
 
+		static void set_nightclub_popularity(int popularity);
+
+		static int get_nightclub_popularity();
+
 		static void special_cargo_crates(int crates);
 
 		static void special_cargo_selling_mission(int money);

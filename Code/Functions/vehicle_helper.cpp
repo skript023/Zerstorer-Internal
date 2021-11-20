@@ -6,6 +6,124 @@
 
 namespace big
 {
+    void vehicle::set_flag(int Flag, uint32_t flagBit)
+    {
+        if (get_local_ped()->m_is_in_vehicle)
+        {
+            switch (Flag)
+            {
+            case 1:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_1;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_1 = bit_set;
+                break;
+            }
+            case 2:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_2;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_2 = bit_set;
+                break;
+            }
+            case 3:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_3;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_3 = bit_set;
+                break;
+            }
+            case 4:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_4;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_4 = bit_set;
+                break;
+            }
+            case 5:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_5;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_5 = bit_set;
+                break;
+            }
+            case 6:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_6;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_6 = bit_set;
+                break;
+            }
+            case 7:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_7;
+                uint32_t bit_set = Memory::set_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_7 = bit_set;
+                break;
+            }
+            }
+        }
+    }
+
+    void vehicle::clear_flag(int Flag, uint32_t flagBit)
+    {
+        if (get_local_ped()->m_is_in_vehicle)
+        {
+            switch (Flag)
+            {
+            case 1:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_1;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_1 = bit_set;
+                break;
+            }
+            case 2:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_2;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_2 = bit_set;
+                break;
+            }
+            case 3:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_3;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_3 = bit_set;
+                break;
+            }
+            case 4:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_4;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_4 = bit_set;
+                break;
+            }
+            case 5:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_5;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_5 = bit_set;
+                break;
+            }
+            case 6:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_6;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_6 = bit_set;
+                break;
+            }
+            case 7:
+            {
+                auto set_bit = get_local_ped()->m_last_vehicle->m_model_info->m_flag_7;
+                uint32_t bit_set = Memory::clear_bit(set_bit, flagBit);
+                get_local_ped()->m_last_vehicle->m_model_info->m_flag_7 = bit_set;
+                break;
+            }
+            }
+        }
+    }
+
     Vehicle vehicle::get_personal_vehicle(Player player)
     {
         if (joaat(SCRIPT::GET_THIS_SCRIPT_NAME()) == RAGE_JOAAT("freemode"))

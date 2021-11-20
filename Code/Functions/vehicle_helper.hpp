@@ -8,6 +8,10 @@ namespace big
 	{
 	public:
 
+		static void set_flag(int Flag, uint32_t flagBit);
+
+		static void clear_flag(int Flag, uint32_t flagBit);
+
 		static Vehicle get_personal_vehicle(Player player);
 
 		static void infinite_boost(bool Activation);

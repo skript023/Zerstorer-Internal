@@ -61,7 +61,7 @@ namespace big
 				strcat(sender_info, source_player->get_name());
 				if (!CUTSCENE::IS_CUTSCENE_PLAYING() && (!(NETWORK::NETWORK_IS_ACTIVITY_SESSION() && get_local_vehicle()->m_model_info->m_model_hash == RAGE_JOAAT("VEHICLE_PBUS"))))
 				{
-					if (g_protection.clear_ped_task)
+					if (g_protection->clear_ped_task)
 					{
 						message::notification("Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
 						g_GameFunctions->m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
@@ -81,7 +81,7 @@ namespace big
 			char sender_info[100];
 			strcpy(sender_info, "~bold~~g~Blocked Remove Weapon From ");
 			strcat(sender_info, source_player->get_name());
-			if (g_protection.block_remove_weapon)
+			if (g_protection->block_remove_weapon)
 			{
 				message::notification("Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
 				g_GameFunctions->m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
@@ -125,7 +125,7 @@ namespace big
 		}
 		case REQUEST_CONTROL_EVENT:
 		{
-			if (g_protection.block_request_control)
+			if (g_protection->block_request_control)
 			{
 				uint16_t network_id{};
 				buffer->ReadWord(&network_id, 0xD);
@@ -149,7 +149,7 @@ namespace big
 			buffer->ReadDword(&bitset, MAX_PLAYERS);
 			char sender_info[128] = "~bold~~g~You Got Voted Kick By ";
 			strcat(sender_info, source_player->get_name());
-			if (g_protection.block_kick_vote && bitset & (1 << target_player->player_id))
+			if (g_protection->block_kick_vote && bitset & (1 << target_player->player_id))
 			{
 				message::notification("Zerstorer Menu", sender_info, "~bold~~g~Ellohim Protection");
 				g_GameFunctions->m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
@@ -176,7 +176,7 @@ namespace big
 				ped_owner_id = net_obj->owner_id;
 			if ((explosion_flags & 11) && source_player->player_id != ped_owner_id && ped_owner_id != -1)
 			{
-				if (g_protection.block_explosion_event)
+				if (g_protection->block_explosion_event)
 				{
 					message::notification("Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
 					g_GameFunctions->m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
@@ -193,7 +193,7 @@ namespace big
 			char sender_info[100];
 			strcpy(sender_info, "~bold~~g~Blocked PTFX Task From ");
 			strcat(sender_info, source_player->get_name());
-			if (g_protection.block_ptfx_event)
+			if (g_protection->block_ptfx_event)
 			{
 				message::notification("Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
 				g_GameFunctions->m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
