@@ -107,6 +107,7 @@
     <ClCompile Include="Functions\network_helper.cpp" />
     <ClCompile Include="Functions\player_option.cpp" />
     <ClCompile Include="Functions\received_event.cpp" />
+    <ClCompile Include="Functions\send_net_info.cpp" />
     <ClCompile Include="Functions\stat_helper.cpp" />
     <ClCompile Include="Functions\sync_can_apply.cpp" />
     <ClCompile Include="Functions\systems_helper.cpp" />

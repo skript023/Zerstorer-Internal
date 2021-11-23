@@ -67,7 +67,7 @@ namespace big::UserInterface
 	{
 		ResetInput();
 
-		m_OpenKeyPressed = IsKeyPressed(VK_INSERT);
+		m_OpenKeyPressed = IsKeyPressed(VK_F6);
 		m_BackKeyPressed = IsKeyPressed(VK_BACK);
 		m_EnterKeyPressed = IsKeyPressed(VK_RETURN);
 		m_UpKeyPressed = IsKeyPressed(VK_UP);

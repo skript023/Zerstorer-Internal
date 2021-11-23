@@ -8,6 +8,25 @@
 
 namespace big
 {
+    void weapon::give_weapon(Ped target_ped)
+    {
+        int MaxAmmo;
+        for (auto WeaponList : game_variable::AllWeaponHashes)
+        {
+            if (!WEAPON::HAS_PED_GOT_WEAPON(target_ped, joaat(WeaponList), FALSE))
+            {
+                WEAPON::GIVE_DELAYED_WEAPON_TO_PED(target_ped, joaat(WeaponList), (WEAPON::GET_MAX_AMMO(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), &MaxAmmo) == TRUE) ? MaxAmmo : 9999, FALSE);
+                for (auto ComponentHashes : game_variable::AllComponentHashes)
+                {
+                    WEAPON::SET_PED_WEAPON_TINT_INDEX(target_ped, RAGE_JOAAT("WEAPON_MILITARYRIFLE"), 3);
+                    WEAPON::SET_PED_WEAPON_TINT_INDEX(target_ped, RAGE_JOAAT("WEAPON_MINIGUN"), 3);
+                    WEAPON::SET_PED_WEAPON_TINT_INDEX(target_ped, RAGE_JOAAT("WEAPON_GRENADELAUNCHER"), 3);
+                    WEAPON::GIVE_WEAPON_COMPONENT_TO_PED(target_ped, joaat(WeaponList), joaat(ComponentHashes));
+                }
+            }
+        }
+    }
+
     void weapon::infinite_ammo(bool Activation)
     {
         if (Activation)

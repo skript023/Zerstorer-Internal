@@ -33,12 +33,16 @@ namespace big
 		static inline bool infinite_ammo{ true };
 		static inline bool auto_heal{ true };
 		static inline bool no_ragdoll{};
-		static inline bool seatbelt{};
+		static inline bool seatbelt{true};
 		static inline bool never_wanted{};
 		static inline bool spectating{};
 		static inline bool no_collision{};
 		static inline bool no_clip{};
 		static inline bool no_idle_kick{ true };
+
+		static inline char spoofer_name[20];
+		static inline char spoofer_rid[100];
+
 
 		static inline bool super_jump{};
 		static inline bool explosive_ammo{};

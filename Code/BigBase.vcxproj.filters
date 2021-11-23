@@ -269,6 +269,9 @@
     <ClCompile Include="Functions\stat_helper.cpp">
       <Filter>Functions\stat</Filter>
     </ClCompile>
+    <ClCompile Include="Functions\send_net_info.cpp">
+      <Filter>Functions\hooks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

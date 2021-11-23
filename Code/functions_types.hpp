@@ -28,4 +28,5 @@ namespace big::functions
 	using gta_thread_tick = __int64(*)(GtaThread* a1, unsigned int a2);
 	using gta_thread_kill = __int64(*)(GtaThread* a1);
 
+	using send_net_info_to_lobby = bool(*)(rage::netPlayerData* local_player, __int64 a2, __int64 a3, DWORD* a4);
 }

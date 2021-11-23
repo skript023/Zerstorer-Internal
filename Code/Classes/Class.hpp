@@ -12,6 +12,7 @@ namespace rage
 	class CNetworkObjectMgr;
 	class CObject;
 	class netSyncTree;
+	class netPlayerData;
 }
 
 namespace big

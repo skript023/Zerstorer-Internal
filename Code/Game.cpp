@@ -24,7 +24,10 @@ namespace big
 		m_waypoint_coords(Signature("74 1F F3 0F 10 05 ? ? ? ? F3 0F 11 03").Scan().Add(6).Rip().As<decltype(m_waypoint_coords)>()),
 		m_player_user_id(Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 83").Scan().Add(3).Rip().Add(8).As<decltype(m_player_user_id)>()),
 		m_network_object_manager(Signature("48 8B 0D ? ? ? ? 45 33 C0 E8 ? ? ? ? 33 FF 4C 8B F0").Scan().Add(3).Rip().As<decltype(m_network_object_manager)>()),
-		m_money_in_bunker(Signature("48 8D 05 ? ? ? ? 48 C1 E1 ? 48 03 C8 E8 ? ? ? ? 48 8B 5C").Scan().Add(3).Rip().As<decltype(m_money_in_bunker)>())
+		m_money_in_bunker(Signature("48 8D 05 ? ? ? ? 48 C1 E1 ? 48 03 C8 E8 ? ? ? ? 48 8B 5C").Scan().Add(3).Rip().As<decltype(m_money_in_bunker)>()),
+		m_real_name(Signature("48 8D ? ? ? ? ? E8 ? ? ? ? 48 85 ? 75 ? 48 83 C4 ? C3 CC CC 48 83 EC ? 48 8D").Scan().Add(3).Rip().Add(0x24).As<decltype(m_real_name)>()),
+		m_player_name_display(Signature("48 8D 05 ? ? ? ? 48 63 CB 48 8B D6 48 69 C9 ? ? ? ? 48 03 C8 E8 ? ? ? ? 84 C0 75 21").Scan().Add(3).Rip().Add(0x14).As<decltype(m_player_name_display)>()),
+		m_player_name_esp(Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 83").Scan().Add(3).Rip().Add(0x84).As<decltype(m_player_name_esp)>())
 	{
 		auto sig = Signature("48 83 EC 60 48 8D 0D ? ? ? ? E8").Scan().Sub(17);
 		m_GameBuild = sig.Add(265 + 3).Rip().As<decltype(m_GameBuild)>();
@@ -52,7 +55,8 @@ namespace big
 		m_sync_can_apply(Signature("49 8B CE FF 50 70 84 C0 74 31 33 FF").Scan().Sub(0x2C).As<decltype(m_sync_can_apply)>()),
 		m_clone_create(Signature("48 8B C4 66 44 89 48").Scan().As<decltype(m_clone_create)>()),
 		m_gta_thread_tick(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 B9 ? ? ? ? ? 8B FA 48 8B D9 74 05").Scan().As<decltype(m_gta_thread_tick)>()),
-		m_gta_thread_kill(Signature("48 89 5C 24 ? 57 48 83 EC 20 48 83 B9 ? ? ? ? ? 48 8B D9 74 14").Scan().As<decltype(m_gta_thread_kill)>())
+		m_gta_thread_kill(Signature("48 89 5C 24 ? 57 48 83 EC 20 48 83 B9 ? ? ? ? ? 48 8B D9 74 14").Scan().As<decltype(m_gta_thread_kill)>()),
+		m_send_net_info_to_lobby(Signature("E8 ? ? ? ? 84 C0 74 26 8B 96").Scan().Sub(0xC4).As<decltype(m_send_net_info_to_lobby)>())
 	{
 	}
 }

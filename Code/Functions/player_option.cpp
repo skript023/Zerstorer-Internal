@@ -4,6 +4,18 @@
 
 namespace big
 {
+    void player::set_player_seatbelt(bool Activation)
+    {
+        if (Activation)
+        {
+            get_local_ped()->seatbelt = 0xC9;
+        }
+        else
+        {
+            get_local_ped()->seatbelt = 0xC8;
+        }
+    }
+
 	void player::set_player_invincible(Player player, bool activate)
 	{
 		if (auto ped = get_player(player))
@@ -142,6 +154,13 @@ namespace big
             *script_global(262145).at(89).as<int*>() = 600000;
             *script_global(262145).at(90).as<int*>() = 900000;
         }
+    }
+
+    void player::change_name(const std::string& name, rage::netPlayerData* data)
+    {
+        auto len = std::min(name.size(), (std::size_t)18);
+        std::memcpy(data->m_name, name.data(), len);
+        data->m_name[len] = '\0';
     }
 
     Ped player::get_player_ped(Player player)

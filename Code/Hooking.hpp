@@ -11,6 +11,8 @@ namespace big
 
 		static bool received_event(rage::netEventMgr* event_manager, CNetGamePlayer* source_player, CNetGamePlayer* target_player, uint16_t event_id, int event_index, int event_handled_bitset, int64_t bit_buffer_size, rage::datBitBuffer* buffer);
 		
+		static bool send_net_info_to_lobby(rage::netPlayerData* local_player, __int64 a2, __int64 a3, DWORD* a4);
+
 		static bool sync_can_apply(rage::netSyncTree* netSyncTree, rage::netObject* netObject);
 		static bool clone_create(rage::CNetworkObjectMgr* mgr, CNetGamePlayer* src, CNetGamePlayer* dst, int32_t _object_type, int32_t _object_id, int32_t _object_flag, rage::datBitBuffer* buffer, int32_t timestamp);
 
@@ -50,6 +52,8 @@ namespace big
 
 		void* m_sync_can_apply{};
 		void* m_clone_create{};
+
+		void* m_send_net_info_to_lobby_hook{};
 
 		void* m_gta_thread_tick{};
 		void* m_gta_thread_kill{};

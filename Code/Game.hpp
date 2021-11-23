@@ -31,6 +31,9 @@ namespace big
 		Vector2 *m_waypoint_coords;
 		uint64_t* m_player_user_id;
 		BusinessMoney** m_money_in_bunker;
+		char* m_real_name;
+		char* m_player_name_esp;
+		char* m_player_name_display;
 
 		int *m_total_friend;
 		PVOID m_return_address;
@@ -76,6 +79,7 @@ namespace big
 
 		functions::gta_thread_tick m_gta_thread_tick;
 		functions::gta_thread_kill m_gta_thread_kill;
+		functions::send_net_info_to_lobby m_send_net_info_to_lobby;
 	};
 
 	inline std::unique_ptr<GameVariables> g_GameVariables;

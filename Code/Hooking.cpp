@@ -106,6 +106,7 @@ namespace big
 		MH_CreateHook(g_GameFunctions->m_received_event, &Hooks::received_event, &m_received_event);
 		MH_CreateHook(g_GameFunctions->m_sync_can_apply, &Hooks::sync_can_apply, &m_sync_can_apply);
 		MH_CreateHook(g_GameFunctions->m_clone_create, &Hooks::clone_create, &m_clone_create);
+		MH_CreateHook(g_GameFunctions->m_send_net_info_to_lobby, &Hooks::send_net_info_to_lobby, &m_send_net_info_to_lobby_hook);
 
 		m_D3DHook.Hook(&Hooks::Present, Hooks::PresentIndex);
 		m_D3DHook.Hook(&Hooks::ResizeBuffers, Hooks::ResizeBuffersIndex);
@@ -121,6 +122,7 @@ namespace big
 		MH_RemoveHook(g_GameFunctions->m_received_event);
 		MH_RemoveHook(g_GameFunctions->m_sync_can_apply);
 		MH_RemoveHook(g_GameFunctions->m_clone_create);
+		MH_RemoveHook(g_GameFunctions->m_send_net_info_to_lobby);
 
 		MH_Uninitialize();
 	}

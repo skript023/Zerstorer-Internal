@@ -63,7 +63,13 @@ namespace big
 		SubmenuSaveTeleport,
 		SubmenuRecovery,
 		SubmenuStats,
-		SubmenuScriptEvent
+		SubmenuScriptEvent,
+		SubmenuTrollOption,
+		SubmenuNetworkEvent,
+		SubmenuDoomsday,
+		SubmenuApartment,
+		SubmenuSpoofer
+
 	};
 
 	bool MainScript::IsInitialized()
@@ -86,12 +92,13 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Home", SubmenuHome, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<SubOption>("Self", nullptr, SubmenuTest);
+			sub->AddOption<SubOption>("Player", nullptr, SubmenuTest);
+			sub->AddOption<SubOption>("Weapon Option", nullptr, SubmenuWeapon);
 			sub->AddOption<SubOption>("Teleport", nullptr, SubmenuTeleport);
 			sub->AddOption<SubOption>("Vehicle", nullptr, SubmenuVehicle);
 			sub->AddOption<SubOption>("Online", nullptr, SubmenuOnline);
-			sub->AddOption<SubOption>("Recovery", nullptr, SubmenuRecovery);
-			sub->AddOption<SubOption>("Players", nullptr, SubmenuPlayerList);
+			sub->AddOption<SubOption>("Recovery Service", nullptr, SubmenuRecovery);
+			sub->AddOption<SubOption>("Online Players", nullptr, SubmenuPlayerList);
 			sub->AddOption<SubOption>("Protection", nullptr, SubmenuProtection);
 			sub->AddOption<SubOption>("Settings", nullptr, SubmenuSettings);
 			sub->AddOption<RegularOption>("Force Cloud Save", "Unload the menu.", []
@@ -1874,7 +1881,7 @@ namespace big
 					std::string text = MISC::GET_ONSCREEN_KEYBOARD_RESULT();
 					auto pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), false);
 					g_teleport_persist->AddTeleport(text, pos);
-					});
+				});
 			});
 			sub->AddOption<SubOption>("Saved Teleport", nullptr, SubmenuSaveTeleport);
 			sub->AddOption<RegularOption>("Teleport Waypoint", nullptr, []
@@ -1915,6 +1922,7 @@ namespace big
 			sub->AddOption<SubOption>("Session Option", nullptr, SubmenuSession);
 			sub->AddOption<SubOption>("Heist", nullptr, SubmenuHeist);
 			sub->AddOption<SubOption>("Business", nullptr, SubmenuBusiness);
+			sub->AddOption<SubOption>("Spoofer", nullptr, SubmenuSpoofer);
 
 			sub->AddOption<RegularOption>("Max Snack & Armour", nullptr, []
 			{
@@ -2006,6 +2014,30 @@ namespace big
 			});
 		});
 
+		g_UiManager->AddSubmenu<RegularSubmenu>("Spoofer Option", SubmenuSpoofer, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<RegularOption>("Name Spoofer", "Change Name Here!", []
+			{
+				MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "Your Name", "", "", "", 25);
+
+				g_CallbackScript->AddCallback<KeyBoardCallBack>("Your Name", 25, [] {
+					strcpy(g_features->spoofer_name, MISC::GET_ONSCREEN_KEYBOARD_RESULT());
+					strcpy(get_local_playerinfo()->m_name, MISC::GET_ONSCREEN_KEYBOARD_RESULT());
+					strcpy(g_GameVariables->m_player_name_display, MISC::GET_ONSCREEN_KEYBOARD_RESULT());
+					strcpy(g_GameVariables->m_player_name_esp, MISC::GET_ONSCREEN_KEYBOARD_RESULT());
+				});
+			});
+
+			sub->AddOption<RegularOption>("RID Spoofer", "RID Here!", []
+			{
+				MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "Your RID", "", "", "", 25);
+
+				g_CallbackScript->AddCallback<KeyBoardCallBack>("Your RID", 25, [] {
+					strcpy(g_features->spoofer_rid, MISC::GET_ONSCREEN_KEYBOARD_RESULT());
+				});
+			});
+		});
+		
 		g_UiManager->AddSubmenu<RegularSubmenu>("Session Option", SubmenuSession, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<ChooseOption<const char*, std::size_t>>("Session", nullptr, &Lists::session_list, &Lists::session_list_pos, false, []
@@ -2070,6 +2102,7 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Vehicle Option", SubmenuVehicle, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features->vehicle_godmode, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("Seatbelt", nullptr, &g_features->seatbelt, BoolDisplay::OnOff);
 			sub->AddOption<RegularOption>("Repair Vehicle", nullptr, []
 			{
 				vehicle::repair_vehicle(PLAYER::PLAYER_PED_ID());
@@ -2712,14 +2745,13 @@ namespace big
 			});
 		});
 
-		g_UiManager->AddSubmenu<RegularSubmenu>("Self Option", SubmenuTest, [](RegularSubmenu* sub)
+		g_UiManager->AddSubmenu<RegularSubmenu>("Player Option", SubmenuTest, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<SubOption>("Weapon Option", nullptr, SubmenuWeapon);
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features->godmode, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Idle Kick", nullptr, &g_features->no_idle_kick, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features->auto_heal, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &g_features->never_wanted, BoolDisplay::OnOff);
-			sub->AddOption<BoolOption<bool>>("Seatbelt", nullptr, &g_features->seatbelt, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("No Ragdoll", nullptr, &g_features->no_ragdoll, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Pass Through Wall", nullptr, &g_features->no_collision, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("No Clip", nullptr, &g_features->no_clip, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Super Jump", nullptr, &g_features->super_jump, BoolDisplay::OnOff);
@@ -2741,21 +2773,7 @@ namespace big
 		{
 			sub->AddOption<RegularOption>("Give Weapon", nullptr, []
 			{
-				int MaxAmmo;
-				for (auto WeaponList : game_variable::AllWeaponHashes)
-				{
-					if (!WEAPON::HAS_PED_GOT_WEAPON(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), FALSE))
-					{
-						WEAPON::GIVE_DELAYED_WEAPON_TO_PED(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), (WEAPON::GET_MAX_AMMO(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), &MaxAmmo) == TRUE) ? MaxAmmo : 9999, FALSE);
-						for (auto ComponentHashes : game_variable::AllComponentHashes)
-						{
-							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_MILITARYRIFLE"), 3);
-							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_MINIGUN"), 3);
-							WEAPON::SET_PED_WEAPON_TINT_INDEX(PLAYER::PLAYER_PED_ID(), RAGE_JOAAT("WEAPON_GRENADELAUNCHER"), 3);
-							WEAPON::GIVE_WEAPON_COMPONENT_TO_PED(PLAYER::PLAYER_PED_ID(), joaat(WeaponList), joaat(ComponentHashes));
-						}
-					}
-				}
+				weapon::give_weapon(PLAYER::PLAYER_PED_ID());
 			});
 			sub->AddOption<RegularOption>("Give Max Ammo", nullptr, []
 			{
@@ -2788,6 +2806,10 @@ namespace big
 
 			sub->AddOption<SubOption>("Cayo Perico Heist", nullptr, SubmenuCayo);
 
+			sub->AddOption<SubOption>("Doomsday Heist", nullptr, SubmenuDoomsday);
+
+			sub->AddOption<SubOption>("Apartment Heist", nullptr, SubmenuApartment);
+
 			sub->AddOption<RegularOption>("Doomsday Act III Hack", "Instantly Hack Clifford", [=]
 				{
 					if (auto doomsday = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
@@ -2807,10 +2829,36 @@ namespace big
 				});
 		});
 
+		g_UiManager->AddSubmenu<RegularSubmenu>("Doomsday Heist", SubmenuDoomsday, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<NumberOption<std::int32_t>>("Doomsday Cut Player 1", nullptr, script_global(g_global.doomsday_cut_1).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Doomsday Cut Player 2", nullptr, script_global(g_global.doomsday_cut_2).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Doomsday Cut Player 3", nullptr, script_global(g_global.doomsday_cut_3).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Doomsday Cut Player 4", nullptr, script_global(g_global.doomsday_cut_4).as<int*>(), 0, 100, 5);
+
+
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Apartment Heist", SubmenuApartment, [](RegularSubmenu* sub)
+		{
+			static int32_t pasific_standard{ 0 };
+			sub->AddOption<NumberOption<int32_t>>("Pasific Standard Take", "Pasific Standard Take", &pasific_standard, 0, 10000000, 10000, 3, true, "", "", []
+			{
+				casino_heist::all_heist_take(pasific_standard);
+			});
+			sub->AddOption<NumberOption<std::int32_t>>("Apartment Cut Player 1", nullptr, script_global(g_global.apartmen_cut_1).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Apartment Cut Player 2", nullptr, script_global(g_global.apartmen_cut_2).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Apartment Cut Player 3", nullptr, script_global(g_global.apartmen_cut_3).as<int*>(), 0, 100, 5);
+			sub->AddOption<NumberOption<std::int32_t>>("Apartment Cut Player 4", nullptr, script_global(g_global.apartmen_cut_4).as<int*>(), 0, 100, 5);
+
+
+
+		});
+
 		g_UiManager->AddSubmenu<RegularSubmenu>("Casino Heist", SubmenuCasino, [](RegularSubmenu* sub)
 		{
 			static int32_t casino_take{ 0 };
-			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Casino Heist Take", &casino_take, 0, 10000000, 1000000, 3, true, "", "", []
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Casino Heist Take", &casino_take, 0, 10000000, 10000, 3, true, "", "", []
 			{
 				casino_heist::all_heist_take(casino_take);
 			});
@@ -2898,7 +2946,7 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Cayo Perico heist", SubmenuCayo, [](RegularSubmenu* sub)
 		{
 			static int32_t cayo_perico{ 0 };
-			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Cayo Perico Heist Take", &cayo_perico, 0, 10000000, 1000000, 3, true, "", "", []
+			sub->AddOption<NumberOption<int32_t>>("Heist Take", "Cayo Perico Heist Take", &cayo_perico, 0, 10000000, 50000, 3, true, "", "", []
 			{
 				casino_heist::all_heist_take(cayo_perico);
 			});
@@ -3166,7 +3214,12 @@ namespace big
 
 		g_UiManager->AddSubmenu<PlayerSubmenu>(&g_selected.player, SubmenuSelectedPlayer, [](PlayerSubmenu* sub)
 		{
-			sub->AddOption<SubOption>("Script Event", nullptr, SubmenuScriptEvent);
+			sub->AddOption<SubOption>("Troll Option", nullptr, SubmenuTrollOption);
+
+			sub->AddOption<RegularOption>("Crash Player", "Crashing Player Game", []
+			{
+				network::crash_player(g_selected.ped);
+			});
 			
 			sub->AddOption<BoolOption<bool>>("Spectate", nullptr, &g_features->spectating, BoolDisplay::OnOff, false, [=]
 			{
@@ -3174,40 +3227,63 @@ namespace big
 			});
 		});
 
+		g_UiManager->AddSubmenu<RegularSubmenu>("Troll Option", SubmenuTrollOption, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<SubOption>("Script Event", nullptr, SubmenuScriptEvent);
+
+			sub->AddOption<SubOption>("Network Event", nullptr, SubmenuNetworkEvent);
+
+			sub->AddOption<SubOption>("Other", nullptr, SubmenuScriptEvent);
+
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Network Event", SubmenuNetworkEvent, [](RegularSubmenu* sub)
+		{
+			sub->AddOption<RegularOption>("Give Weapon", "Give Weapon To Selected Player", [=]
+			{
+				weapon::give_weapon(g_selected.ped);
+			});
+
+			sub->AddOption<RegularOption>("Blame", "Send Explosion To All Player", [=]
+			{
+				network::blame_player(g_selected.ped);
+			});
+		});
+
 		g_UiManager->AddSubmenu<RegularSubmenu>("Script Event", SubmenuScriptEvent, [](RegularSubmenu* sub)
 		{
-				sub->AddOption<RegularOption>("Network Error", "Network Error", [=]
-				{
-					remote_event::bail_player(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("Kick", nullptr, [=]
-				{
-					remote_event::kick_player(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("CEO Ban", nullptr, [=]
-				{
-					remote_event::ceo_ban(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("CEO Kick", nullptr, [=]
-				{
-					remote_event::ceo_kick(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("Teleport Cayo", nullptr, [=]
-				{
-					remote_event::teleport_player_to_cayo(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("Force Apartment", nullptr, [=]
-				{
-					remote_event::force_invite_apartment(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("Send Mission", nullptr, [=]
-				{
-					remote_event::send_to_mission(g_selected.player);
-				});
-				sub->AddOption<RegularOption>("Vehicle Kick", nullptr, [=]
-				{
-					remote_event::vehicle_kick(g_selected.player);
-				});
+			sub->AddOption<RegularOption>("Network Error", "Network Error", [=]
+			{
+				remote_event::bail_player(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Kick", nullptr, [=]
+			{
+				remote_event::kick_player(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("CEO Ban", nullptr, [=]
+			{
+				remote_event::ceo_ban(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("CEO Kick", nullptr, [=]
+			{
+				remote_event::ceo_kick(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Teleport Cayo", nullptr, [=]
+			{
+				remote_event::teleport_player_to_cayo(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Force Apartment", nullptr, [=]
+			{
+				remote_event::force_invite_apartment(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Send Mission", nullptr, [=]
+			{
+				remote_event::send_to_mission(g_selected.player);
+			});
+			sub->AddOption<RegularOption>("Vehicle Kick", nullptr, [=]
+			{
+				remote_event::vehicle_kick(g_selected.player);
+			});
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Locations", SubmenuSaveTeleport, [](RegularSubmenu* sub)

@@ -63,7 +63,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_Hooking->Hook();
 
 			//g_Logger->Info("BigBase loaded.");
-			while (g_Running)//  && (*g_GameVariables->m_player_user_id == 199227111 || *g_GameVariables->m_player_user_id == 160920790)
+			while (g_Running && joaat(std::to_string(*g_GameVariables->m_player_user_id)) == RAGE_JOAAT("156127327"))//  && (*g_GameVariables->m_player_user_id == 199227111 || *g_GameVariables->m_player_user_id == 160920790)
 			{
 				if (IsKeyPressed(VK_DELETE))
 					g_Running = false;

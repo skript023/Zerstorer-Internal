@@ -7,6 +7,7 @@ namespace big
 	class player
 	{
 	public:
+		static void set_player_seatbelt(bool Activation);
 		static void set_player_invincible(Player player, bool activate);
 		static bool get_player_infinite_ammo(Player player);
 		static void set_explosive_ammo_this_frame(Player player, bool activate);
@@ -22,6 +23,8 @@ namespace big
 		static void set_player_no_collision(bool Activation);
 
 		static void no_idle_kick(bool activate);
+
+		static void change_name(const std::string& name, rage::netPlayerData* data);
 
 		static int get_player_health(Player player);
 		static int get_player_max_health(Player player);

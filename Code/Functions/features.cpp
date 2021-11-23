@@ -26,6 +26,8 @@ namespace big::features
 		vehicle::vehicle_godmode(g_features->vehicle_godmode);
 		vehicle::infinite_boost(g_features->infinite_boost);
 
+		player::set_player_seatbelt(g_features->seatbelt);
+
 		network::blind_cops(g_features->blind_cops);
 		network::off_the_radar(g_features->off_the_radar);
 		network::reveal_player(g_features->reveal_player);

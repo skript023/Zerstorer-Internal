@@ -1,9 +1,46 @@
 #include "network_helper.hpp"
 #include "game_helper.hpp"
 #include "../ScriptCallback.hpp"
+#include "../Classes/Enum.hpp"
+#include "player_option.hpp"
 
 namespace big
 {
+    void network::crash_player(Ped target_ped)
+    {
+        Hash crash_hash = RAGE_JOAAT("slod_human");
+        g_CallbackScript->AddCallback<ModelCallback>(crash_hash, [=] 
+        {
+            auto src = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), TRUE);
+            auto dst = ENTITY::GET_ENTITY_COORDS(target_ped, TRUE);
+
+            if (MISC::GET_DISTANCE_BETWEEN_COORDS(src.x, src.y, src.z, dst.x, dst.y, dst.z, false) > 300.0f)
+            {
+                if (STREAMING::IS_MODEL_IN_CDIMAGE(crash_hash))
+                {
+                    if (STREAMING::IS_MODEL_VALID(crash_hash))
+                    {
+                        *(unsigned short*)g_GameVariables->m_model_spawn_bypass = 0x9090;
+                        Ped NewPed = PED::CREATE_PED(3, crash_hash, dst.x, dst.y, dst.z, 0, TRUE, TRUE);
+                        *(unsigned short*)g_GameVariables->m_model_spawn_bypass = 0x0574;
+                        // Segmentation Fault
+
+                        if (*g_GameVariables->m_is_session_started)
+                        {
+                            ENTITY::_SET_ENTITY_SOMETHING(NewPed, TRUE); //True means it can be deleted by the engine when switching lobbies/missions/etc, false means the script is expected to clean it up.
+                            auto networkId = NETWORK::PED_TO_NET(NewPed);
+                            if (NETWORK::NETWORK_GET_ENTITY_IS_NETWORKED(NewPed))
+                                NETWORK::SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(networkId, true);
+                        }
+                        ENTITY::ATTACH_ENTITY_TO_ENTITY(NewPed, target_ped, SKEL_Spine0, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, FALSE, FALSE, TRUE, TRUE, 2, TRUE);
+
+                        STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(crash_hash);
+                    }
+                }
+            }
+        });
+    }
+
     void network::blind_cops(bool Activation)
     {
         if (Activation)
@@ -47,6 +84,15 @@ namespace big
             *script_global(2426865).at(PLAYER::PLAYER_ID(), 449).at(209).as<int*>() = 0;
             *script_global(2441237).at(70).as<int*>() = 0;
             *script_global(2544210).at(4628).as<int*>() = 0;
+        }
+    }
+
+    void network::blame_player(Ped blame)
+    {
+        for (int i = 0; i <= 32; i++)
+        {
+            auto pos = ENTITY::GET_ENTITY_COORDS(player::get_player_ped(i), false);
+            add_owned_explosion(blame, pos, EXPLOSION_TRAIN, 1000, TRUE, FALSE, 0.0f);
         }
     }
 
