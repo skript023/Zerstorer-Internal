@@ -80,6 +80,7 @@ namespace big
 		functions::gta_thread_tick m_gta_thread_tick;
 		functions::gta_thread_kill m_gta_thread_kill;
 		functions::send_net_info_to_lobby m_send_net_info_to_lobby;
+		functions::file_register m_file_register;
 	};
 
 	inline std::unique_ptr<GameVariables> g_GameVariables;

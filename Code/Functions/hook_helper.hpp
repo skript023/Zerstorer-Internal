@@ -39,12 +39,12 @@ namespace big::hook_helper
 
 				strcat(sender_info, sender_name);
 
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Ellohim Menu Received Event");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Received Event");
 				if (g_protection->redirect_report)
 				{
 					char redirect_message[120] = "~g~redirected to ";
 					strcat(redirect_message, sender_name);
-					message::notification("Event Redirect", redirect_message, "~bold~~g~Ellohim Menu Redirect");
+					message::notification("Event Redirect", redirect_message, "~bold~~g~" BIGBASE_NAME " Redirect");
 					remote_event::bail_player(sender_id);
 				}
 				return true;
@@ -80,7 +80,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Teleport Cayo Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -90,7 +90,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked CEO Kick Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -100,7 +100,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked CEO Ban Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -122,7 +122,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Vehicle Kick Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -132,7 +132,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Transaction Error Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -143,7 +143,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Force Mission Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -153,7 +153,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Phone Spam Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 				return true;
 			}
@@ -163,7 +163,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Network Error From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 			}
 			break;
@@ -228,7 +228,7 @@ namespace big::hook_helper
 			{
 				strcpy(sender_info, "~g~Blocked Kick Event From ");
 				strcat(sender_info, sender_name);
-				message::notification("~bold~~g~Zerstorer Menu", sender_info, "~bold~~g~Zerstorer Menu Protection");
+				message::notification("~bold~~g~" BIGBASE_NAME " Menu", sender_info, "~bold~~g~" BIGBASE_NAME " Menu Protection");
 
 			}
 			break;

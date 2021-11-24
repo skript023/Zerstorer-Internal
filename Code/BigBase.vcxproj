@@ -48,6 +48,7 @@
     <ClInclude Include="Functions\weapon_helper.hpp" />
     <ClInclude Include="functions_types.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="header_menu.hpp" />
     <ClInclude Include="Hooking.hpp" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />

@@ -86,6 +86,10 @@ namespace big
 	{
 		m_Initialized = true;
 		using namespace UserInterface;
+		uint32_t textureID;
+		char buffers[128];
+		std::sprintf(buffers, "%s\\" BIGBASE_NAME "\\Headers\\%s.ytd", std::getenv("appdata"), "zerstorer");
+		g_GameFunctions->m_file_register(&textureID, buffers, true, "zerstorer.ytd", false);
 
 		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_JOINING"), "You're Using " BIGBASE_NAME " - Gold Edition");
 		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_TRANSP"), "You're Using " BIGBASE_NAME " - Gold Edition");
@@ -104,7 +108,7 @@ namespace big
 			sub->AddOption<RegularOption>("Force Cloud Save", "Unload the menu.", []
 			{
 					STATS::STAT_SAVE(0, 0, 3, 0);
-					message::notification("Zersotrer Gold Edition", "~bold~~g~Character Saved!", "~bold~~g~Zerstorer Cloud Save");
+					message::notification(BIGBASE_NAME " Gold Edition", "~bold~~g~Character Saved!", "~bold~~g~" BIGBASE_NAME " Cloud Save");
 			});
 			//sub->AddOption<BoolOption<bool>>("Log Script Events", nullptr, &g_LogScriptEvents, BoolDisplay::OnOff);
 			sub->AddOption<RegularOption>("Unload", "Unload the menu.", []
@@ -122,7 +126,7 @@ namespace big
 				for (int i = 1; i <= 77; i++)
 				{
 					PLAYER::GIVE_ACHIEVEMENT_TO_PLAYER(i);
-					message::notification("Zersotrer Gold Edition","~g~All Achievements Unlocked!", "~bold~~g~Zerstorer Recovery");
+					message::notification(BIGBASE_NAME " Gold Edition","~g~All Achievements Unlocked!", "~bold~~g~" BIGBASE_NAME " Recovery");
 				}
 			});
 
@@ -1847,7 +1851,7 @@ namespace big
 				{
 					*script_global(262145).at(i).as<int*>() = TRUE;
 				}
-				message::notification("Zersotrer Gold Edition", "~g~Shop Unlocked!", "~bold~~g~Zerstorer Recovery");
+				message::notification(BIGBASE_NAME" Gold Edition", "~g~Shop Unlocked!", "~bold~~g~" BIGBASE_NAME " Recovery");
 			});
 
 
@@ -2748,6 +2752,18 @@ namespace big
 		g_UiManager->AddSubmenu<RegularSubmenu>("Player Option", SubmenuTest, [](RegularSubmenu* sub)
 		{
 			sub->AddOption<BoolOption<bool>>("Godmode", nullptr, &g_features->godmode, BoolDisplay::OnOff);
+			sub->AddOption<BoolOption<bool>>("No Ragdoll", nullptr, &g_features->no_ragdoll, BoolDisplay::OnOff, false, []
+			{
+				if (g_features->no_ragdoll && get_local_ped()->m_ragdoll > 0x0F)
+				{
+					get_local_ped()->m_ragdoll = 0x01;
+				}
+				else if (!g_features->no_ragdoll && get_local_ped()->m_ragdoll <= 0x0F)
+				{
+					get_local_ped()->m_ragdoll = 0x20;
+				}
+			});
+
 			sub->AddOption<BoolOption<bool>>("No Idle Kick", nullptr, &g_features->no_idle_kick, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Auto Heal", nullptr, &g_features->auto_heal, BoolDisplay::OnOff);
 			sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &g_features->never_wanted, BoolDisplay::OnOff);

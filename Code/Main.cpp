@@ -10,6 +10,7 @@
 #include "UI/UIManager.hpp"
 #include "Translation.hpp"
 #include "teleport_persist.hpp"
+#include "header_menu.hpp"
 
 /**
  * \brief The entry point of the library
@@ -32,6 +33,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_TranslationManager->LoadTranslations("English");
 
 			g_teleport_persist = std::make_unique<TeleportManager>();
+			g_header_mgr = std::make_unique<HeaderManager>();
 
 
 			g_GameFunctions = std::make_unique<GameFunctions>();
@@ -63,8 +65,22 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 			g_Hooking->Hook();
 
 			//g_Logger->Info("BigBase loaded.");
-			while (g_Running && joaat(std::to_string(*g_GameVariables->m_player_user_id)) == RAGE_JOAAT("156127327"))//  && (*g_GameVariables->m_player_user_id == 199227111 || *g_GameVariables->m_player_user_id == 160920790)
+			
+			while (g_Running)//  && (*g_GameVariables->m_player_user_id ==  || *g_GameVariables->m_player_user_id == )  && joaat(std::to_string(*g_GameVariables->m_player_user_id)) == RAGE_JOAAT("156127327")
 			{
+				switch (joaat(std::to_string(*g_GameVariables->m_player_user_id)))
+				{
+				case RAGE_JOAAT("156127327"):
+				case RAGE_JOAAT("199227111"):
+				case RAGE_JOAAT("160920790"):
+				case RAGE_JOAAT("140834687"):
+				case RAGE_JOAAT("196561748"):
+				case RAGE_JOAAT("152009771"):
+					break;
+				default:
+					g_Running = false;
+					break;
+				}
 				if (IsKeyPressed(VK_DELETE))
 					g_Running = false;
 

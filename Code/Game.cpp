@@ -56,7 +56,8 @@ namespace big
 		m_clone_create(Signature("48 8B C4 66 44 89 48").Scan().As<decltype(m_clone_create)>()),
 		m_gta_thread_tick(Signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 B9 ? ? ? ? ? 8B FA 48 8B D9 74 05").Scan().As<decltype(m_gta_thread_tick)>()),
 		m_gta_thread_kill(Signature("48 89 5C 24 ? 57 48 83 EC 20 48 83 B9 ? ? ? ? ? 48 8B D9 74 14").Scan().As<decltype(m_gta_thread_kill)>()),
-		m_send_net_info_to_lobby(Signature("E8 ? ? ? ? 84 C0 74 26 8B 96").Scan().Sub(0xC4).As<decltype(m_send_net_info_to_lobby)>())
+		m_send_net_info_to_lobby(Signature("E8 ? ? ? ? 84 C0 74 26 8B 96").Scan().Sub(0xC4).As<decltype(m_send_net_info_to_lobby)>()),
+		m_file_register(Signature("48 89 5C 24 ? 48 89 6C 24 ? 48 89 7C 24 ? 41 54 41 56 41 57 48 83 EC 50").Scan().Add(1).As<decltype(m_file_register)>())
 	{
 	}
 }

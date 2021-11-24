@@ -29,4 +29,5 @@ namespace big::functions
 	using gta_thread_kill = __int64(*)(GtaThread* a1);
 
 	using send_net_info_to_lobby = bool(*)(rage::netPlayerData* local_player, __int64 a2, __int64 a3, DWORD* a4);
+	using file_register = std::uint32_t(*)(std::uint32_t* texture_id, const char* path, bool p1, const char* name, bool p2);
 }

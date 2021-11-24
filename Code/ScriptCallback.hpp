@@ -301,7 +301,7 @@ namespace big
 		{
 			NETWORK::NETWORK_REQUEST_CONTROL_OF_ENTITY(m_entity);
 			STREAMING::REQUEST_COLLISION_AT_COORD(m_x, m_y, m_z);
-			if (m_z == 0.f)
+			if (m_z <= 0.f)
 				m_z = 1000.f;
 			m_z-=100.f;
 		}

@@ -136,7 +136,7 @@ namespace big
 		static void when_game_closed()
 		{
 			if (!g_Running)
-				message::notification("Zerstorer Gold Edition", "~bold~~g~Menu Unloaded", "~bold~~g~Zerstorer Unloader");
+				message::notification(BIGBASE_NAME " Gold Edition", "~bold~~g~Menu Unloaded", "~bold~~g~Zerstorer Unloader");
 		}
 		static script_local mission_lives();
 		static const char* get_mod_slot_name(int mod_slot, Vehicle vehicle);

@@ -170,6 +170,12 @@ namespace big::UserInterface
 		}
 	}
 
+	bool FileExists(const std::string& fileName)
+	{
+		struct stat buffer;
+		return (stat(fileName.c_str(), &buffer) == 0);
+	}
+
 	void UIManager::ResetInput()
 	{
 		m_OpenKeyPressed = false;
@@ -191,6 +197,7 @@ namespace big::UserInterface
 				m_DrawBaseY + (m_HeaderHeight / 2.f), m_Width,
 				m_HeaderHeight,
 				m_HeaderBackgroundColor);
+			DrawGlare(m_PosX + 0.3630f, m_DrawBaseY + (m_HeaderHeight / 2.f) + 0.4395f, m_Width + 0.848999f, m_HeaderHeight + 0.992000f, 255, 255, 255); //Globe
 			break;
 		case HeaderType::Gradient:
 			for (std::size_t i = 0; i < (m_HeaderGradientTransparent ? 1 : 20); ++i)
@@ -215,14 +222,24 @@ namespace big::UserInterface
 					m_HeaderGradientFlip ? 180.f : 0.f);
 			}
 			break;
-
+		case HeaderType::Ytd:
+			DrawSprite(
+				"zerstorer",
+				"zerstorer",
+				m_PosX,
+				m_DrawBaseY + (m_HeaderHeight / 2.f),
+				m_Width,
+				m_HeaderHeight,
+				m_YTDHeaderBackgroundColor,
+				0.f);
+			break;
 			break;
 		}
 
 		if (m_HeaderText)
 		{
 			DrawCenteredText(
-				BIGBASE_NAME,
+				"",
 				m_PosX,
 				m_DrawBaseY + (m_HeaderHeight / 2.f) - (GetTextHeight(m_HeaderFont, m_HeaderTextSize) / 2.f),
 				m_HeaderTextSize,
@@ -418,6 +435,33 @@ namespace big::UserInterface
 		{
 			GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(dict, false);
 		}
+	}
+
+	float gGlareDir;
+	float UIManager::conv360(float base, float min, float max)
+	{
+		float fVar0;
+		if (min == max) return min;
+		fVar0 = max - min;
+		base -= SYSTEM::ROUND(base - min / fVar0) * fVar0;
+		if (base < min) base += fVar0;
+		return base;
+	}
+
+	void UIManager::DrawGlare(const float x, const float y, const float sx, const float sy, const int r, const int g, const int b)
+	{
+		int gGlareHandle = GRAPHICS::REQUEST_SCALEFORM_MOVIE(const_cast<char*>("MP_MENU_GLARE"));
+		NativeVector3 rot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+		float dir = conv360(rot.z, 0, 360);
+		if ((gGlareDir == 0 || gGlareDir - dir > 0.5) || gGlareDir - dir < -0.5)
+		{
+			gGlareDir = dir;
+			GRAPHICS::CALL_SCALEFORM_MOVIE_METHOD(gGlareHandle, const_cast <char*>("SET_DATA_SLOT"));
+			GRAPHICS::SCALEFORM_MOVIE_METHOD_ADD_PARAM_FLOAT(gGlareDir);
+			GRAPHICS::END_SCALEFORM_MOVIE_METHOD();
+		}
+		GRAPHICS::DRAW_SCALEFORM_MOVIE(gGlareHandle, x, y, sx, sy, r, g, b, 20, 0);
+
 	}
 
 	void UIManager::DrawLeftText(const char* text, float x, float y, float size, Font font, Color color, bool outline, bool shadow)

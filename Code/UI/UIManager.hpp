@@ -19,7 +19,8 @@ namespace big::UserInterface
 	enum class HeaderType : std::int32_t
 	{
 		Static = 0,
-		Gradient = 1
+		Gradient = 1,
+		Ytd = 2
 	};
 
 	struct Rectangle
@@ -101,9 +102,10 @@ namespace big::UserInterface
 		bool m_HeaderText = true;
 		float m_HeaderTextSize = 1.f;
 		Font m_HeaderFont = Font::Pricedown;
-		Color m_HeaderBackgroundColor{ 103, 103, 180, 200 };
+		Color m_HeaderBackgroundColor{ 11, 60, 123, 200 };
 		Color m_HeaderTextColor{ 255, 255, 255, 255 };
 		HeaderType m_HeaderType = HeaderType::Static;
+		Color m_YTDHeaderBackgroundColor{ 10, 15, 220, 255 };
 
 		bool m_HeaderGradientTransparent = false;
 		bool m_HeaderGradientFlip = false;
@@ -167,6 +169,8 @@ namespace big::UserInterface
 
 		void DrawRect(float x, float y, float width, float height, Color color);
 		void DrawSprite(const char* dict, const char* texture, float x, float y, float width, float height, Color color, float rotation);
+		float conv360(float base, float min, float max);
+		void DrawGlare(const float x, const float y, const float sx, const float sy, const int r, const int g, const int b);
 		void DrawLeftText(const char* text, float x, float y, float size, Font font, Color color, bool outline, bool shadow);
 		void DrawCenteredText(const char* text, float x, float y, float size, Font font, Color color, bool outline, bool shadow);
 		void DrawRightText(const char* text, float x, float y, float size, Font font, Color color, bool outline, bool shadow);

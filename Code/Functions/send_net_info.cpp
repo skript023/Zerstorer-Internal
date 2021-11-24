@@ -20,9 +20,14 @@ namespace big
 			bool scid_diff = spoof_scid != 0 && spoof_scid != local_player->m_rockstar_id;
 
 			if (name_diff)
-				player::change_name(spoof_name, local_player); message::notification("~bold~~g~Ellohim Private Menu", "Your Name Spoofed", "~bold~~g~Ellohim Spoofer");//player::local_name((char*)spoof_name.c_str());
+				player::change_name(spoof_name, local_player);//player::local_name((char*)spoof_name.c_str());
 			if (scid_diff)
-				local_player->m_rockstar_id = spoof_scid; message::notification("~bold~~g~Ellohim Private Menu", "Your RID Spoofed", "~bold~~g~Ellohim Spoofer");
+				local_player->m_rockstar_id = spoof_scid; 
+
+			if (!name_diff)
+				message::notification("~bold~~g~Ellohim Private Menu", "Your Name Spoofed", "~bold~~g~Ellohim Spoofer");
+			if (!scid_diff)
+				message::notification("~bold~~g~Ellohim Private Menu", "Your RID Spoofed", "~bold~~g~Ellohim Spoofer");
 
 			auto retnvalue = static_cast<decltype(&send_net_info_to_lobby)>(g_Hooking->m_send_net_info_to_lobby_hook)(local_player, a2, a3, a4);
 			if (scid_diff)

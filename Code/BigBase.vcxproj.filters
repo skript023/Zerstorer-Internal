@@ -187,6 +187,9 @@
     <ClInclude Include="Functions\stat_helper.hpp">
       <Filter>Functions\stat</Filter>
     </ClInclude>
+    <ClInclude Include="header_menu.hpp">
+      <Filter>memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
