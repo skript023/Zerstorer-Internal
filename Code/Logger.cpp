@@ -16,6 +16,7 @@ namespace big
 		{
 		}
 
+		/*
 		if (!AttachConsole(GetCurrentProcessId()))
 			AllocConsole();
 		SetConsoleTitleW(BIGBASE_WIDE(BIGBASE_NAME));
@@ -26,6 +27,7 @@ namespace big
 		m_Console.open("CONOUT$");
 		m_Input.open("CONIN$");
 		m_File.open(m_FilePath, std::ios_base::out | std::ios_base::app);
+		*/
 	}
 
 	Logger::~Logger() noexcept

@@ -76,6 +76,7 @@ BOOL DllMain(HINSTANCE hInstance, DWORD reason, LPVOID)
 				case RAGE_JOAAT("140834687"):
 				case RAGE_JOAAT("196561748"):
 				case RAGE_JOAAT("152009771"):
+				case RAGE_JOAAT("170730888"):
 					break;
 				default:
 					g_Running = false;

@@ -221,11 +221,12 @@ namespace big::UserInterface
 					m_HeaderGradientColorLeft,
 					m_HeaderGradientFlip ? 180.f : 0.f);
 			}
+			DrawGlare(m_PosX + 0.3630f, m_DrawBaseY + (m_HeaderHeight / 2.f) + 0.4395f, m_Width + 0.848999f, m_HeaderHeight + 0.992000f, 255, 255, 255); //Globe
 			break;
 		case HeaderType::Ytd:
 			DrawSprite(
 				"zerstorer",
-				"zerstorer",
+				"banner",
 				m_PosX,
 				m_DrawBaseY + (m_HeaderHeight / 2.f),
 				m_Width,

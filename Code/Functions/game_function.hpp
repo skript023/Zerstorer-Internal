@@ -82,7 +82,7 @@ namespace big
 		static inline bool oppressor_flag{};
 		static inline bool infinite_boost{};
 
-
+		static inline int player_lives{};
 	};
 
 	inline static contents* g_features{};

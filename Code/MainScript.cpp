@@ -88,7 +88,8 @@ namespace big
 		using namespace UserInterface;
 		uint32_t textureID;
 		char buffers[128];
-		std::sprintf(buffers, "%s\\" BIGBASE_NAME "\\Headers\\%s.ytd", std::getenv("appdata"), "zerstorer");
+		std::sprintf(buffers, "%s\\" BIGBASE_NAME "\\Headers\\zerstorer.ytd", std::getenv("appdata"));
+		g_Logger->Info("Location : %s", buffers);
 		g_GameFunctions->m_file_register(&textureID, buffers, true, "zerstorer.ytd", false);
 
 		g_CustomText->AddText(CONSTEXPR_JOAAT("HUD_JOINING"), "You're Using " BIGBASE_NAME " - Gold Edition");
@@ -1950,10 +1951,10 @@ namespace big
 
 			sub->AddOption<BoolOption<bool>>("Blind Cops", nullptr, &g_features->blind_cops, BoolDisplay::YesNo);
 
-			if (systems::is_script_active(RAGE_JOAAT("fm_mission_controller")) || systems::is_script_active(RAGE_JOAAT("fm_mission_controller_2020")))
+			sub->AddOption<NumberOption<std::int32_t>>("Mission Lives", nullptr, &g_features->player_lives, 0, 10000, 1, 3, true, "", "", [] 
 			{
-				sub->AddOption<NumberOption<std::int32_t>>("Mission Lives", nullptr, game_helper::mission_lives().as<int*>(), 0, 10000);
-			}
+				game_helper::mission_lives(g_features->player_lives);
+			});
 
 			sub->AddOption<RegularOption>("Call Terrorbyte", nullptr, []
 			{
@@ -3156,6 +3157,9 @@ namespace big
 				break;
 			case HeaderType::Gradient:
 				sub->AddOption<SubOption>("Gradient", nullptr, SubmenuSettingsHeaderGradientBackground);
+				break;
+			case HeaderType::Ytd:
+				sub->AddOption<SubOption>("Ytd", nullptr, SubmenuSettingsHeaderStaticBackground);
 				break;
 			}
 

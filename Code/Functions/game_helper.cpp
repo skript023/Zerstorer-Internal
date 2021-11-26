@@ -3,23 +3,22 @@
 
 namespace big
 {
-    script_local game_helper::mission_lives()
+    void game_helper::mission_lives(int lives)
     {
         if (systems::is_script_active(RAGE_JOAAT("fm_mission_controller")))
         {
             if (auto fm_mission_controller = find_script_thread(RAGE_JOAAT("fm_mission_controller")))
             {
-                return script_local(fm_mission_controller, m_local.tc_live);
+                *script_local(fm_mission_controller, m_local.tc_live).as<int*>() = lives;
             }
         }
         else if (systems::is_script_active(RAGE_JOAAT("fm_mission_controller_2020")))
         {
             if (auto mission_controller_2020 = find_script_thread(RAGE_JOAAT("fm_mission_controller_2020")))
             {
-                return script_local(mission_controller_2020, m_local.tc_live_c);
+                *script_local(mission_controller_2020, m_local.tc_live_c).as<int*>() = lives;
             }
         }
-        //return script_local(find_script_thread(RAGE_JOAAT("main_persistent")), 0);
     }
 
     const char* game_helper::get_mod_slot_name(int mod_slot, Vehicle vehicle)

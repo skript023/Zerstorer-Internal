@@ -104,8 +104,8 @@ namespace big::UserInterface
 		Font m_HeaderFont = Font::Pricedown;
 		Color m_HeaderBackgroundColor{ 11, 60, 123, 200 };
 		Color m_HeaderTextColor{ 255, 255, 255, 255 };
-		HeaderType m_HeaderType = HeaderType::Static;
-		Color m_YTDHeaderBackgroundColor{ 10, 15, 220, 255 };
+		HeaderType m_HeaderType = HeaderType::Ytd;
+		Color m_YTDHeaderBackgroundColor{ 255, 255, 220, 200 };
 
 		bool m_HeaderGradientTransparent = false;
 		bool m_HeaderGradientFlip = false;

@@ -138,7 +138,7 @@ namespace big
 			if (!g_Running)
 				message::notification(BIGBASE_NAME " Gold Edition", "~bold~~g~Menu Unloaded", "~bold~~g~Zerstorer Unloader");
 		}
-		static script_local mission_lives();
+		static void mission_lives(int lives);
 		static const char* get_mod_slot_name(int mod_slot, Vehicle vehicle);
 		static const char* get_mod_name(int mod, int mod_slot, int mod_count, Vehicle vehicle);
 		static void get_vehicle_mod();

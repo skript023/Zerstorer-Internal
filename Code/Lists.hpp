@@ -6,13 +6,15 @@ namespace big::Lists
 	inline const char* HeaderTypesFrontend[]
 	{
 		"Static",
-		"Gradient"
+		"Gradient",
+		"Custom"
 	};
 
 	inline UserInterface::HeaderType HeaderTypesBackend[]
 	{
 		UserInterface::HeaderType::Static,
-		UserInterface::HeaderType::Gradient
+		UserInterface::HeaderType::Gradient,
+		UserInterface::HeaderType::Ytd
 	};
 
 	inline std::size_t HeaderTypesPosition = 1;
