@@ -7,6 +7,7 @@ namespace big
 	class player
 	{
 	public:
+		static void set_payer_level(int Level);
 		static void set_player_seatbelt(bool Activation);
 		static void set_player_invincible(Player player, bool activate);
 		static bool get_player_infinite_ammo(Player player);

@@ -1,7 +1,21 @@
 #include "stat_helper.hpp"
+#include "systems_helper.hpp"
 
 namespace big
 {
+    void stats::player_kill_death_ratio(float ratio)
+    {
+        int kill{};
+        
+        STATS::STAT_GET_INT(RAGE_JOAAT("MPPLY_KILLS_PLAYERS"), &kill, -1);
+        
+        auto total_kill = kill * ratio;
+        auto total_death = total_kill / ratio;
+
+        STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_KILLS_PLAYERS"), systems::float_to_int(total_kill), TRUE);
+        STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_DEATHS_PLAYER"), systems::float_to_int(total_death), TRUE);
+    }
+
 	void stats::unlock_bunker_research(bool activate)
 	{
 		int character_slot = *script_global(1312763).as<int*>();

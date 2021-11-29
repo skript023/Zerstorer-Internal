@@ -42,6 +42,10 @@ namespace big
 
 		static inline char spoofer_name[20];
 		static inline char spoofer_rid[100];
+		static inline float player_kill_death_ratio{};
+		static inline int player_level{};
+		static inline int total_evc{};
+		static inline int total_svc{};
 
 
 		static inline bool super_jump{};

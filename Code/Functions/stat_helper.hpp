@@ -7,6 +7,7 @@ namespace big
 	class stats
 	{
 	public:
+		static void player_kill_death_ratio(float ratio);
 		static void unlock_bunker_research(bool activate);
 		static int packed_stat_mask(int iParam0);
 		static int packed_stat_name(int iParam0, int iParam1);

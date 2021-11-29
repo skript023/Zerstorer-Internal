@@ -1860,29 +1860,40 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Player Stats", SubmenuStats, [](RegularSubmenu* sub)
 		{
-			static int kill{};
-			STATS::STAT_GET_INT(RAGE_JOAAT("MPPLY_KILLS_PLAYERS"), &kill, -1);
-			sub->AddOption<NumberOption<int32_t>>("Player Kills", nullptr, &kill, 0, 1000, 1, 3, true, "", "", []
+			sub->AddOption<NumberOption<std::int32_t>>("Player Level", nullptr, &g_features->player_level, 0, 8000, 1, 3, true, "", "", []
 			{
-				STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_KILLS_PLAYERS"), kill, TRUE);
+				player::set_payer_level(g_features->player_level);
 			});
 
-			static int death{};
-			STATS::STAT_GET_INT(RAGE_JOAAT("MPPLY_DEATHS_PLAYER"), &death, -1);
-			sub->AddOption<NumberOption<int32_t>>("Player Death", nullptr, &death, 0, 1000, 1, 3, true, "", "", []
+			STATS::STAT_GET_FLOAT(RAGE_JOAAT("MPPLY_KILL_DEATH_RATIO"), &g_features->player_kill_death_ratio, -1);
+			sub->AddOption<NumberOption<float>>("Player Kill/Death", nullptr, &g_features->player_kill_death_ratio, 0.f, 10000.f, 0.1f, 3, true, "", "", []
 			{
-				STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_DEATHS_PLAYER"), death, TRUE);
+				stats::player_kill_death_ratio(g_features->player_kill_death_ratio);
 			});
+
+			STATS::STAT_GET_INT(RAGE_JOAAT("MPPLY_TOTAL_EVC"), &g_features->total_evc, -1);
+			sub->AddOption<NumberOption<std::int64_t>>("Total Money Earned", nullptr, &g_features->total_evc, 0, INT64_MAX, 100000, 3, true, "", "", []
+			{
+				STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_TOTAL_EVC"), g_features->total_evc, TRUE);
+			});
+
+			STATS::STAT_GET_INT(RAGE_JOAAT("MPPLY_TOTAL_SVC"), &g_features->total_evc, -1);
+			sub->AddOption<NumberOption<std::int64_t>>("Total Money Spent", nullptr, &g_features->total_svc, 0, INT64_MAX, 100000, 3, true, "", "", []
+			{
+				STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_TOTAL_SVC"), g_features->total_svc, TRUE);
+			});
+
+
 
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Option", SubmenuTeleport, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<RegularOption>("Add Teleport", "Add some to use them!", []
+			sub->AddOption<RegularOption>("Add Custom Teleport", "Add Your Own Teleport", []
 			{
-				MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "Teleport Name", "", "", "", 25);
+				MISC::DISPLAY_ONSCREEN_KEYBOARD(0, "Teleport Name", "", "", "", "", "", 25);
 
-				g_CallbackScript->AddCallback<KeyBoardCallBack>("Teleport Name", 25, [] {
+				g_CallbackScript->AddCallback<KeyBoardCallBack>("", 25, [] {
 					std::string text = MISC::GET_ONSCREEN_KEYBOARD_RESULT();
 					auto pos = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), false);
 					g_teleport_persist->AddTeleport(text, pos);
@@ -1897,6 +1908,7 @@ namespace big
 			{
 				teleport::teleport_to_objective();
 			});
+
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Protection Option", SubmenuProtection, [](RegularSubmenu* sub)
@@ -3202,8 +3214,7 @@ namespace big
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Description", SubmenuSettingsDescription, [](RegularSubmenu* sub)
 		{
-			sub->AddOption<NumberOption<float>>("Padding", "Padding before the description rect.", &g_UiManager->m_DescriptionHeightPadding, 0.01f, 1.f, 0.001f,
- 3);
+			sub->AddOption<NumberOption<float>>("Padding", "Padding before the description rect.", &g_UiManager->m_DescriptionHeightPadding, 0.01f, 1.f, 0.001f, 3);
 			sub->AddOption<NumberOption<float>>("Height", "Size of the description rect.", &g_UiManager->m_DescriptionHeight, 0.01f, 1.f, 0.001f, 3);
 			sub->AddOption<NumberOption<float>>("Text Size", "Size of the description text.", &g_UiManager->m_DescriptionTextSize, 0.1f, 2.f, 0.01f, 2);
 		});

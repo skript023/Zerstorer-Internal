@@ -4,6 +4,12 @@
 
 namespace big
 {
+    void player::set_payer_level(int Level)
+    {
+        const auto mpx = std::to_string(*script_global(1312763).as<int*>());
+        STATS::STAT_SET_INT(joaat("MP" + mpx + "_CHAR_SET_RP_GIFT_ADMIN"), *script_global(g_global.level_array).at(Level, 1).as<int*>(), TRUE);
+    }
+
     void player::set_player_seatbelt(bool Activation)
     {
         if (Activation)
