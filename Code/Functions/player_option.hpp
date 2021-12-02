@@ -21,6 +21,8 @@ namespace big
 		static void set_player_armour(Player player, int ArmourValue);
 		static void AutoHeal(bool Activation);
 
+		static void never_wanted(bool activate);
+
 		static void set_player_no_collision(bool Activation);
 
 		static void no_idle_kick(bool activate);

@@ -132,6 +132,17 @@ namespace big
 		}
 	}
 
+    void player::never_wanted(bool activate)
+    {
+        if (activate)
+        {
+            if (get_local_playerinfo()->m_is_wanted)
+            {
+                PLAYER::CLEAR_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID());
+            }
+        }
+    }
+
     void player::set_player_no_collision(bool Activation)
     {
         if (Activation)

@@ -68,7 +68,8 @@ namespace big
 		SubmenuNetworkEvent,
 		SubmenuDoomsday,
 		SubmenuApartment,
-		SubmenuSpoofer
+		SubmenuSpoofer,
+		SubmenuOutfit
 
 	};
 
@@ -102,6 +103,7 @@ namespace big
 			sub->AddOption<SubOption>("Teleport", nullptr, SubmenuTeleport);
 			sub->AddOption<SubOption>("Vehicle", nullptr, SubmenuVehicle);
 			sub->AddOption<SubOption>("Online", nullptr, SubmenuOnline);
+			sub->AddOption<SubOption>("Outfit", nullptr, SubmenuOutfit);
 			sub->AddOption<SubOption>("Recovery Service", nullptr, SubmenuRecovery);
 			sub->AddOption<SubOption>("Online Players", nullptr, SubmenuPlayerList);
 			sub->AddOption<SubOption>("Protection", nullptr, SubmenuProtection);
@@ -116,6 +118,11 @@ namespace big
 			{
 				g_Running = false;
 			});
+		});
+
+		g_UiManager->AddSubmenu<RegularSubmenu>("Outfit Editor", SubmenuOutfit, [](RegularSubmenu* sub) 
+		{
+			sub->AddOption<ChooseOption<const char*, std::size_t>>("Hair", nullptr, &Lists::DemoList, &Lists::DemoListPos);
 		});
 
 		g_UiManager->AddSubmenu<RegularSubmenu>("Recovery Option", SubmenuRecovery, [](RegularSubmenu* sub)
@@ -1881,6 +1888,18 @@ namespace big
 			sub->AddOption<NumberOption<std::int64_t>>("Total Money Spent", nullptr, &g_features->total_svc, 0, INT64_MAX, 100000, 3, true, "", "", []
 			{
 				STATS::STAT_SET_INT(RAGE_JOAAT("MPPLY_TOTAL_SVC"), g_features->total_svc, TRUE);
+			});
+
+			STATS::STAT_GET_INT(joaat("MP" + std::to_string(*script_global(1312763).as<int*>()) + "_MONEY_EARN_JOBS"), &g_features->money_earn_jobs, -1);
+			sub->AddOption<NumberOption<std::int64_t>>("Total Money Earn Jobs", nullptr, &g_features->money_earn_jobs, 0, INT64_MAX, 100000, 3, true, "", "", []
+			{
+				STATS::STAT_SET_INT(joaat("MP" + std::to_string(*script_global(1312763).as<int*>()) + "_MONEY_EARN_JOBS"), g_features->money_earn_jobs, TRUE);
+			});
+
+			STATS::STAT_GET_INT(joaat("MP" + std::to_string(*script_global(1312763).as<int*>()) + "_MONEY_EARN_BETTING"), &g_features->money_earn_jobs, -1);
+			sub->AddOption<NumberOption<std::int64_t>>("Total Money Earn Betting", nullptr, &g_features->money_earn_jobs, 0, INT64_MAX, 100000, 3, true, "", "", []
+			{
+				STATS::STAT_SET_INT(joaat("MP" + std::to_string(*script_global(1312763).as<int*>()) + "_MONEY_EARN_BETTING"), g_features->money_earn_jobs, TRUE);
 			});
 
 

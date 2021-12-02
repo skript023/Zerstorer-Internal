@@ -46,6 +46,8 @@ namespace big
 		static inline int player_level{};
 		static inline int total_evc{};
 		static inline int total_svc{};
+		static inline int money_earn_jobs{};
+
 
 
 		static inline bool super_jump{};

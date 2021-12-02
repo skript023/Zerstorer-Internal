@@ -12,6 +12,7 @@ namespace big::features
 		player::set_player_no_clip(g_features->no_clip);
 		player::set_player_no_collision(g_features->no_collision);
 		player::no_idle_kick(g_features->no_idle_kick);
+		player::never_wanted(g_features->never_wanted);
 
 		player::set_explosive_ammo_this_frame(PLAYER::PLAYER_ID(), g_features->explosive_ammo);
 		player::set_explosive_melee_this_frame(PLAYER::PLAYER_ID(), g_features->explosive_fist);
